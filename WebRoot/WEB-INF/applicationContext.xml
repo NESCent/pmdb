@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+
+	<bean id="hibernateSession"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation">
+			<value>/WEB-INF/classes/hibernate.cfg.xml</value>
+		</property>
+	</bean>
+	
+	
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+            	<prop key="**/login.go">LoginController</prop>
+            	<prop key="**/searchStudy.go">SearchStudyController</prop>
+            	<prop key="**/species.go">SpeciesController</prop>
+            	<prop key="**/descriptor.go">ViewDescriptorController</prop>
+            	<prop key="**/savedescriptor.go">SaveDescriptorController</prop>
+		       	<prop key="/help/">helpController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="helpController"
+          class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
+	<bean id="SearchStudyController"
+          class="org.nescent.mmdb.spring.SearchStudyController"/>
+    <bean id="SpeciesController"
+          class="org.nescent.mmdb.spring.SpeciesController"/>     
+     <bean id="ViewDescriptorController"
+          class="org.nescent.mmdb.spring.ViewDescriptorController"/>           
+     <bean id="SaveDescriptorController"
+          class="org.nescent.mmdb.spring.SaveDescriptorController"/>                
+    <bean id="LoginController"
+          class="org.nescent.mmdb.spring.LoginController">
+        <property name="formView" value="login"/>
+        <property name="successView" value="welcome"/>
+        <property name="commandName"><value>login</value></property>
+        <property name="commandClass"><value>org.nescent.mmdb.util.Login</value></property>
+    </bean>
+    
+     
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+
+	    <property name="prefix" value="/jsp/" />
+    	<property name="suffix" value=".jsp" />
+	</bean>
+
+
+
+</beans>

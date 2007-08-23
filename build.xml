@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+<project name="nead" basedir="." default="war">
+
+	
+	<!-- Give user a chance to override without editing this file
+         (and without typing -D each time it compiles it) -->
+    <property file="build.properties" />
+    
+
+    <!-- Generic project properties -->
+    <property name="project.fullname" value="Mixed Mating Database"/>
+    <property name="project.version" value="1.0.0"/>
+    <property name="project.name" value="mmdb"/>
+	
+	<!-- Miscellaneous settings -->
+    <property name="year" value="2007-2010"/>
+    <property name="debug" value="off"/>
+    <property name="optimize" value="off"/>
+    <property name="deprecation" value="off"/>
+	
+	
+
+    <!--
+       ========================================================================
+         Set the properties related to the source tree
+       ========================================================================
+    -->
+    <!-- Source locations for the build -->
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="WebRoot"/>
+    <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
+    <property name="lib.dir" value="../lib"/>
+    <property name="build.dir" value="build"/>
+
+
+    <!--
+       ========================================================================
+         Set the properties related to the build area
+       ========================================================================
+    -->
+    <!-- Destination locations for the build (relative to the basedir as -->
+    <!-- specified in the basedir attribute of the project tag)          -->
+    <property name="out.dir" value="out"/>
+    <property name="out.config.dir" value="${out.dir}/config"/>
+    <property name="out.dist.dir" value="${out.dir}/dist"/>
+    <property name="out.lib.dir" value="${out.dir}/lib"/>
+    <property name="out.src.dir" value="${out.dir}/src"/>
+    <property name="out.classes.dir" value="${out.dir}/classes"/>
+    <property name="out.doc.dir" value="${out.dir}/doc"/>
+    <property name="out.javadoc.dir" value="${out.doc.dir}/javadoc"/>
+
+
+    <!-- Names of deliverables -->
+
+    <property name="final.war.name" value="${out.dir}/${project.name}.war"/>
+
+    <!-- The full sources of mmdb in a zip file -->
+    <property name="final.src.name" value="${out.dir}/${project.name}-src.zip"/>
+
+    <!-- The mmdb documentation in a zip file -->
+    <property name="final.doc.name" value="${out.dir}/${project.name}-doc.zip"/>
+
+    <!--
+       ========================================================================
+         Useful file patterns for targets
+       ========================================================================
+    -->
+    <!-- All source files of the projet. These source files will be copied
+         to the destination source directory in the prepare task -->
+    <patternset id="all.src.files">
+
+        <!-- All java files -->
+        <include name="**/*.java"/>
+
+        <!-- All doc files -->
+        <include name="**/package.html"/>
+        <include name="**/overview.html"/>
+
+        <!-- All conf files (including test files) -->
+        <include name="**/*.txt"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.properties"/>
+
+    </patternset>
+
+    <!-- All non java files in the src directory -->
+    <patternset id="all.nonjava.files">
+        <include name="**/*.txt"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.properties"/>
+    </patternset>
+
+ 	<!--
+       ========================================================================
+         Initialize the build. Must be called by all targets
+       ========================================================================
+    -->
+    <target name="init">
+
+        <!-- So that we can use the ${TSTAMP}, ${DSTAMP}, ... time stamps
+             in targets, if need be -->
+        <tstamp/>
+    	<tstamp>
+    	      <format property="mmdb.deploy_time" pattern="MM/dd/yyyy hh:mm aa"
+    	              unit="hour"/>
+    	</tstamp>
+    	<echo message="---- ${project.fullname} ${project.version} -----"/>
+        <echo message=""/>
+
+        <echo message="java.class.path = ${java.class.path}"/>
+        <echo message=""/>
+        <echo message="java.home = ${java.home}"/>
+        <echo message="user.home = ${user.home}"/>
+        <echo message=""/>
+        <echo message="basedir = ${basedir}"/>
+        <echo message=""/>
+        <!-- Filters -->
+        <filter token="version" value="${project.version}"/>
+        <filter token="year" value="${year}"/>
+    </target>
+	<!--
+       ========================================================================
+         Help on usage. List available targets
+       ========================================================================
+    -->
+    <target name="usage" depends="init">
+
+        <echo message=""/>
+        <echo message="${project.fullname} build file"/>
+        <echo message="------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message=" Available targets are:"/>
+        <echo message=""/>
+        <echo message=" war    --> generates the war file (default)"/>
+        <echo message=" clean  --> cleans up the build directory"/>
+        <echo message=" source --> generates source zip of the project"/>
+        <echo message=" doc    --> generates the docs (javadoc, ...)"/>
+        <echo message=""/>
+        <echo message=" Targets for running the tests:"/>
+        <echo message=""/>
+        <echo message=""/>
+
+    </target>
+	<!--
+       ========================================================================
+         Prepare the output directory by copying the source files into it
+       ========================================================================
+    -->
+    <target name="prepare" depends="clean">
+
+        <mkdir dir="${out.src.dir}"/>
+
+        <!-- Copy all source files to destination dir. Apply the filters in
+             order to replace the tokens for the copyright year and the
+             version -->
+        <copy todir="${out.src.dir}" filtering="on">
+            <fileset dir="${src.dir}">
+                <patternset refid="all.src.files"/>
+            </fileset>
+        </copy>
+
+    </target>
+	<!--
+       ========================================================================
+         Compiles the source directory
+       ========================================================================
+    -->
+    <!-- Preparation target for the compile target -->
+    <target name="prepare-compile" depends="prepare">
+        <mkdir dir="${out.classes.dir}"/>
+    </target>
+
+    <!-- Run the java compilation -->
+    <target name="compile" depends="prepare-compile">
+        <javac srcdir="${out.src.dir}"
+            destdir="${out.classes.dir}"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}">
+
+            <!-- Exclude all files that are not .java source files -->
+        	
+            <!-- All doc files -->
+            <exclude name="**/package.html"/>
+            <exclude name="**/overview.html"/>
+
+            <!-- All conf files (including test files) -->
+            <exclude name="**/*.txt"/>
+            <exclude name="**/*.xml"/>
+            <exclude name="**/*.properties"/>
+
+            <classpath>
+                <pathelement path="${java.class.path}"/>
+			    <fileset dir="${lib.dir}">
+		           <include name="**/*.jar"/>
+		        </fileset>
+            </classpath>
+
+        </javac>
+
+        <!-- Copies non java files that need to be in the classes directory -->
+        <copy todir="${out.classes.dir}">
+            <fileset dir="${src.dir}">
+                <patternset refid="all.nonjava.files"/>
+            </fileset>
+        </copy>
+
+    </target>
+ 	<!--
+       ========================================================================
+         Generates source zip of the project
+       ========================================================================
+    -->
+    <target name="source" depends="prepare">
+
+        <zip zipfile="${final.src.name}" basedir=".">
+
+            <exclude name="${out.dir}/**"/>
+            <exclude name="**/*.log"/>
+            <exclude name="**/*.bak"/>
+            <exclude name="**/*.class"/>
+            <exclude name="${build.dir}/build.properties"/>
+
+        </zip>
+
+    </target>
+ 	<!--
+       ========================================================================
+         Generate the javadoc
+       ========================================================================
+    -->
+    <!-- Preparation target for the javadoc target -->
+    <target name="prepare-javadoc" depends="prepare">
+
+        <mkdir dir="${out.javadoc.dir}"/>
+
+    </target>
+
+    <!-- Generate the javadoc for the current Servlet API -->
+    <target name="javadoc" depends="prepare-javadoc">
+
+        <javadoc
+            sourcepath="${out.src.dir}"
+            packagenames="org.nescent.mmdb.*"
+            destdir="${out.javadoc.dir}"
+            author="true"
+            public="true"
+            version="true"
+            use="true"
+            windowtitle="${project.fullname} ${project.version} for Servlet @servlet.api@ API"
+            doctitle="${project.fullname} ${project.version} for Servlet @servlet.api@ API"
+            bottom="Copyright &amp;copy; ${year} Apache Software Foundation. All Rights Reserved.">
+
+            <classpath>
+                <pathelement path="${java.class.path}"/>
+                <pathelement location="${lib.dir}"/>
+            </classpath>
+
+        </javadoc>
+
+    </target>
+ 	<!--
+       ========================================================================
+         Generate the full documentation
+       ========================================================================
+    -->
+    <!-- Preparation target for the doc target -->
+    <target name="prepare-doc" depends="javadoc">
+
+        <mkdir dir="${out.doc.dir}"/>
+
+    </target>
+
+    <!-- Generate the documentation -->
+    <target name="doc" depends="prepare-doc">
+
+        <!-- Create the zipped documentation -->
+        <zip zipfile="${final.doc.name}" basedir="${out.doc.dir}"/>
+
+    </target>
+    <!--
+       ========================================================================
+         Remove all build generated files
+       ========================================================================
+    -->
+    <target name="clean" depends="init">
+
+        <!-- Deletes all files ending with '~' -->
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
+
+        <!-- Remove the out directory -->
+        <delete dir="${out.dir}"/>
+
+        <!-- Delete log files -->
+        <delete>
+            <fileset dir=".">
+                <include name="**/*.log"/>
+            </fileset>
+        </delete>
+
+    </target>
+     <!--
+       ========================================================================
+         Create the runtime war file
+       ========================================================================
+    -->
+    <!-- Preparation target for the war target -->
+    <target name="prepare-war" depends="compile">
+		
+        
+    </target>
+
+    <!-- Generate the war file -->
+    <target name="war" depends="prepare-war">
+
+    	<!-- copy config file -->
+    	<copy file="WebRoot/config/mmdb.conf.example" tofile="WebRoot/config/mmdb.conf" overwrite="yes">
+    		<filterset>
+    		  <filter token="version" value="${project.version}"/>
+         	  <filter token="deploy_date" value="${mmdb.deploy_time}"/>	
+    	    </filterset>
+    	</copy>
+    	
+
+    	<war destfile="${final.war.name}" webxml="WebRoot/WEB-INF/web.xml">
+	    	<lib dir="${web.dir}/WEB-INF/lib" />
+            <classes dir="${out.classes.dir}" />
+            <fileset dir="${web.dir}">
+            	<exclude name="WEB-INF/web.xml"/>
+                <exclude name="WEB-INF/lib/**/*.*"/>
+                <exclude name="WEB-INF/classes/**/*.*"/>
+            	<exclude name="config/*.example"/>
+            	<exclude name="config/*.new"/>
+            </fileset>
+        </war>
+		
+    </target>
+	
+
+</project>
