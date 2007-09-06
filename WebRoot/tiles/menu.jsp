@@ -30,28 +30,24 @@ else
  request.setAttribute("loginuserRole",loginuserRole);
  
  %>
-           
+        
 <img src="/mmdb/images/tag1.jpg" />
-<div style="background-color: #fcfcfc; width:120px; height:100%;padding-right:4; margin-right:40px; ">
-<table width=100 cellspacing=0 cellpadding=0>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
+
+<div class="menuItem">   
+<ul>
+<li><a href="/mmdb/jsp/home.jsp">Home</a></li>
 <c:choose>
 <c:when test='${loggedin == "yes"}'>	
-	<tr>
-    <td  class="menuItem">  
+    <li>  
  	  	<a href="/mmdb/jsp/searchStudy.jsp">Search Studies</a>
- 	</td>
-  </tr>
-	<tr><td>&nbsp;</td></tr>
-	<tr><td class="menuItem"><a href="/mmdb/jsp/logout.jsp">Logout</a></td></tr>
+ 	</li>
+  	<li><a href="/mmdb/jsp/logout.jsp">Logout</a></li>
 </c:when>
 <c:otherwise>
-	<tr><td class="menuItem"><a href="/mmdb/jsp/login.jsp">Login</a></td></tr>	
+	<li><a href="/mmdb/jsp/login.jsp">Login</a></li>	
 </c:otherwise>
 </c:choose>
-</table>
-
+</ul>
 </div>
 
    
