@@ -13,23 +13,29 @@ if(specieses==null)
 	out.write("No species list species.");
 else
 {
+	String oldFamily="";
 	out.write("<p>"+specieses.size()+ " species found. </p>");
 %>
 	<table width=80%>
 	
 <%
-	String trclass="TrOdd";
+	int count=0;
+
 	for(int i=0;i<specieses.size();i++)
 	{
 		MmSpecies mmSpecies=(MmSpecies)specieses.get(i);
+		if(!mmSpecies.getFamily().trim().toUpperCase().equals(oldFamily))
+		{
+			count=0;	
+			out.write("<tr><td colspan=2>"+mmSpecies.getFamily()+"</td></tr>");	
+			oldFamily=mmSpecies.getFamily().trim().toUpperCase();
+		}
 		
-		if(i%2==0)
-			trclass="TrEven";
-		else
-			trclass="TrOdd";
-		String tr="<tr class='"+trclass+"'><td><a href='species.go?id=" + mmSpecies.getSpeciesOid()+
-			"'>"+mmSpecies.getGenus()+" "+mmSpecies.getSpecies()+" ("+mmSpecies.getFamily()+")</a></td></tr>";
+		String tr="<tr><td width=15></td><td><a href='species.go?id=" + mmSpecies.getSpeciesOid()+
+			"'>"+mmSpecies.getGenus()+" "+mmSpecies.getSpecies()+"</a></td></tr>";
 		out.write(tr);	
+		
+		count++;
 	}
 	
 %>
