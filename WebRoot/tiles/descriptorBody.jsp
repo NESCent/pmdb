@@ -4,18 +4,41 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.nescent.mmdb.hibernate.dao.*" %>
 <%@ page import="org.nescent.mmdb.util.NoCache" %>
-
+<%@ page import="org.hibernate.Query" %>
+<%@ page import="org.hibernate.Session" %>
+<%@ page import="org.nescent.mmdb.hibernate.HibernateSessionFactory" %>
 
 <h3>Species Descriptor</h3>
 <form action="savedescriptor.go" method="post" name="Edit_Descriptor_Foem">
 <%
-
 NoCache.nocache(response);
+
+Session sess=HibernateSessionFactory.getSession();
+String sql="FROM MmCvTerm term where term.namespace='species_attribute'";
+Query q=sess.createQuery(sql);
+List cvterms=q.list();
+if(cvterms!=null)
+{
+	out.write("<script language='javascript'>");
+	out.write("var attrs=new Array();");
+	for(int i=0;i<cvterms.size();i++)
+	{
+		MmCvTerm term=(MmCvTerm)cvterms.get(i);
+		if(term.getNamespace().equals("species_attribute"))
+		{
+			String s="attrs[attrs.length]='"+term.getName()+"';";
+			out.write(s);
+		}
+	}
+	
+	out.write("</script>");
+}
 MmMatingSystemStudy study=(MmMatingSystemStudy)request.getAttribute("descriptor");
 if(study==null)
 	out.write("No species descriptor specified.");
 else
 {
+	
 	out.write("<input type='hidden' name='id' value='"+study.getMatingSystemStudyOid()+"' />");		
 	MmSpecies mmSpecies=study.getMmSpecies();
 	
@@ -23,7 +46,7 @@ else
 	str+="<tr><td class='TdField'>Latitude<td class='TdValue'>"+study.getLatitude()+"</td></tr>";
 	MmReferencePart part=study.getMmReferencePart();
 	MmReference ref=part.getMmReference();
-	str+="<tr><td class='TdField'>Reference<td class='TdValue'>"+part.getName()+" <i>in</i> "+ref.getFullReference()+"</td></tr>";
+	str+="<tr><td class='TdField'>Reference<td class='TdValue'>"+ref.getFullReference()+"("+part.getName()+")</td></tr>";
 	str+="</table>";
 	out.write(str);	
 %>
@@ -127,16 +150,21 @@ else
 			tr+="<td>"+desc+"</td>";
 			tr+="</tr>";
 			
+			
 			out.write(tr);	
 		}
-		
-		
-		
-		
 	}
+	//add new attr
+	String newTr="<tr class='TrNew'>";
+	newTr+="<td><span id=-1 onmouseout='onFieldMouseOut(-1)' onmouseover='onFieldMouseOver(-1)' onclick='onFieldClicked(-1,\"species_attribute\")'>(add new attribute)</span></td>";
+	newTr+="<td><span id=-2></span></td>";
+	newTr+="<td></td>";
+	newTr+="<td></td>";
+	newTr+="</tr>";
+	out.write(newTr);	
+		
+	%>
 	
-	
-%>
 	</table>
 <%
 }
@@ -144,4 +172,7 @@ else
 <br/>
 <input type="submit" value="save"/>
 </form>
+Note: empty attributes will be deleted if you save the data.
+
+
 
