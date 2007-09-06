@@ -3,13 +3,10 @@ package org.nescent.mmdb.spring;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.nescent.mmdb.aa.PermissionManager;
 import org.nescent.mmdb.hibernate.HibernateSessionFactory;
 import org.nescent.mmdb.util.Login;
 
-import java.util.List;
 
 
 import org.springframework.validation.BindException;
@@ -44,8 +41,9 @@ public class LoginController extends SimpleFormController {
 				arg0.getSession().setAttribute("personOID",new Integer(login.getPersonOID()));
 				arg0.getSession().setAttribute("username",login.getUserName());
 				
-				HibernateSessionFactory.closeSession();
-			
+				HibernateSessionFactory.closeSession();	
+				
+				
 				return new ModelAndView("welcome", "username", "");
 							
 			}
