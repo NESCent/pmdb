@@ -4,6 +4,14 @@
 <form action="searchStudy.go" method="post" name="Search_Study_Form">
 <table>
 <tr>
+	<td class="TdField">Family</td>
+	<td class="TdValue"><input name="family" />
+</tr>
+<tr>	
+	<td class="TdField">Genus</td>
+	<td class="TdValue"><input name="genus" />
+</tr>
+<tr>
 	<td class="TdField">Species</td>
 	<td class="TdValue"><input name="species" />
 </tr>
