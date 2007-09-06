@@ -47,10 +47,16 @@ public class SpeciesController implements Controller {
 			MmMatingSystemStudy mmStudy=(MmMatingSystemStudy)it.next();
 			mmStudy.getLatitude();
 			MmReferencePart refPart=mmStudy.getMmReferencePart();
-			refPart.getName();
-			MmReference ref=refPart.getMmReference();
-			ref.getCitation();
-			ref.getFullReference();
+			if(refPart!=null)
+			{
+				refPart.getName();
+				MmReference ref=refPart.getMmReference();
+				if(ref!=null)
+				{
+					ref.getCitation();
+					ref.getFullReference();
+				}
+			}
 		}
 		
 		Set mmSamples=species.getMmPopulationSamples();
@@ -63,15 +69,21 @@ public class SpeciesController implements Controller {
 			mmSample.getPopulation();
 			mmSample.getYear();
 			Set mmEnvStudies=mmSample.getMmExperimentStudies();
-			for(Iterator it1=mmSamples.iterator();it1.hasNext();)
+			for(Iterator it1=mmEnvStudies.iterator();it1.hasNext();)
 			{
-				MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it.next();
+				MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it1.next();
 				mmEnvStudy.getName();
 				MmReferencePart refPart=mmEnvStudy.getMmReferencePart();
-				refPart.getName();
-				MmReference ref=refPart.getMmReference();
-				ref.getCitation();
-				ref.getFullReference();
+				if(refPart!=null)
+				{
+					refPart.getName();
+					MmReference ref=refPart.getMmReference();
+					if(ref!=null)
+					{
+						ref.getCitation();
+						ref.getFullReference();
+					}
+				}
 			}
 		}
 	}
