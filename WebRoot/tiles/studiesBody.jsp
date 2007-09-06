@@ -15,16 +15,28 @@ else
 	Set mmStudies=species.getMmMatingSystemStudies();
 	out.write("<p><b>Species Discriptors ("+mmStudies.size()+")</b></p>");	
 	out.write("<ul>");
+	
 	for(Iterator it=mmStudies.iterator();it.hasNext();)
 	{
 		MmMatingSystemStudy mmStudy=(MmMatingSystemStudy)it.next();
 		String lat=mmStudy.getLatitude();
 		MmReferencePart refPart=mmStudy.getMmReferencePart();
-		String part=refPart.getName();
-		MmReference ref=refPart.getMmReference();
-		String cite=ref.getCitation();
-		String full=ref.getFullReference();
-		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", "+lat+" ("+part+" <i>in</i>: "+full+")</a></li>");
+		
+		String part="";
+		String cite="";
+		String full="";
+		if(refPart!=null)
+		{
+			part=refPart.getName();
+			MmReference ref=refPart.getMmReference();
+			if(ref!=null)
+			{
+				cite=ref.getCitation();
+				full=ref.getFullReference();
+			}
+		}
+		
+		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", "+lat+" ("+full+")</a></li>");
 	}
 	out.write("</ul>");		
 	
@@ -41,23 +53,37 @@ else
 		String year=mmSample.getYear();
 		
 		Set mmEnvStudies=mmSample.getMmExperimentStudies();
-		out.write("<li>"+popu+", "+loc +", "+env+", "+sname+", "+year+"("+mmEnvStudies.size()+"Environmental Studies)</li>");	
+		out.write("<li>"+popu+" ("+mmEnvStudies.size()+" environmental studies found)</li>");	
 		out.write("<ul>");
 		
-		for(Iterator it1=mmSamples.iterator();it1.hasNext();)
+		for(Iterator it1=mmEnvStudies.iterator();it1.hasNext();)
 		{
-			MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it.next();
+			MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it1.next();
 			String studyName=mmEnvStudy.getName();
 			MmReferencePart refPart=mmEnvStudy.getMmReferencePart();
-			String part=refPart.getName();
-			MmReference ref=refPart.getMmReference();
-			String cite=ref.getCitation();
-			String full=ref.getFullReference();
-			out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+studyName+" ("+part+" <i>in</i>: "+full+")</a></li>");
+			String part="";
+			String cite="";
+			String full="";
+			if(refPart!=null)
+			{
+				part=refPart.getName();
+				MmReference ref=refPart.getMmReference();
+				if(ref!=null)
+				{
+					cite=ref.getCitation();
+					full=ref.getFullReference();
+				}
+			}
+			if(studyName!=null && part!="" && full !=null)
+				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+studyName+" ("+full+")</a></li>");
+			else
+				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>Study "+ mmEnvStudy.getExperimentStudyOid()+" </a></li>");
 		}
 		out.write("</ul>");
+		
 	}
 	out.write("</ul>");
+	
 }	
 
 %>
