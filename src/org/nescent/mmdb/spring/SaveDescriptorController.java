@@ -2,6 +2,7 @@ package org.nescent.mmdb.spring;
 
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.nescent.mmdb.hibernate.HibernateSessionFactory;
 import org.nescent.mmdb.hibernate.dao.MmCvTerm;
+import org.nescent.mmdb.hibernate.dao.MmCvTermDAO;
 import org.nescent.mmdb.hibernate.dao.MmMatingSystemStudy;
 import org.nescent.mmdb.hibernate.dao.MmMatingSystemStudyDAO;
 import org.nescent.mmdb.hibernate.dao.MmReference;
@@ -46,20 +48,44 @@ public class SaveDescriptorController implements Controller {
 			for(Enumeration en=arg0.getParameterNames();en.hasMoreElements();)
 			{
 				String cvid=(String)en.nextElement();
-				if(cvid.equals("id")) continue;
-				MmSpeciesAttrCvtermAssoc assoc=assocDao.findById(Integer.valueOf(cvid));
-				if(assoc==null)
-					throw new Exception("No MmSpeciesAttrCvtermAssoc found with the id: "+id);
-				
-				String value=arg0.getParameter(cvid);
-				if(value==null || value.equals(""))
+				if(cvid.equals("id") ||cvid.equals("-2") ) continue;
+				else if(cvid.equals("-1"))
 				{
-					sess.delete(assoc);
+					String field=arg0.getParameter("-1");
+					String value=arg0.getParameter("-2");
+					if(field!=null && value!=null)
+					{
+						MmCvTermDAO termDao=new MmCvTermDAO();
+						List terms=termDao.findByName(field);
+						if(terms.size()>0)
+						{
+							MmCvTerm term=(MmCvTerm)terms.toArray()[0];
+							MmSpeciesAttrCvtermAssoc assoc=new MmSpeciesAttrCvtermAssoc();
+							assoc.setMmCvTerm(term);
+							assoc.setMmMatingSystemStudy(study);
+							assoc.setValue(value);
+							term.getMmSpeciesAttrCvtermAssocs().add(assoc);
+							study.getMmSpeciesAttrCvtermAssocs().add(assoc);
+							sess.save(assoc);
+						}
+					}
 				}
 				else
 				{
-					assoc.setValue(value);
-					sess.update(assoc);
+					MmSpeciesAttrCvtermAssoc assoc=assocDao.findById(Integer.valueOf(cvid));
+					if(assoc==null)
+						throw new Exception("No MmSpeciesAttrCvtermAssoc found with the id: "+id);
+					
+					String value=arg0.getParameter(cvid);
+					if(value==null || value.equals(""))
+					{
+						sess.delete(assoc);
+					}
+					else
+					{
+						assoc.setValue(value);
+						sess.update(assoc);
+					}
 				}
 			}
 			sess.flush();
