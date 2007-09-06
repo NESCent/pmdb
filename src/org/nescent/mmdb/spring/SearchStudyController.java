@@ -24,12 +24,16 @@ public class SearchStudyController implements Controller {
 			HttpServletResponse arg1) throws Exception {
 		
 		String speciesName=arg0.getParameter("species");
+		String familyName=arg0.getParameter("family");
+		String genusName=arg0.getParameter("genus");
 		
-		if(speciesName==null || speciesName.trim().equals(""))
-			throw new Exception("No species specified.");
+		if((speciesName==null || speciesName.trim().equals("")) && 
+				(familyName==null || familyName.trim().equals("")) &&
+				(genusName==null || genusName.trim().equals("")))
+			throw new Exception("No names specified.");
 		
 		MmSpeciesDAO spDao=new MmSpeciesDAO();
-		List specieses = spDao.findByName(speciesName);
+		List specieses = spDao.findByName(familyName,genusName,speciesName);
 		if(specieses.size()!=1)
 		{
 			HibernateSessionFactory.closeSession();
