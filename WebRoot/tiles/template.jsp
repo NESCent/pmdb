@@ -1,14 +1,15 @@
 <%@ page language="java" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ page import="java.util.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
 <head>
 <title><tiles:getAsString name="title" ignore="true"/></title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">   
+	 
 <link rel="stylesheet" type="text/css" href="/mmdb/css/mmdb.css" />
 
 <script type="text/javascript" src="/mmdb/jsp/tabview.js"></script>
@@ -19,21 +20,27 @@
 
 <body>
 
-<center>
-<table  border="0" cellpadding="0" cellspacing="0" width="800" bordercolor="#000000" >
-<tr>
-<td colspan="2" width="100%" valign="top"><div class="topWindow"><tiles:insert attribute="header"/></div></td>
-</tr>
-<tr>
-<td width="160" valign="top" align="left"><div class="menuWindow"><tiles:insert attribute="menu"/></div></td>
-<td width="640" valign="top" align="left"><div class="mainWindow"><tiles:insert attribute="body"/></div></td>
-</tr>
-<tr>
-<td colspan="2" width="100%"  valign="top"><div class="bottomWindow"><tiles:insert attribute="bottom"/></div></td>
-</tr>
+<table border="0" cellpadding="0" cellspacing="0" class="outerTable" >
+	<tr>
+		<td>
+			<table border="0" cellpadding="0" cellspacing="0" class="innerTable">
+				<tr>
+					<td colspan=3 class="tdHead" ><tiles:insert attribute="header"/></td>
+				</tr>
+				<tr>
+					<td class="tdMenu"><tiles:insert attribute="menu" /></td>
+					<td class="tdCorner"><img src="/mmdb/images/menucorner.jpg" /></td>
+					<td class="tdMain"><tiles:insert attribute="body"/>
+				</tr>	
+			<!--
+				<tr>
+					<td colspan=3 class="tdFooter"><tiles:insert attribute="bottom"/></td>
+				</tr>
+			-->
+			</table>
+		</td>
+	</tr>	
 </table>
-</center>
-
 </body>
 
 </html>
