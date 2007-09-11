@@ -4,6 +4,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.nescent.mmdb.hibernate.dao.*" %>
 <%@ page import="org.nescent.mmdb.util.NoCache" %>
+<%@ page import="org.nescent.mmdb.util.Fields" %>
 <%@ page import="org.hibernate.Query" %>
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="org.nescent.mmdb.hibernate.HibernateSessionFactory" %>
@@ -33,6 +34,7 @@ if(cvterms!=null)
 	
 	out.write("</script>");
 }
+sess.close();
 MmMatingSystemStudy study=(MmMatingSystemStudy)request.getAttribute("descriptor");
 if(study==null)
 	out.write("No species descriptor specified.");
@@ -42,7 +44,7 @@ else
 	out.write("<input type='hidden' name='id' value='"+study.getMatingSystemStudyOid()+"' />");		
 	MmSpecies mmSpecies=study.getMmSpecies();
 	
-	String str="<table width='90%'><tr><td class='TdField'>Species<td class='TdValue'>"+mmSpecies.getGenus()+" "+mmSpecies.getSpecies()+" ("+mmSpecies.getFamily()+")</td></tr>";
+	String str="<table><tr><td class='TdField'>Species<td class='TdValue'>"+mmSpecies.getGenus()+" "+mmSpecies.getSpecies()+" ("+mmSpecies.getFamily()+")</td></tr>";
 	str+="<tr><td class='TdField'>Latitude<td class='TdValue'>"+study.getLatitude()+"</td></tr>";
 	MmReferencePart part=study.getMmReferencePart();
 	MmReference ref=part.getMmReference();
@@ -52,11 +54,10 @@ else
 %>
 <br/><br/>
 <h4>Attributes</h4>
-	<table width=90%>
+	<table>
 	<tr>
 		<th>Attribute</th>
 		<th>Value</th>
-		<th>Value Type</th>
 		<th>Attribute Description</th>
 	</tr>
 <%
@@ -145,8 +146,7 @@ else
 			String tr="<tr class='"+trclass+"'>";
 							
 			tr+="<td>"+attr+"</td>";
-			tr+="<td><span id="+cvAssoc.getMsacaOid()+" onmouseout='onValueMouseOut("+cvAssoc.getMsacaOid()+")' onmouseover='onValueMouseOver("+cvAssoc.getMsacaOid()+")' onclick='onValueClicked("+cvAssoc.getMsacaOid()+",\""+attr+"\")'>"+value+"</span></td>";
-			tr+="<td>"+type+"</td>";
+			tr+="<td><span  class='editableValue' id="+cvAssoc.getMsacaOid()+" onmouseout='onValueMouseOut("+cvAssoc.getMsacaOid()+")' onmouseover='onValueMouseOver("+cvAssoc.getMsacaOid()+")' onclick='onValueClicked("+cvAssoc.getMsacaOid()+",\""+attr+"\")'>"+value+"</span></td>";
 			tr+="<td>"+desc+"</td>";
 			tr+="</tr>";
 			
@@ -156,9 +156,10 @@ else
 	}
 	//add new attr
 	String newTr="<tr class='TrNew'>";
-	newTr+="<td><span id=-1 onmouseout='onFieldMouseOut(-1)' onmouseover='onFieldMouseOver(-1)' onclick='onFieldClicked(-1,\"species_attribute\")'>(add new attribute)</span></td>";
-	newTr+="<td><span id=-2></span></td>";
-	newTr+="<td></td>";
+	String newFid=Fields.getFieldId("NewDescriptorAttribute");
+	String newVid=Fields.getFieldId("NewDescriptorValue");
+	newTr+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewDescriptorAttribute\")'>(add new attribute)</span></td>";
+	newTr+="<td><span id="+newVid+"></span></td>";
 	newTr+="<td></td>";
 	newTr+="</tr>";
 	out.write(newTr);	
