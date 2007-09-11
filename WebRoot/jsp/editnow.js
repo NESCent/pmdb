@@ -31,11 +31,25 @@ function createElement(id,field_name,value)
 	var el=null;
 	if(values==null)
 	{
-		el=document.createElement("input");
-		el.setAttribute("name",id);
-		el.setAttribute("id",id);
-		el.setAttribute("type","text");
-		el.setAttribute("value",value);
+		if(value.length<30)
+		{
+			el=document.createElement("input");
+			el.setAttribute("name",id);
+			el.setAttribute("id",id);
+			el.setAttribute("type","text");
+			el.setAttribute("value",value);
+		}
+		else
+		{
+			el=document.createElement("textarea");
+			el.setAttribute("name",id);
+			el.setAttribute("id",id);
+			el.setAttribute("cols",45);
+			el.setAttribute("rows",5);
+			
+			var txt=document.createTextNode(value);
+			el.appendChild(txt);
+		}
 		
 	}
 	else
@@ -61,14 +75,18 @@ function createElement(id,field_name,value)
 	return el;
 }
 
-function onFieldChange()
+function onFieldChange(e)
 {
-	
-	var id=-1;
+	var id;
+	if(e.srcElement)
+		id=e.srcElement.id;
+	else
+		id=e.target.id;
+	var vid=id-1;	
 	var oField=document.getElementById(id);
-	var nm=document.getElementById(-2);
+	var nm=document.getElementById(vid);
 	var field_name=oField.value;
-	var el=createElement(-2,field_name,"");
+	var el=createElement(vid,field_name,"");
 	nm.parentNode.replaceChild(el,nm);
 	el.focus();
 	
@@ -76,25 +94,58 @@ function onFieldChange()
 function onFieldClicked(id, namespace)
 {
 	var nm=document.getElementById(id);
-	el=document.createElement("select");
-	el.setAttribute("name",id);
-	el.setAttribute("id",id);
-	
-	if (el.addEventListener) {
-		el.addEventListener ("change",onFieldChange,false);
-	} else if (el.attachEvent) {
-		el.attachEvent ("onchange",onFieldChange);
-	} else {
-		el.onchange = onFieldChange;
-	}
-
-	for(var i=0;i<attrs.length;i++)
+	var el;
+	if(namespace!="NewEnvironmentStudyAttribute")
 	{
-		el.options[i]=new Option(attrs[i],attrs[i],false, false);
+		el=document.createElement("select");
+		el.setAttribute("name",id);
+		el.setAttribute("id",id);
+	
+		if (el.addEventListener) {
+			el.addEventListener ("change",onFieldChange,false);
+		} else if (el.attachEvent) {
+			el.attachEvent ("onchange",onFieldChange);
+		} else {
+			el.onchange = onFieldChange;
+		}
+		
+		if(namespace=="NewDescriptorAttribute")
+		{
+			for(var i=0;i<attrs.length;i++)
+			{
+				el.options[i]=new Option(attrs[i],attrs[i],false, false);
+			}
+		}
+		else if(namespace=="NewPopulationSampleAttribute")
+		{
+			
+			for(var i=0;i<pop_sample_attributes.length;i++)
+			{
+				el.options[i]=new Option(pop_sample_attributes[i],pop_sample_attributes[i],false, false);
+			}
+		}
 	}
+	else
+	{
+		el=document.createElement("input");
+		el.setAttribute("name",id);
+		el.setAttribute("id",id);
+		el.setAttribute("type","text");
+		var vid=id-1;
+		var vnm=document.getElementById(vid);
+		var field_name=namespace;
+		var vel=createElement(vid,field_name,"");
+		vnm.parentNode.replaceChild(vel,vnm);
+	
+	}
+	
+	
 	
 	nm.parentNode.replaceChild(el,nm);
 
+	
+
+	
 	el.focus();
 
 }
