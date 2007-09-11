@@ -32,11 +32,6 @@
 					<td class="tdCorner"><img src="/mmdb/images/menucorner.jpg" /></td>
 					<td class="tdMain"><tiles:insert attribute="body"/>
 				</tr>	
-			<!--
-				<tr>
-					<td colspan=3 class="tdFooter"><tiles:insert attribute="bottom"/></td>
-				</tr>
-			-->
 			</table>
 		</td>
 	</tr>	
