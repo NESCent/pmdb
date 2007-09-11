@@ -3,7 +3,7 @@
 <%
 boolean loggedIn=(request.getSession().getAttribute("permission_manager")!=null);
 %>
-<h3>Understanding the Paradox of Mixed Mating Systems</h3>
+<h2>Understanding the Paradox of Mixed Mating Systems</h2>
 A NESCent Working Group</br>
 
 <p>One of the key components of evolution by natural selection 
