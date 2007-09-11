@@ -32,7 +32,9 @@ if(mmdbConfig!=null)
 		built=mmdbConfig.getProperty("Deploy_Date");
 }
 %>
-<table cellspacing=0 cellpadding=0  width=100% bgcolor="#fbeec9"><tr><td width=50 valign=bottom ><img src="/mmdb/images/banner.jpg" /></td>
-<td valign=bottom class="date">Version: <%=version %><br/>Built: <%=built %></td>
-</tr>
+<table border="0" cellpadding="0" cellspacing="0" width=100%>
+	<tr>
+		<td><img src="/mmdb/images/logo.jpg" /></td>
+		<td>Version: <%=version %><br/>Built: <%=built %></td>
+	</tr>
 </table>

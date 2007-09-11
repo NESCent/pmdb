@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/spring.tld" prefix="spring" %>
 
-<h3>Login</h3>
+<h2>Login</h2>
 <%
      boolean loggedIn=(request.getSession().getAttribute("permission_manager")!=null);
 
@@ -30,7 +30,7 @@
      
     <form method="post" action="login.go">
     
-    <table border=1>
+    <table>
 
 	    <tr>
 	    	<td class="TdField">Username</td>
