@@ -16,7 +16,7 @@ else
 	String oldFamily="";
 	out.write("<p>"+specieses.size()+ " species found. </p>");
 %>
-	<table width=80%>
+	<table>
 	
 <%
 	int count=0;
@@ -24,11 +24,14 @@ else
 	for(int i=0;i<specieses.size();i++)
 	{
 		MmSpecies mmSpecies=(MmSpecies)specieses.get(i);
-		if(!mmSpecies.getFamily().trim().toUpperCase().equals(oldFamily))
+		String family=mmSpecies.getFamily();
+		if(family==null)
+			family="Unknown";
+		if(!family.trim().toUpperCase().equals(oldFamily))
 		{
 			count=0;	
-			out.write("<tr><td colspan=2>"+mmSpecies.getFamily()+"</td></tr>");	
-			oldFamily=mmSpecies.getFamily().trim().toUpperCase();
+			out.write("<tr><td colspan=2>"+family+"</td></tr>");	
+			oldFamily=family.trim().toUpperCase();
 		}
 		
 		String tr="<tr><td width=15></td><td><a href='species.go?id=" + mmSpecies.getSpeciesOid()+
