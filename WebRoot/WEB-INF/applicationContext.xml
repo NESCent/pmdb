@@ -21,6 +21,7 @@
             	<prop key="**/species.go">SpeciesController</prop>
             	<prop key="**/descriptor.go">ViewDescriptorController</prop>
             	<prop key="**/savedescriptor.go">SaveDescriptorController</prop>
+            	<prop key="**/envstudy.go">ViewEnvironmentalStudyController</prop>
 		       	<prop key="/help/">helpController</prop>
             </props>
         </property>
@@ -32,10 +33,12 @@
           class="org.nescent.mmdb.spring.SearchStudyController"/>
     <bean id="SpeciesController"
           class="org.nescent.mmdb.spring.SpeciesController"/>     
-     <bean id="ViewDescriptorController"
+    <bean id="ViewDescriptorController"
           class="org.nescent.mmdb.spring.ViewDescriptorController"/>           
-     <bean id="SaveDescriptorController"
-          class="org.nescent.mmdb.spring.SaveDescriptorController"/>                
+    <bean id="SaveDescriptorController"
+          class="org.nescent.mmdb.spring.SaveDescriptorController"/>               
+    <bean id="ViewEnvironmentalStudyController"
+          class="org.nescent.mmdb.spring.ViewEnvironmentalStudyController"/>                      
     <bean id="LoginController"
           class="org.nescent.mmdb.spring.LoginController">
         <property name="formView" value="login"/>
