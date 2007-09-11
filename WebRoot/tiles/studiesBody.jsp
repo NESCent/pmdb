@@ -3,7 +3,7 @@
 <%@ page import="java.util.*" %>
 <%@page import="org.nescent.mmdb.hibernate.dao.*" %>
 
-<h3>Studies</h3>
+<h2>Studies</h2>
 <%
 MmSpecies species=(MmSpecies)request.getAttribute("species");
 if(species==null)
@@ -36,7 +36,7 @@ else
 			}
 		}
 		
-		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", "+lat+" ("+full+")</a></li>");
+		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", "+lat+" ("+cite+")</a></li>");
 	}
 	out.write("</ul>");		
 	
@@ -74,8 +74,8 @@ else
 					full=ref.getFullReference();
 				}
 			}
-			if(studyName!=null && part!="" && full !=null)
-				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+studyName+" ("+full+")</a></li>");
+			if(studyName!=null && part!="" && cite !=null)
+				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+studyName+" ("+cite+")</a></li>");
 			else
 				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>Study "+ mmEnvStudy.getExperimentStudyOid()+" </a></li>");
 		}
