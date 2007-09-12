@@ -22,6 +22,10 @@
             	<prop key="**/descriptor.go">ViewDescriptorController</prop>
             	<prop key="**/savedescriptor.go">SaveDescriptorController</prop>
             	<prop key="**/envstudy.go">ViewEnvironmentalStudyController</prop>
+            	<prop key="**/saveenvstudy.go">SaveEnvironmentalStudyController</prop>
+            	<prop key="**/savepopulation.go">SavePopulationController</prop>
+            	<prop key="**/savedatarecord.go">SaveDataRecordController</prop>
+            	<prop key="**/deletedatarecord.go">DeleteDataRecordController</prop>
 		       	<prop key="/help/">helpController</prop>
             </props>
         </property>
@@ -38,7 +42,15 @@
     <bean id="SaveDescriptorController"
           class="org.nescent.mmdb.spring.SaveDescriptorController"/>               
     <bean id="ViewEnvironmentalStudyController"
-          class="org.nescent.mmdb.spring.ViewEnvironmentalStudyController"/>                      
+          class="org.nescent.mmdb.spring.ViewEnvironmentalStudyController"/>   
+    <bean id="SaveEnvironmentalStudyController"
+          class="org.nescent.mmdb.spring.SaveEnvironmentalStudyController"/>    
+    <bean id="SavePopulationController"
+          class="org.nescent.mmdb.spring.SavePopulationController"/>    
+    <bean id="SaveDataRecordController"
+          class="org.nescent.mmdb.spring.SaveDataRecordController"/>    
+ 	<bean id="DeleteDataRecordController"
+          class="org.nescent.mmdb.spring.DeleteDataRecordController"/>    
     <bean id="LoginController"
           class="org.nescent.mmdb.spring.LoginController">
         <property name="formView" value="login"/>
