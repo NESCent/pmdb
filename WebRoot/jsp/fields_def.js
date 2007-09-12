@@ -82,3 +82,21 @@ terms.put("life_history", new Array("annual",
 									"perennial and iteroparous",
 									"variable monocarpic",
 									"varies"));
+terms.put("life history", new Array("annual",
+									"biennial",
+									"perennial and iteroparous",
+									"variable monocarpic",
+									"varies"));
+terms.put("DevelopStatge", new Array("DESIGN",
+							"EARLY: stage 1",
+							"GERM: stage 2",
+							"JUVENILE: stage 3",
+							"ADULT: stage 4"
+							));
+							
+							
+terms.put("Environment", new Array("Common garden",
+										"Field",
+										"Greenhouse",
+										"mixed:  plants were moved back and forth",
+										"Undefined"));
