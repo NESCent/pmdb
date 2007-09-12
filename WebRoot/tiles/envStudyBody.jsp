@@ -8,28 +8,60 @@
 <%@ page import="org.hibernate.Query" %>
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="org.nescent.mmdb.hibernate.HibernateSessionFactory" %>
+
 <%
 NoCache.nocache(response);
+String tab = (String)request.getAttribute("tab");
+String message=(String)request.getSession().getAttribute("Message");
+	
 //created term array for population sample attributes
 String sql="FROM MmCvTerm term where term.namespace = 'inbreed_pop_attribute'";
 Session sess=HibernateSessionFactory.getSession();
 Query q=sess.createQuery(sql);
 List cvterms=q.list();
+out.write("<script language='javascript'>");
 if(cvterms!=null)
 {
-	out.write("<script language='javascript'>");
-	out.write("var pop_sample_attributes=new Array();");
+	out.write("var pop_sample_attributes=new Array();\n");
 	for(int i=0;i<cvterms.size();i++)
 	{
 		MmCvTerm term=(MmCvTerm)cvterms.get(i);
-		String s="pop_sample_attributes[pop_sample_attributes.length]='"+term.getName()+"';";
+		String s="pop_sample_attributes[pop_sample_attributes.length]='"+term.getName()+"';\n";
+		out.write(s);
+	}
+}
+
+//created term array for environmental study  attributes
+sql="FROM MmCvTerm term where term.namespace = 'pollination_attribute'";
+q=sess.createQuery(sql);
+cvterms=q.list();
+if(cvterms!=null)
+{
+	out.write("var envstudy_attributes=new Array();\n");
+	for(int i=0;i<cvterms.size();i++)
+	{
+		MmCvTerm term=(MmCvTerm)cvterms.get(i);
+		String s="envstudy_attributes[envstudy_attributes.length]='"+term.getName()+"';\n";
 		out.write(s);
 	}
 	
-	out.write("</script>");
+	
 }
+
+out.write("</script>");
 sess.close();
 %>
+<script language="javascript">
+function deletedatarecord(id)
+{
+	if(confirm("Do you really want to delete this data record?"))
+	{
+		var url="deletedatarecord.go?id=" + id;
+		document.location=url;
+	}
+}
+</script> 
+
 <h2>Environmental Study</h2>
 
 <%
@@ -133,7 +165,7 @@ else
 	str+="<tr class='TrNew'>";
 	String newFid=Fields.getFieldId("NewEnvironmentStudyAttribute");
 	String newVid=Fields.getFieldId("NewEnvironmentStudyValue");
-	str+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewEnvironmentStudyAttribute\")'>(add new attribute)</span></td>";
+	str+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewEnvironmentStudyAttribute\")'>(add new record)</span></td>";
 	str+="<td><span id="+newVid+"></span></td>";
 	str+="<td></td>";
 	str+="</tr>";
@@ -164,24 +196,25 @@ else
   		str="<div class='Page'>";
 		str+="<div class='Pad'>";	
 		str+="<Form name='View_Population_Form' method='post' action='savepopulation.go'>";
+		str+="<input type='hidden' name='id' value='" + study.getExperimentStudyOid()+"' />";
 		str+="<table>";
 		
 		MmSpecies species=sample.getMmSpecies();
 					
 		String comments=sample.getComments()!=null?sample.getComments():"";
-		comments=comments.trim().equals("")?"&nbsp;":comments;
+	
 		String env=sample.getEnvironment()!=null?sample.getEnvironment():"";
-		env=env.trim().equals("")?"&nbsp;":env;
-		String loc=sample.getGeographicLocation()!=null?sample.getGeographicLocation():"";
-		loc=loc.trim().equals("")?"&nbsp;":loc;
-		String name=sample.getName()!=null?sample.getName():"";
-		name=name.trim().equals("")?"&nbsp;":name;
-		String popu=sample.getPopulation()!=null?sample.getPopulation():"";
-		popu=popu.trim().equals("")?"&nbsp;":popu;
-		String year=sample.getYear()!=null?sample.getYear():"";
-		year=year.trim().equals("")?"&nbsp;":year;
-		Integer sampleId=sample.getPopulationSampleOid()!=null?sample.getPopulationSampleOid():Integer.valueOf(-1);
 		
+		String loc=sample.getGeographicLocation()!=null?sample.getGeographicLocation():"";
+		
+		String name=sample.getName()!=null?sample.getName():"";
+		
+		String popu=sample.getPopulation()!=null?sample.getPopulation():"";
+		
+		String year=sample.getYear()!=null?sample.getYear():"";
+		
+		Integer sampleId=sample.getPopulationSampleOid()!=null?sample.getPopulationSampleOid():Integer.valueOf(-1);
+	/*	
 		fid=Fields.getFieldId("Genus");
 		str+="<tr><td class='TdField'>Species<td class='TdValue'>"+
 			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Genus\")'>"+
@@ -190,12 +223,11 @@ else
 		str+="<tr><td class='TdField'>Genus<td class='TdValue'>"+
 			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Species\")'>"+
 			sp+"</span></td></tr>";
-
 		fid=Fields.getFieldId("Family");	
 		str+="<tr><td class='TdField'>Family<td class='TdValue'>"+
 			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Family\")'>"+
 			fa+"</span></td></tr>";
-		
+		*/
 		fid=Fields.getFieldId("Environment");	
 		str+="<tr><td class='TdField'>Environment<td class='TdValue'>"+
 			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Environment\")'>"+
@@ -247,6 +279,7 @@ else
 			String tname=term.getName()!=null?term.getName():" ";
 			String description=term.getDescription()!=null?term.getDescription():" ";
 			String v=cvAssoc.getValue()!=null?cvAssoc.getValue():"&nbsp;&nbsp;";
+			
 			str+="<tr class='"+tdclass+"'><td>"+tname+"</td><td>"+
 			"<span class='editableValue' id="+vid+" onmouseout='onValueMouseOut("+vid+")' onmouseover='onValueMouseOver("+vid+")' onclick='onValueClicked("+vid+",\""+tname+"\")'>"+
 			v+"</span></td><td>"+description+"</td></tr>";
@@ -255,7 +288,7 @@ else
 		str+="<tr class='TrNew'>";
 		newFid=Fields.getFieldId("NewPopulationSampleAttribute");
 		newVid=Fields.getFieldId("NewPopulationSampleValue");
-		str+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewPopulationSampleAttribute\")'>(add new attribute)</span></td>";
+		str+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewPopulationSampleAttribute\")'>(add new record)</span></td>";
 		str+="<td><span id="+newVid+"></span></td>";
 		str+="<td></td>";
 		str+="</tr>";
@@ -272,7 +305,9 @@ else
 	}
 %>
 		<div class="Page">
-			<div class="Pad">			
+			<div class="Pad">		
+				<Form name="View_Records_Form" method="post" action="savedatarecord.go">	
+		  				<input type='hidden' name='id' value='<%= study.getExperimentStudyOid() %>' />	
 <%	
 	
 	//write data records
@@ -286,41 +321,107 @@ else
 	str+="<th>OutCrossing Std. Dev.</th>";
 	str+="<th>OutCrossing Value</th>";
 	str+="<th>Selfing Std. Dev.</th>";
-	str+="<th>Selfing Value</th><tr>";
+	str+="<th>Selfing Value</th>";
+	str+="<th>Action</th><tr>";
 	
 	out.write(str);
 	count=0;
 	tdclass="TrOdd";
 	set= study.getMmDataRecords();
+	String idstr="";
 	for(Iterator it=set.iterator();it.hasNext();)
 	{
 		if(count%2==0)
-				tdclass="TrEven";
-			else
-				tdclass="TrOdd";
+			tdclass="TrEven";
+		else
+			tdclass="TrOdd";
+		
 		count++;
+		
 		MmDataRecord record=(MmDataRecord)it.next();
+		
+		String record_id="record_id_"+count;
+		idstr+="<input type='hidden' name='"+record_id+"' value='" + record.getDataRecordOid()+"' />";
+		
 		String rname=record.getName()!=null?record.getName():"";
 		String outsd=record.getOutCrossingStdDev()!=null?record.getOutCrossingStdDev().toString():"";
 		String outv=record.getOutCrossingValue()!=null?record.getOutCrossingValue().toString():"";
 		String selfsd=record.getSelfingStdDev()!=null?record.getSelfingStdDev().toString():"";
 		String selfv=record.getSelfingValue()!=null?record.getSelfingValue().toString():"";
 		String type=record.getType()!=null?record.getType():"";
-		str="<tr class='"+tdclass+"'><td>"+rname+"</td>";
-		str+="<td>"+type+"</td>";
-		str+="<td>"+outsd+"</td>";
-		str+="<td>"+outv+"</td>";
-		str+="<td>"+selfsd+"</td>";
-		str+="<td>"+selfv+"</td></tr>";
+		
+		int ridbase=-10000*count;
+		int rid=0;
+		str="<tr class='"+tdclass+"'>";
+		rid=--ridbase;
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"RecordName\")'>"+
+			rname+"</span></td>";
+		rid=--ridbase;
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"RecordType\")'>"+
+			type+"</span></td>";	
+		rid=--ridbase;	
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"OutcrossingSD\")'>"+
+			outsd+"</span></td>";
+		rid=--ridbase;	
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"OutcrossingValue\")'>"+
+			outv+"</span></td>";
+		rid=--ridbase;	
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingSD\")'>"+
+			selfsd+"</span></td>";
+		rid=--ridbase;	
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingValue\")'>"+
+			selfv+"</span></td>";
+		
+		str+="<td class='TdAction'><a href='javascript:deletedatarecord("+record.getDataRecordOid()+")'>Delete</a></td></tr>";
 		out.write(str);
 	}
-	out.write("</table></div></div>");
+	count++;
+	int ridbase=-10000*count-1;
+	int rid=0;
+	str="<tr class='TrNew'>";
+	rid=ridbase--;
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"RecordName\")'>(add new record)</span></td>";
+	rid=ridbase--;
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"RecordType\")'></span></td>";	
+	rid=ridbase--;	
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"OutcrossingSD\")'>"+
+		""+"</span></td>";
+	rid=ridbase--;	
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"OutcrossingValue\")'>"+
+		""+"</span></td>";
+	rid=ridbase--;	
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingSD\")'>"+
+		""+"</span></td>";
+	rid=ridbase--;	
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingValue\")'>"+
+		""+"</span></td></tr>";
+	out.write(str);
+	
+	out.write("</table>");
+	out.write(idstr);
+	str="<br/><br/>";
+	str+="<input type='submit' value='save'/>";
+	out.write(str);
+	out.write("<form>");
+	out.write("</div></div>");
 	out.write("</div></div>");
 }
 %>
 
 <script type="text/javascript">
-	tabview_initialize('TabView');
+<%
+	if(tab==null)
+		out.write("tabview_initialize('TabView')");
+	else
+	{
+		if(tab.equals("population"))
+			out.write("tabview_switch('TabView',2)");
+		else if(tab.equals("staticstics"))
+			out.write("tabview_switch('TabView',3)");
+		else
+			out.write("tabview_initialize('TabView')");
+	}
+%>
 </script>	
 
 
