@@ -1,8 +1,10 @@
 package org.nescent.mmdb.spring;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +93,6 @@ public class SaveDescriptorController implements Controller {
 			sess.flush();
 			tr.commit();
 			retrieveDiscriptor(study);
-			
 			return new ModelAndView("descriptor","descriptor",study);
 		}
 		catch(Exception e)
