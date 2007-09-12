@@ -3,7 +3,17 @@
 function onValueClicked(id, field_name)
 {
 	var nm=document.getElementById(id);
-	var el=createElement(id,field_name,nm.firstChild.nodeValue);
+	var value="";
+	if(nm.firstChild!=null)
+	{
+		value=nm.firstChild.nodeValue;
+		if(value=="(add new record)")
+			value="";
+	}	
+	else	
+		value="";
+	
+	var el=createElement(id,field_name,value);
 	
 	nm.parentNode.replaceChild(el,nm);
 
@@ -95,7 +105,9 @@ function onFieldClicked(id, namespace)
 {
 	var nm=document.getElementById(id);
 	var el;
-	if(namespace!="NewEnvironmentStudyAttribute")
+	if(namespace=="NewEnvironmentStudyAttribute" || 
+		namespace=="NewDescriptorAttribute" || 
+		namespace=="NewPopulationSampleAttribute" )
 	{
 		el=document.createElement("select");
 		el.setAttribute("name",id);
@@ -122,6 +134,14 @@ function onFieldClicked(id, namespace)
 			for(var i=0;i<pop_sample_attributes.length;i++)
 			{
 				el.options[i]=new Option(pop_sample_attributes[i],pop_sample_attributes[i],false, false);
+			}
+		}
+		else if(namespace=="NewEnvironmentStudyAttribute")
+		{
+			
+			for(var i=0;i<envstudy_attributes.length;i++)
+			{
+				el.options[i]=new Option(envstudy_attributes[i],envstudy_attributes[i],false, false);
 			}
 		}
 	}
