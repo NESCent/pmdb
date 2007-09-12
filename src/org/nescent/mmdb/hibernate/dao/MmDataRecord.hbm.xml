@@ -16,16 +16,16 @@
             <column name="experiment_study_oid" />
         </many-to-one>
         <property name="name" type="java.lang.String">
-            <column name="name" length="64" not-null="true" />
+            <column name="name" length="64" />
         </property>
         <property name="type" type="java.lang.String">
-            <column name="type" length="64" not-null="true" />
+            <column name="type" length="64" />
         </property>
         <property name="outCrossingValue" type="java.lang.Double">
-            <column name="out_crossing_value" precision="65535" scale="65531" not-null="true" />
+            <column name="out_crossing_value" precision="65535" scale="65531" />
         </property>
         <property name="selfingValue" type="java.lang.Double">
-            <column name="selfing_value" precision="65535" scale="65531" not-null="true" />
+            <column name="selfing_value" precision="65535" scale="65531" />
         </property>
         <property name="outCrossingStdDev" type="java.lang.Double">
             <column name="out_crossing_std_dev" precision="65535" scale="65531" />
