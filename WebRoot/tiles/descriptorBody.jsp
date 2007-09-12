@@ -158,7 +158,7 @@ else
 	String newTr="<tr class='TrNew'>";
 	String newFid=Fields.getFieldId("NewDescriptorAttribute");
 	String newVid=Fields.getFieldId("NewDescriptorValue");
-	newTr+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewDescriptorAttribute\")'>(add new attribute)</span></td>";
+	newTr+="<td><span id="+newFid+" onmouseout='onFieldMouseOut("+newFid+")' onmouseover='onFieldMouseOver("+newFid+")' onclick='onFieldClicked("+newFid+",\"NewDescriptorAttribute\")'>(add new record)</span></td>";
 	newTr+="<td><span id="+newVid+"></span></td>";
 	newTr+="<td></td>";
 	newTr+="</tr>";
