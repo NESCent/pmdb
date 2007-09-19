@@ -4,7 +4,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.nescent.mmdb.hibernate.dao.*" %>
 <%@ page import="org.nescent.mmdb.util.NoCache" %>
-<h3>Species List</h3>
+<h2>Species List</h2>
 <%
 
 NoCache.nocache(response);
