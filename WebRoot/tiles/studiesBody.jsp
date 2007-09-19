@@ -13,7 +13,7 @@ if(species==null)
 else
 {
 	Set mmStudies=species.getMmMatingSystemStudies();
-	out.write("<p><b>Species Discriptors ("+mmStudies.size()+")</b></p>");	
+	out.write("<p><b>Species Descriptors ("+mmStudies.size()+")</b></p>");	
 	out.write("<ul>");
 	
 	for(Iterator it=mmStudies.iterator();it.hasNext();)
@@ -51,9 +51,39 @@ else
 		String sname=mmSample.getName();
 		String popu=mmSample.getPopulation();
 		String year=mmSample.getYear();
+		String showString="";
 		
+		if(popu!=null)
+			showString+=popu;
+			
+		if(sname!=null && ! sname.trim().equals(""))
+		{
+			if(showString!="")			
+				showString+=", ";
+				
+			showString+=sname;
+		}
+		if(loc!=null && ! loc.trim().equals(""))
+		{
+			if(showString!="")			
+				showString+=", ";
+			showString+=loc;
+		}		
+		if(env!=null && ! env.trim().equals(""))
+		{
+			if(showString!="")			
+				showString+=", ";
+			showString+=env;
+		}		
+		if(year!=null && ! year.trim().equals(""))
+		{
+			if(showString!="")			
+				showString+=", ";
+			showString+=year;
+		}	
+				
 		Set mmEnvStudies=mmSample.getMmExperimentStudies();
-		out.write("<li>"+popu+" ("+mmEnvStudies.size()+" environmental studies found)</li>");	
+		out.write("<li>"+showString+" ("+mmEnvStudies.size()+" experimental studies found)</li>");	
 		out.write("<ul>");
 		
 		for(Iterator it1=mmEnvStudies.iterator();it1.hasNext();)
@@ -74,10 +104,22 @@ else
 					full=ref.getFullReference();
 				}
 			}
-			if(studyName!=null && part!="" && cite !=null)
-				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+studyName+" ("+cite+")</a></li>");
-			else
-				out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>Study "+ mmEnvStudy.getExperimentStudyOid()+" </a></li>");
+			
+			String str=species.getGenus()+" "+species.getSpecies();
+			if(studyName!=null)
+				str+=", "+studyName;
+			
+			
+			
+			if(cite!=null && ! cite.trim().equals(""))
+			{
+				str+="("+cite+")";
+			}		
+			
+			if(str=="")
+				str="Study "+ mmEnvStudy.getExperimentStudyOid();
+				
+			out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+ str+" </a></li>");
 		}
 		out.write("</ul>");
 		
