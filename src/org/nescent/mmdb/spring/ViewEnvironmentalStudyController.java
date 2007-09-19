@@ -1,11 +1,13 @@
 package org.nescent.mmdb.spring;
 
+import java.util.*;
 import java.util.Iterator;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.nescent.mmdb.util.*;
 import org.nescent.mmdb.hibernate.HibernateSessionFactory;
 import org.nescent.mmdb.hibernate.dao.MmCvTerm;
 import org.nescent.mmdb.hibernate.dao.MmDataRecord;
@@ -27,6 +29,7 @@ public class ViewEnvironmentalStudyController implements Controller {
 			HttpServletResponse arg1) throws Exception {
 		
 		String id=arg0.getParameter("id");
+		String tab=arg0.getParameter("tab");
 		if(id==null || id.trim().equals(""))
 			throw new Exception("No id specified.");
 		
@@ -37,88 +40,17 @@ public class ViewEnvironmentalStudyController implements Controller {
 			throw new Exception("No environmental study ound.");
 		}
 		
-		retrieveEnvironmentalStudy(study);
+		RetrieveData.retrieveEnvironmentalStudy(study);
 		HibernateSessionFactory.closeSession();
-		return new ModelAndView("envstudy","envstudy",study);
+		
+		Map model=new HashMap();
+        model.put("envstudy",study);
+        if(tab!=null)
+        	model.put("tab",tab);
+        else
+        	model.put("tab","study");
+            
+        return new ModelAndView("envstudy",model);		
 	
-	}
-	
-	public void retrieveEnvironmentalStudy(MmExperimentStudy envStudy) throws Exception
-	{
-		MmPopulationSample sample=envStudy.getMmPopulationSample();
-		if(sample!=null)
-		{
-			
-			MmSpecies species=sample.getMmSpecies();
-			species.getFamily();
-			species.getGenus();
-			species.getSpecies();
-			
-			sample.getComments();
-			sample.getEnvironment();
-			sample.getGeographicLocation();
-			Set set =sample.getMmPopSampleAttrCvtermAssocs();
-			for(Iterator it=set.iterator();it.hasNext();)
-			{
-				MmPopSampleAttrCvtermAssoc cvAssoc=(MmPopSampleAttrCvtermAssoc)it.next();
-				MmCvTerm term=cvAssoc.getMmCvTerm();
-				term.getCvtermOid();
-				term.getDescription();
-				term.getName();
-				term.getNamespace();
-				term.getValueType();
-				cvAssoc.getValue();
-			}
-			
-			sample.getName();
-			sample.getPopulation();
-			sample.getYear();
-			sample.getPopulationSampleOid();
-		}
-		
-		envStudy.getExperimentStudyOid();
-		Set set= envStudy.getMmDataRecords();
-		for(Iterator it=set.iterator();it.hasNext();)
-		{
-			MmDataRecord record=(MmDataRecord)it.next();
-			record.getName();
-			record.getOutCrossingStdDev();
-			record.getOutCrossingValue();
-			record.getSelfingStdDev();
-			record.getSelfingValue();
-			record.getType();
-		}
-		
-		MmDevelopmentalStage stage=envStudy.getMmDevelopmentalStage();
-		stage.getName();
-		
-		set= envStudy.getMmExperimentValues();
-		for(Iterator it=set.iterator();it.hasNext();)
-		{
-			MmExperimentValue value=(MmExperimentValue)it.next();
-			
-			MmCvTerm term=value.getMmCvTerm();
-			term.getCvtermOid();
-			term.getDescription();
-			term.getName();
-			term.getNamespace();
-			term.getValueType();
-			
-			value.getValue();
-		}
-		
-		
-		
-		MmReferencePart refPart=envStudy.getMmReferencePart();
-		if(refPart!=null)
-		{
-			refPart.getName();
-			MmReference ref=refPart.getMmReference();
-			if(ref!=null)
-			{
-				ref.getCitation();
-				ref.getFullReference();
-			}
-		}
 	}
 }
