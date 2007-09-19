@@ -17,6 +17,7 @@ import org.nescent.mmdb.hibernate.dao.MmSpecies;
 import org.nescent.mmdb.hibernate.dao.MmSpeciesDAO;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import org.nescent.mmdb.util.RetrieveData;
 
 public class SearchStudyController implements Controller {
 
@@ -41,55 +42,12 @@ public class SearchStudyController implements Controller {
 		}
 		else
 		{
-			MmSpecies species=(MmSpecies)specieses.toArray()[0];
-			retrieveSpecies(species);
+			MmSpecies species=(MmSpecies)specieses.get(0);
+			RetrieveData.retrieveSpecies(species);
 			HibernateSessionFactory.closeSession();
 			return new ModelAndView("studies","species",species);
 		}
 		
 		
 	}
-	
-	private void retrieveSpecies(MmSpecies species)
-	{
-		
-		Set mmStudies=species.getMmMatingSystemStudies();
-		for(Iterator it=mmStudies.iterator();it.hasNext();)
-		{
-			MmMatingSystemStudy mmStudy=(MmMatingSystemStudy)it.next();
-			mmStudy.getLatitude();
-			MmReferencePart refPart=mmStudy.getMmReferencePart();
-			refPart.getName();
-			MmReference ref=refPart.getMmReference();
-			ref.getCitation();
-			ref.getFullReference();
-		}
-		
-		Set mmSamples=species.getMmPopulationSamples();
-		for(Iterator it=mmSamples.iterator();it.hasNext();)
-		{
-			MmPopulationSample mmSample=(MmPopulationSample)it.next();
-			mmSample.getGeographicLocation();
-			mmSample.getEnvironment();
-			mmSample.getName();
-			mmSample.getPopulation();
-			mmSample.getYear();
-			Set mmEnvStudies=mmSample.getMmExperimentStudies();
-			for(Iterator it1=mmSamples.iterator();it1.hasNext();)
-			{
-				MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it.next();
-				mmEnvStudy.getName();
-				MmReferencePart refPart=mmEnvStudy.getMmReferencePart();
-				refPart.getName();
-				MmReference ref=refPart.getMmReference();
-				ref.getCitation();
-				ref.getFullReference();
-			}
-		}
-		
-		
-		
-		
-	}
-
 }
