@@ -41,8 +41,14 @@ else
     <li>  
  	  	<a href="/mmdb/jsp/searchStudy.jsp">Search Studies</a>
  	</li>
- 	
- 	
+
+ 	<li>  
+ 	  	<a href="/mmdb/jsp/addDescriptor.jsp">Add Species Descriptor</a>
+ 	</li>
+ 	<li>  
+ 	  	<a href="/mmdb/jsp/addExperimentalStudy.jsp">Add Experimental Study</a>
+ 	</li>
+ 
  	<li><a href="/mmdb/jsp/logout.jsp">Logout</a></li>
 	
 	</c:when>
