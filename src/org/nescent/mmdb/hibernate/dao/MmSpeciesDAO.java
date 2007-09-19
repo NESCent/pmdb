@@ -112,14 +112,14 @@ public class MmSpeciesDAO extends BaseHibernateDAO {
 	        	if(genus!=null && !genus.trim().equals(""))
 	        	{
 	        		if(!first)
-	        			queryString+=" OR ";	
+	        			queryString+=" AND ";	
 	        		queryString+=" model.genus like :genus ";
 	        		first=false;
 	        	}
 	        	if(species!=null && !species.trim().equals(""))
 	        	{
 	        		if(!first)
-	        			queryString+=" OR ";	
+	        			queryString+=" AND ";	
 	        		queryString+=" model.species like :species ";
 	        		first=false;
 	        	}
