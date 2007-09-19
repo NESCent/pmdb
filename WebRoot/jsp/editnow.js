@@ -9,6 +9,7 @@ function onValueClicked(id, field_name)
 		value=nm.firstChild.nodeValue;
 		if(value=="(add new record)")
 			value="";
+		
 	}	
 	else	
 		value="";
@@ -16,16 +17,15 @@ function onValueClicked(id, field_name)
 	var el=createElement(id,field_name,value);
 	
 	nm.parentNode.replaceChild(el,nm);
-
+	
 	el.focus();
-
+	lock_tab("TabView");
 }
 
 function onValueMouseOver(id)
 {
 	var nm=document.getElementById(id);
 	nm.style.border="1px solid #445";
-	
 	
 }
 
@@ -88,14 +88,60 @@ function createElement(id,field_name,value)
 function onFieldChange(e)
 {
 	var id;
+	
 	if(e.srcElement)
 		id=e.srcElement.id;
 	else
 		id=e.target.id;
 	var vid=id-1;	
+	var did=id-2;	
 	var oField=document.getElementById(id);
 	var nm=document.getElementById(vid);
 	var field_name=oField.value;
+	
+	var oDesc=document.getElementById(did);
+	if(oDesc!=null)
+	{
+		if(oDesc.firstChild==null)
+		{
+			var txtDesc=document.createTextNode("&nbsp;");
+			oDesc.appendChild(txtDesc);
+		}
+	}
+	if(id==-1) //NewDescriptorAttribute
+	{
+		for(var i=0;i<attrs.length;i++)
+		{
+			if(attrs[i]==field_name)
+			{
+				oDesc.firstChild.nodeValue=attrs_desc[i];
+				i=attrs.length;
+			}
+		}
+	}
+	if(id==-4) //NewEnvironmentStudyAttribute
+	{
+		for(var i=0;i<envstudy_attributes.length;i++)
+		{
+			if(envstudy_attributes[i]==field_name)
+			{
+				oDesc.firstChild.nodeValue=envstudy_attributes_desc[i];
+				i=envstudy_attributes.length;
+			}
+		}
+	}
+	if(id==-7) //NewPopulationSampleAttribute
+	{
+		for(var i=0;i<pop_sample_attributes.length;i++)
+		{
+			if(pop_sample_attributes[i]==field_name)
+			{
+				oDesc.firstChild.nodeValue=pop_sample_attributes[i];
+				i=pop_sample_attributes.length;
+			}
+		}
+	}
+	
 	var el=createElement(vid,field_name,"");
 	nm.parentNode.replaceChild(el,nm);
 	el.focus();
@@ -167,6 +213,7 @@ function onFieldClicked(id, namespace)
 
 	
 	el.focus();
+	lock_tab("TabView");
 
 }
 
