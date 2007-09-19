@@ -17,7 +17,7 @@ pollen produced by the same plant, often in the same flower. This is often a 'fa
  from totally selfing to mixed mating to completely outcrossing.</p>
  
  <p>
- The questions then become, why don’t all plants rely completely on selfing if it is so effective? 
+ The questions then become, why don't all plants rely completely on selfing if it is so effective? 
  And what maintains a mixture of selfing and outcrossing in some species? These are the questions members 
  of this workgroup plan to address. Many genetic, developmental, evolutionary, ecological, temporal and spatial 
  factors influence where a plant population lies on the selfing continuum. For example, plants of the same 
