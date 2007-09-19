@@ -7,8 +7,8 @@
     {
     %>
     
-    <h1>Error</h1><br/><br/>
-    <span><font color="red"><%=message %></font></span><br/>
+    <h2>Error</h2><br/><br/>
+    <span classs="error"><%=message %></span><br/>
     <%
     request.getSession().setAttribute("Message",null);
     }
