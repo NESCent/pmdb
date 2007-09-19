@@ -45,6 +45,10 @@ terms.put("growth_form", new Array("herb",
 									"shrub",
 									"tree",
 									"vine"));
+terms.put("growth form", new Array("herb",
+									"shrub",
+									"tree",
+									"vine"));									
 									
 terms.put("reproduction", new Array("no",
 									"yes",
