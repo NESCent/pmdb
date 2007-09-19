@@ -30,8 +30,11 @@ If you find my script useful, you can support my site in the following ways:
 
 // ----- Auxiliary -------------------------------------------------------------
 
+var current_tab=1;
+
 function tabview_aux(TabViewId, id)
 {
+  current_tab=id;
   var TabView = document.getElementById(TabViewId);
 
   // ----- Tabs -----
@@ -88,3 +91,34 @@ function tabview_aux(TabViewId, id)
 function tabview_switch(TabViewId, id) { tabview_aux(TabViewId, id); }
 
 function tabview_initialize(TabViewId) { tabview_aux(TabViewId,  1); }
+
+function lock_tab(TabViewId)
+{
+	var TabView = document.getElementById(TabViewId);
+	if(TabView==null) return;
+  	var Tabs = TabView.firstChild;
+    while (Tabs.className != "Tabs" ) Tabs = Tabs.nextSibling; 
+
+    var Tab = Tabs.firstChild;
+    var i   = 0;
+
+   do
+   {
+       if (Tab.tagName == "A")
+       {
+      		
+      		i++;
+      		if(i!=current_tab)
+      		{
+      			Tab.style.background="#eeeeee";
+      			Tab.style.color="#bbbbbb";
+      		}
+      		Tab.removeAttribute('href');
+      			
+       }
+  }
+  while (Tab = Tab.nextSibling);
+  
+  
+
+}
