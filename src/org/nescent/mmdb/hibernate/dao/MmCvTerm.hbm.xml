@@ -40,6 +40,12 @@
             </key>
             <one-to-many class="org.nescent.mmdb.hibernate.dao.MmTermRelationship" />
         </set>
+        <set name="mmExperimentStudies" inverse="true">
+            <key>
+                <column name="type_cvterm_oid" />
+            </key>
+            <one-to-many class="org.nescent.mmdb.hibernate.dao.MmExperimentStudy" />
+        </set>
         <set name="mmExperimentValues" inverse="true">
             <key>
                 <column name="cvterm_oid" />
@@ -57,6 +63,12 @@
                 <column name="cvterm_oid" />
             </key>
             <one-to-many class="org.nescent.mmdb.hibernate.dao.MmPopSampleAttrCvtermAssoc" />
+        </set>
+        <set name="mmExperimentStudyAttrCvtermAssocs" inverse="true">
+            <key>
+                <column name="cvterm_oid" />
+            </key>
+            <one-to-many class="org.nescent.mmdb.hibernate.dao.MmExperimentStudyAttrCvtermAssoc" />
         </set>
         <set name="mmTermRelationshipsForCvtermSubjectOid" inverse="true">
             <key>
