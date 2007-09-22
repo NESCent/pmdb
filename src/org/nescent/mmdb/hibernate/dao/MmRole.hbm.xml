@@ -8,7 +8,9 @@
     <class name="org.nescent.mmdb.hibernate.dao.MmRole" table="mm_role" schema="public">
         <id name="roleOid" type="java.lang.Integer">
             <column name="role_oid" />
-            <generator class="assigned" />
+<generator class="sequence">
+<param name="sequence">mm_role_seq</param>
+</generator>
         </id>
         <property name="roleName" type="java.lang.String">
             <column name="role_name" length="64" not-null="true" />

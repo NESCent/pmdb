@@ -8,7 +8,9 @@
     <class name="org.nescent.mmdb.hibernate.dao.MmPermission" table="mm_permission" schema="public">
         <id name="permissionOid" type="java.lang.Integer">
             <column name="permission_oid" />
-            <generator class="assigned" />
+<generator class="sequence">
+<param name="sequence">mm_permission_seq</param>
+</generator>
         </id>
         <many-to-one name="mmRole" class="org.nescent.mmdb.hibernate.dao.MmRole" fetch="select">
             <column name="role_oid" />

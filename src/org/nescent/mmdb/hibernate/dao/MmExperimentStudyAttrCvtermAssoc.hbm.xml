@@ -8,7 +8,9 @@
     <class name="org.nescent.mmdb.hibernate.dao.MmExperimentStudyAttrCvtermAssoc" table="mm_experiment_study_attr_cvterm_assoc" schema="public">
         <id name="mmexpOid" type="java.lang.Integer">
             <column name="mmexp_oid" />
-            <generator class="assigned" />
+<generator class="sequence">
+<param name="sequence">mm_experiment_study_attr_cvterm_assoc_seq</param>
+</generator>
         </id>
         <many-to-one name="mmCvTerm" class="org.nescent.mmdb.hibernate.dao.MmCvTerm" fetch="select">
             <column name="cvterm_oid" />

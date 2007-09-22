@@ -8,7 +8,9 @@
     <class name="org.nescent.mmdb.hibernate.dao.MmCvTerm" table="mm_cv_term" schema="public">
         <id name="cvtermOid" type="java.lang.Integer">
             <column name="cvterm_oid" />
-            <generator class="assigned" />
+<generator class="sequence">
+<param name="sequence">mm_cv_term_seq</param>
+</generator>
         </id>
         <property name="namespace" type="java.lang.String">
             <column name="namespace" length="64" not-null="true" />
