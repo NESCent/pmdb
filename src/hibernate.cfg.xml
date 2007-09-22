@@ -38,9 +38,9 @@
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmReferencePart.hbm.xml" />
 		<mapping
-			resource="org/nescent/mmdb/hibernate/dao/MmDataRecord.hbm.xml" />
-		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmSpeciesAttrCvtermAssoc.hbm.xml" />
+		<mapping
+			resource="org/nescent/mmdb/hibernate/dao/MmDataRecord.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmUserAcctRoleAssoc.hbm.xml" />
 		<mapping
@@ -51,6 +51,8 @@
 			resource="org/nescent/mmdb/hibernate/dao/MmExperimentStudy.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmReference.hbm.xml" />
+		<mapping
+			resource="org/nescent/mmdb/hibernate/dao/MmExperimentStudyAttrCvtermAssoc.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmMatingSystemStudy.hbm.xml" />
 
