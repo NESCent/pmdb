@@ -8,15 +8,19 @@
 
 	<session-factory>
 		<property name="connection.username"></property>
-		<property name="connection.url"></property>
+		<property name="connection.url">
+			jdbc:postgresql://localhost/mmdb
+		</property>
 		<property name="dialect">
 			org.hibernate.dialect.PostgreSQLDialect
+		</property>
+		<property name="myeclipse.connection.profile">
+			MM_PROFILE
 		</property>
 		<property name="connection.password"></property>
 		<property name="connection.driver_class">
 			org.postgresql.Driver
 		</property>
-		<property name="myeclipse.connection.profile">mmdb</property>
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmExperimentValue.hbm.xml" />
 		<mapping
@@ -34,15 +38,13 @@
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmReferencePart.hbm.xml" />
 		<mapping
-			resource="org/nescent/mmdb/hibernate/dao/MmSpeciesAttrCvtermAssoc.hbm.xml" />
-		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmDataRecord.hbm.xml" />
+		<mapping
+			resource="org/nescent/mmdb/hibernate/dao/MmSpeciesAttrCvtermAssoc.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmUserAcctRoleAssoc.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmRole.hbm.xml" />
-		<mapping
-			resource="org/nescent/mmdb/hibernate/dao/MmDevelopmentalStage.hbm.xml" />
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmPopulationSample.hbm.xml" />
 		<mapping
