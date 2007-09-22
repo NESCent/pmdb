@@ -16,8 +16,10 @@ public class MmExperimentStudy  implements java.io.Serializable {
      private Integer experimentStudyOid;
      private MmReferencePart mmReferencePart;
      private MmPopulationSample mmPopulationSample;
+     private MmCvTerm mmCvTerm;
      private String name;
      private Set mmExperimentValues = new HashSet(0);
+     private Set mmExperimentStudyAttrCvtermAssocs = new HashSet(0);
      private Set mmDataRecords = new HashSet(0);
 
 
@@ -33,12 +35,14 @@ public class MmExperimentStudy  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public MmExperimentStudy(Integer experimentStudyOid, MmReferencePart mmReferencePart, MmPopulationSample mmPopulationSample, String name, Set mmExperimentValues, Set mmDataRecords) {
+    public MmExperimentStudy(Integer experimentStudyOid, MmReferencePart mmReferencePart, MmPopulationSample mmPopulationSample, MmCvTerm mmCvTerm, String name, Set mmExperimentValues, Set mmExperimentStudyAttrCvtermAssocs, Set mmDataRecords) {
         this.experimentStudyOid = experimentStudyOid;
         this.mmReferencePart = mmReferencePart;
         this.mmPopulationSample = mmPopulationSample;
+        this.mmCvTerm = mmCvTerm;
         this.name = name;
         this.mmExperimentValues = mmExperimentValues;
+        this.mmExperimentStudyAttrCvtermAssocs = mmExperimentStudyAttrCvtermAssocs;
         this.mmDataRecords = mmDataRecords;
     }
 
@@ -69,6 +73,14 @@ public class MmExperimentStudy  implements java.io.Serializable {
         this.mmPopulationSample = mmPopulationSample;
     }
 
+    public MmCvTerm getMmCvTerm() {
+        return this.mmCvTerm;
+    }
+    
+    public void setMmCvTerm(MmCvTerm mmCvTerm) {
+        this.mmCvTerm = mmCvTerm;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -83,6 +95,14 @@ public class MmExperimentStudy  implements java.io.Serializable {
     
     public void setMmExperimentValues(Set mmExperimentValues) {
         this.mmExperimentValues = mmExperimentValues;
+    }
+
+    public Set getMmExperimentStudyAttrCvtermAssocs() {
+        return this.mmExperimentStudyAttrCvtermAssocs;
+    }
+    
+    public void setMmExperimentStudyAttrCvtermAssocs(Set mmExperimentStudyAttrCvtermAssocs) {
+        this.mmExperimentStudyAttrCvtermAssocs = mmExperimentStudyAttrCvtermAssocs;
     }
 
     public Set getMmDataRecords() {

@@ -22,9 +22,11 @@ public class MmCvTerm  implements java.io.Serializable {
      private String isValueComputed;
      private Set mmPermissions = new HashSet(0);
      private Set mmTermRelationshipsForCvtermObjectOid = new HashSet(0);
+     private Set mmExperimentStudies = new HashSet(0);
      private Set mmExperimentValues = new HashSet(0);
      private Set mmTermRelationshipsForCvtermPredicateOid = new HashSet(0);
      private Set mmPopSampleAttrCvtermAssocs = new HashSet(0);
+     private Set mmExperimentStudyAttrCvtermAssocs = new HashSet(0);
      private Set mmTermRelationshipsForCvtermSubjectOid = new HashSet(0);
      private Set mmDataRecords = new HashSet(0);
      private Set mmSpeciesAttrCvtermAssocs = new HashSet(0);
@@ -44,7 +46,7 @@ public class MmCvTerm  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public MmCvTerm(Integer cvtermOid, String namespace, String name, String description, String synonymName, String valueType, String isValueComputed, Set mmPermissions, Set mmTermRelationshipsForCvtermObjectOid, Set mmExperimentValues, Set mmTermRelationshipsForCvtermPredicateOid, Set mmPopSampleAttrCvtermAssocs, Set mmTermRelationshipsForCvtermSubjectOid, Set mmDataRecords, Set mmSpeciesAttrCvtermAssocs) {
+    public MmCvTerm(Integer cvtermOid, String namespace, String name, String description, String synonymName, String valueType, String isValueComputed, Set mmPermissions, Set mmTermRelationshipsForCvtermObjectOid, Set mmExperimentStudies, Set mmExperimentValues, Set mmTermRelationshipsForCvtermPredicateOid, Set mmPopSampleAttrCvtermAssocs, Set mmExperimentStudyAttrCvtermAssocs, Set mmTermRelationshipsForCvtermSubjectOid, Set mmDataRecords, Set mmSpeciesAttrCvtermAssocs) {
         this.cvtermOid = cvtermOid;
         this.namespace = namespace;
         this.name = name;
@@ -54,9 +56,11 @@ public class MmCvTerm  implements java.io.Serializable {
         this.isValueComputed = isValueComputed;
         this.mmPermissions = mmPermissions;
         this.mmTermRelationshipsForCvtermObjectOid = mmTermRelationshipsForCvtermObjectOid;
+        this.mmExperimentStudies = mmExperimentStudies;
         this.mmExperimentValues = mmExperimentValues;
         this.mmTermRelationshipsForCvtermPredicateOid = mmTermRelationshipsForCvtermPredicateOid;
         this.mmPopSampleAttrCvtermAssocs = mmPopSampleAttrCvtermAssocs;
+        this.mmExperimentStudyAttrCvtermAssocs = mmExperimentStudyAttrCvtermAssocs;
         this.mmTermRelationshipsForCvtermSubjectOid = mmTermRelationshipsForCvtermSubjectOid;
         this.mmDataRecords = mmDataRecords;
         this.mmSpeciesAttrCvtermAssocs = mmSpeciesAttrCvtermAssocs;
@@ -137,6 +141,14 @@ public class MmCvTerm  implements java.io.Serializable {
         this.mmTermRelationshipsForCvtermObjectOid = mmTermRelationshipsForCvtermObjectOid;
     }
 
+    public Set getMmExperimentStudies() {
+        return this.mmExperimentStudies;
+    }
+    
+    public void setMmExperimentStudies(Set mmExperimentStudies) {
+        this.mmExperimentStudies = mmExperimentStudies;
+    }
+
     public Set getMmExperimentValues() {
         return this.mmExperimentValues;
     }
@@ -159,6 +171,14 @@ public class MmCvTerm  implements java.io.Serializable {
     
     public void setMmPopSampleAttrCvtermAssocs(Set mmPopSampleAttrCvtermAssocs) {
         this.mmPopSampleAttrCvtermAssocs = mmPopSampleAttrCvtermAssocs;
+    }
+
+    public Set getMmExperimentStudyAttrCvtermAssocs() {
+        return this.mmExperimentStudyAttrCvtermAssocs;
+    }
+    
+    public void setMmExperimentStudyAttrCvtermAssocs(Set mmExperimentStudyAttrCvtermAssocs) {
+        this.mmExperimentStudyAttrCvtermAssocs = mmExperimentStudyAttrCvtermAssocs;
     }
 
     public Set getMmTermRelationshipsForCvtermSubjectOid() {
