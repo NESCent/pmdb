@@ -28,13 +28,15 @@ public class MmSpecies  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmSpecies(String genus, String species) {
+    public MmSpecies(Integer speciesOid, String genus, String species) {
+        this.speciesOid = speciesOid;
         this.genus = genus;
         this.species = species;
     }
     
     /** full constructor */
-    public MmSpecies(String family, String genus, String species, Set mmPopulationSamples, Set mmMatingSystemStudies) {
+    public MmSpecies(Integer speciesOid, String family, String genus, String species, Set mmPopulationSamples, Set mmMatingSystemStudies) {
+        this.speciesOid = speciesOid;
         this.family = family;
         this.genus = genus;
         this.species = species;

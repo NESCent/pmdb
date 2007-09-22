@@ -14,7 +14,6 @@ public class MmExperimentStudy  implements java.io.Serializable {
     // Fields    
 
      private Integer experimentStudyOid;
-     private MmDevelopmentalStage mmDevelopmentalStage;
      private MmReferencePart mmReferencePart;
      private MmPopulationSample mmPopulationSample;
      private String name;
@@ -28,10 +27,14 @@ public class MmExperimentStudy  implements java.io.Serializable {
     public MmExperimentStudy() {
     }
 
+	/** minimal constructor */
+    public MmExperimentStudy(Integer experimentStudyOid) {
+        this.experimentStudyOid = experimentStudyOid;
+    }
     
     /** full constructor */
-    public MmExperimentStudy(MmDevelopmentalStage mmDevelopmentalStage, MmReferencePart mmReferencePart, MmPopulationSample mmPopulationSample, String name, Set mmExperimentValues, Set mmDataRecords) {
-        this.mmDevelopmentalStage = mmDevelopmentalStage;
+    public MmExperimentStudy(Integer experimentStudyOid, MmReferencePart mmReferencePart, MmPopulationSample mmPopulationSample, String name, Set mmExperimentValues, Set mmDataRecords) {
+        this.experimentStudyOid = experimentStudyOid;
         this.mmReferencePart = mmReferencePart;
         this.mmPopulationSample = mmPopulationSample;
         this.name = name;
@@ -48,14 +51,6 @@ public class MmExperimentStudy  implements java.io.Serializable {
     
     public void setExperimentStudyOid(Integer experimentStudyOid) {
         this.experimentStudyOid = experimentStudyOid;
-    }
-
-    public MmDevelopmentalStage getMmDevelopmentalStage() {
-        return this.mmDevelopmentalStage;
-    }
-    
-    public void setMmDevelopmentalStage(MmDevelopmentalStage mmDevelopmentalStage) {
-        this.mmDevelopmentalStage = mmDevelopmentalStage;
     }
 
     public MmReferencePart getMmReferencePart() {

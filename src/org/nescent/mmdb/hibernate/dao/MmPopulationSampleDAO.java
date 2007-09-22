@@ -18,9 +18,7 @@ public class MmPopulationSampleDAO extends BaseHibernateDAO {
     private static final Log log = LogFactory.getLog(MmPopulationSampleDAO.class);
 
 	//property constants
-	public static final String NAME = "name";
 	public static final String GEOGRAPHIC_LOCATION = "geographicLocation";
-	public static final String ENVIRONMENT = "environment";
 	public static final String POPULATION = "population";
 	public static final String YEAR = "year";
 	public static final String COMMENTS = "comments";
@@ -91,16 +89,8 @@ public class MmPopulationSampleDAO extends BaseHibernateDAO {
       }
 	}
 
-	public List findByName(Object name) {
-		return findByProperty(NAME, name);
-	}
-	
 	public List findByGeographicLocation(Object geographicLocation) {
 		return findByProperty(GEOGRAPHIC_LOCATION, geographicLocation);
-	}
-	
-	public List findByEnvironment(Object environment) {
-		return findByProperty(ENVIRONMENT, environment);
 	}
 	
 	public List findByPopulation(Object population) {

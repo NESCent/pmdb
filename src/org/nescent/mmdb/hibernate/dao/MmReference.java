@@ -25,9 +25,14 @@ public class MmReference  implements java.io.Serializable {
     public MmReference() {
     }
 
+	/** minimal constructor */
+    public MmReference(Integer referenceOid) {
+        this.referenceOid = referenceOid;
+    }
     
     /** full constructor */
-    public MmReference(String citation, String fullReference, Set mmReferenceParts) {
+    public MmReference(Integer referenceOid, String citation, String fullReference, Set mmReferenceParts) {
+        this.referenceOid = referenceOid;
         this.citation = citation;
         this.fullReference = fullReference;
         this.mmReferenceParts = mmReferenceParts;

@@ -24,7 +24,8 @@ public class MmUserAcctRoleAssoc  implements java.io.Serializable {
 
     
     /** full constructor */
-    public MmUserAcctRoleAssoc(MmRole mmRole, MmUserAccount mmUserAccount) {
+    public MmUserAcctRoleAssoc(Integer uaraOid, MmRole mmRole, MmUserAccount mmUserAccount) {
+        this.uaraOid = uaraOid;
         this.mmRole = mmRole;
         this.mmUserAccount = mmUserAccount;
     }

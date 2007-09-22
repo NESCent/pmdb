@@ -15,9 +15,7 @@ public class MmPopulationSample  implements java.io.Serializable {
 
      private Integer populationSampleOid;
      private MmSpecies mmSpecies;
-     private String name;
      private String geographicLocation;
-     private String environment;
      private String population;
      private String year;
      private String comments;
@@ -31,13 +29,16 @@ public class MmPopulationSample  implements java.io.Serializable {
     public MmPopulationSample() {
     }
 
+	/** minimal constructor */
+    public MmPopulationSample(Integer populationSampleOid) {
+        this.populationSampleOid = populationSampleOid;
+    }
     
     /** full constructor */
-    public MmPopulationSample(MmSpecies mmSpecies, String name, String geographicLocation, String environment, String population, String year, String comments, Set mmPopSampleAttrCvtermAssocs, Set mmExperimentStudies) {
+    public MmPopulationSample(Integer populationSampleOid, MmSpecies mmSpecies, String geographicLocation, String population, String year, String comments, Set mmPopSampleAttrCvtermAssocs, Set mmExperimentStudies) {
+        this.populationSampleOid = populationSampleOid;
         this.mmSpecies = mmSpecies;
-        this.name = name;
         this.geographicLocation = geographicLocation;
-        this.environment = environment;
         this.population = population;
         this.year = year;
         this.comments = comments;
@@ -64,28 +65,12 @@ public class MmPopulationSample  implements java.io.Serializable {
         this.mmSpecies = mmSpecies;
     }
 
-    public String getName() {
-        return this.name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getGeographicLocation() {
         return this.geographicLocation;
     }
     
     public void setGeographicLocation(String geographicLocation) {
         this.geographicLocation = geographicLocation;
-    }
-
-    public String getEnvironment() {
-        return this.environment;
-    }
-    
-    public void setEnvironment(String environment) {
-        this.environment = environment;
     }
 
     public String getPopulation() {

@@ -23,9 +23,14 @@ public class MmTermRelationship  implements java.io.Serializable {
     public MmTermRelationship() {
     }
 
+	/** minimal constructor */
+    public MmTermRelationship(Integer termRelationshipOid) {
+        this.termRelationshipOid = termRelationshipOid;
+    }
     
     /** full constructor */
-    public MmTermRelationship(MmCvTerm mmCvTermByCvtermSubjectOid, MmCvTerm mmCvTermByCvtermPredicateOid, MmCvTerm mmCvTermByCvtermObjectOid) {
+    public MmTermRelationship(Integer termRelationshipOid, MmCvTerm mmCvTermByCvtermSubjectOid, MmCvTerm mmCvTermByCvtermPredicateOid, MmCvTerm mmCvTermByCvtermObjectOid) {
+        this.termRelationshipOid = termRelationshipOid;
         this.mmCvTermByCvtermSubjectOid = mmCvTermByCvtermSubjectOid;
         this.mmCvTermByCvtermPredicateOid = mmCvTermByCvtermPredicateOid;
         this.mmCvTermByCvtermObjectOid = mmCvTermByCvtermObjectOid;

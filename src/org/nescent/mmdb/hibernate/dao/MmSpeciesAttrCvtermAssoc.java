@@ -24,12 +24,14 @@ public class MmSpeciesAttrCvtermAssoc  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmSpeciesAttrCvtermAssoc(String value) {
+    public MmSpeciesAttrCvtermAssoc(Integer msacaOid, String value) {
+        this.msacaOid = msacaOid;
         this.value = value;
     }
     
     /** full constructor */
-    public MmSpeciesAttrCvtermAssoc(MmMatingSystemStudy mmMatingSystemStudy, MmCvTerm mmCvTerm, String value) {
+    public MmSpeciesAttrCvtermAssoc(Integer msacaOid, MmMatingSystemStudy mmMatingSystemStudy, MmCvTerm mmCvTerm, String value) {
+        this.msacaOid = msacaOid;
         this.mmMatingSystemStudy = mmMatingSystemStudy;
         this.mmCvTerm = mmCvTerm;
         this.value = value;

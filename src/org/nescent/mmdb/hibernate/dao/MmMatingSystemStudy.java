@@ -26,9 +26,14 @@ public class MmMatingSystemStudy  implements java.io.Serializable {
     public MmMatingSystemStudy() {
     }
 
+	/** minimal constructor */
+    public MmMatingSystemStudy(Integer matingSystemStudyOid) {
+        this.matingSystemStudyOid = matingSystemStudyOid;
+    }
     
     /** full constructor */
-    public MmMatingSystemStudy(MmReferencePart mmReferencePart, MmSpecies mmSpecies, String latitude, Set mmSpeciesAttrCvtermAssocs) {
+    public MmMatingSystemStudy(Integer matingSystemStudyOid, MmReferencePart mmReferencePart, MmSpecies mmSpecies, String latitude, Set mmSpeciesAttrCvtermAssocs) {
+        this.matingSystemStudyOid = matingSystemStudyOid;
         this.mmReferencePart = mmReferencePart;
         this.mmSpecies = mmSpecies;
         this.latitude = latitude;

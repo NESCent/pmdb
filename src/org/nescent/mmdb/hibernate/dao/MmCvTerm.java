@@ -26,6 +26,7 @@ public class MmCvTerm  implements java.io.Serializable {
      private Set mmTermRelationshipsForCvtermPredicateOid = new HashSet(0);
      private Set mmPopSampleAttrCvtermAssocs = new HashSet(0);
      private Set mmTermRelationshipsForCvtermSubjectOid = new HashSet(0);
+     private Set mmDataRecords = new HashSet(0);
      private Set mmSpeciesAttrCvtermAssocs = new HashSet(0);
 
 
@@ -36,13 +37,15 @@ public class MmCvTerm  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmCvTerm(String namespace, String name) {
+    public MmCvTerm(Integer cvtermOid, String namespace, String name) {
+        this.cvtermOid = cvtermOid;
         this.namespace = namespace;
         this.name = name;
     }
     
     /** full constructor */
-    public MmCvTerm(String namespace, String name, String description, String synonymName, String valueType, String isValueComputed, Set mmPermissions, Set mmTermRelationshipsForCvtermObjectOid, Set mmExperimentValues, Set mmTermRelationshipsForCvtermPredicateOid, Set mmPopSampleAttrCvtermAssocs, Set mmTermRelationshipsForCvtermSubjectOid, Set mmSpeciesAttrCvtermAssocs) {
+    public MmCvTerm(Integer cvtermOid, String namespace, String name, String description, String synonymName, String valueType, String isValueComputed, Set mmPermissions, Set mmTermRelationshipsForCvtermObjectOid, Set mmExperimentValues, Set mmTermRelationshipsForCvtermPredicateOid, Set mmPopSampleAttrCvtermAssocs, Set mmTermRelationshipsForCvtermSubjectOid, Set mmDataRecords, Set mmSpeciesAttrCvtermAssocs) {
+        this.cvtermOid = cvtermOid;
         this.namespace = namespace;
         this.name = name;
         this.description = description;
@@ -55,6 +58,7 @@ public class MmCvTerm  implements java.io.Serializable {
         this.mmTermRelationshipsForCvtermPredicateOid = mmTermRelationshipsForCvtermPredicateOid;
         this.mmPopSampleAttrCvtermAssocs = mmPopSampleAttrCvtermAssocs;
         this.mmTermRelationshipsForCvtermSubjectOid = mmTermRelationshipsForCvtermSubjectOid;
+        this.mmDataRecords = mmDataRecords;
         this.mmSpeciesAttrCvtermAssocs = mmSpeciesAttrCvtermAssocs;
     }
 
@@ -163,6 +167,14 @@ public class MmCvTerm  implements java.io.Serializable {
     
     public void setMmTermRelationshipsForCvtermSubjectOid(Set mmTermRelationshipsForCvtermSubjectOid) {
         this.mmTermRelationshipsForCvtermSubjectOid = mmTermRelationshipsForCvtermSubjectOid;
+    }
+
+    public Set getMmDataRecords() {
+        return this.mmDataRecords;
+    }
+    
+    public void setMmDataRecords(Set mmDataRecords) {
+        this.mmDataRecords = mmDataRecords;
     }
 
     public Set getMmSpeciesAttrCvtermAssocs() {

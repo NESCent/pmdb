@@ -99,52 +99,7 @@ public class MmSpeciesDAO extends BaseHibernateDAO {
 	public List findBySpecies(Object species) {
 		return findByProperty(SPECIES, species);
 	}
-	 public List findByName(String family, String genus, String species) {
-	        log.debug("finding MmSpecies instance with name.");
-	        try {
-	            boolean first=true;
-	        	String queryString = "from MmSpecies as model where " ;
-	        	if(family!=null && !family.trim().equals(""))
-	        	{
-	        		queryString+=" model.family like :family ";
-	        		first=false;
-	        	}
-	        	if(genus!=null && !genus.trim().equals(""))
-	        	{
-	        		if(!first)
-	        			queryString+=" AND ";	
-	        		queryString+=" model.genus like :genus ";
-	        		first=false;
-	        	}
-	        	if(species!=null && !species.trim().equals(""))
-	        	{
-	        		if(!first)
-	        			queryString+=" AND ";	
-	        		queryString+=" model.species like :species ";
-	        		first=false;
-	        	}
-	        	queryString+=" order by model.family,model.genus, model.species";
-	        	Query queryObject = getSession().createQuery(queryString);
-	        	if(family!=null && !family.trim().equals(""))
-	        	{
-	        		queryObject.setString("family", '%'+family+'%');
-	        	}
-	        	if(genus!=null && !genus.trim().equals(""))
-	        	{
-	        		queryObject.setString("genus", '%'+genus+'%');
-	        	}
-	        	if(species!=null && !species.trim().equals(""))
-	        	{
-	        		queryObject.setString("species", '%'+species+'%');
-	        	}
-	        	
-	        	
-	        	return queryObject.list();
-	        } catch (RuntimeException re) {
-	           log.error("find by name failed", re);
-	           throw re;
-	        }
-	  	}
+	
     public MmSpecies merge(MmSpecies detachedInstance) {
         log.debug("merging MmSpecies instance");
         try {

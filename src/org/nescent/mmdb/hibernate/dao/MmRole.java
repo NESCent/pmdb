@@ -26,12 +26,14 @@ public class MmRole  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmRole(String roleName) {
+    public MmRole(Integer roleOid, String roleName) {
+        this.roleOid = roleOid;
         this.roleName = roleName;
     }
     
     /** full constructor */
-    public MmRole(String roleName, Set mmUserAcctRoleAssocs, Set mmPermissions) {
+    public MmRole(Integer roleOid, String roleName, Set mmUserAcctRoleAssocs, Set mmPermissions) {
+        this.roleOid = roleOid;
         this.roleName = roleName;
         this.mmUserAcctRoleAssocs = mmUserAcctRoleAssocs;
         this.mmPermissions = mmPermissions;

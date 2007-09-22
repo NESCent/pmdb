@@ -25,14 +25,16 @@ public class MmPermission  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmPermission(MmCvTerm mmCvTerm, String access, String scope) {
+    public MmPermission(Integer permissionOid, MmCvTerm mmCvTerm, String access, String scope) {
+        this.permissionOid = permissionOid;
         this.mmCvTerm = mmCvTerm;
         this.access = access;
         this.scope = scope;
     }
     
     /** full constructor */
-    public MmPermission(MmRole mmRole, MmCvTerm mmCvTerm, String access, String scope) {
+    public MmPermission(Integer permissionOid, MmRole mmRole, MmCvTerm mmCvTerm, String access, String scope) {
+        this.permissionOid = permissionOid;
         this.mmRole = mmRole;
         this.mmCvTerm = mmCvTerm;
         this.access = access;

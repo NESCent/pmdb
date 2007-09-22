@@ -24,12 +24,14 @@ public class MmPopSampleAttrCvtermAssoc  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmPopSampleAttrCvtermAssoc(String value) {
+    public MmPopSampleAttrCvtermAssoc(Integer mpsacaOid, String value) {
+        this.mpsacaOid = mpsacaOid;
         this.value = value;
     }
     
     /** full constructor */
-    public MmPopSampleAttrCvtermAssoc(MmCvTerm mmCvTerm, MmPopulationSample mmPopulationSample, String value) {
+    public MmPopSampleAttrCvtermAssoc(Integer mpsacaOid, MmCvTerm mmCvTerm, MmPopulationSample mmPopulationSample, String value) {
+        this.mpsacaOid = mpsacaOid;
         this.mmCvTerm = mmCvTerm;
         this.mmPopulationSample = mmPopulationSample;
         this.value = value;

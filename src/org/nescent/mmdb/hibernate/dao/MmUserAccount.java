@@ -29,14 +29,16 @@ public class MmUserAccount  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmUserAccount(String userName, String password, String enableDisableStatus) {
+    public MmUserAccount(Integer userAccountOid, String userName, String password, String enableDisableStatus) {
+        this.userAccountOid = userAccountOid;
         this.userName = userName;
         this.password = password;
         this.enableDisableStatus = enableDisableStatus;
     }
     
     /** full constructor */
-    public MmUserAccount(String userName, String password, Date createDate, String enableDisableStatus, Set mmUserAcctRoleAssocs) {
+    public MmUserAccount(Integer userAccountOid, String userName, String password, Date createDate, String enableDisableStatus, Set mmUserAcctRoleAssocs) {
+        this.userAccountOid = userAccountOid;
         this.userName = userName;
         this.password = password;
         this.createDate = createDate;

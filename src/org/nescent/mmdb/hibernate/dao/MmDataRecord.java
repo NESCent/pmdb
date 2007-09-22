@@ -12,6 +12,7 @@ public class MmDataRecord  implements java.io.Serializable {
     // Fields    
 
      private Integer dataRecordOid;
+     private MmCvTerm mmCvTerm;
      private MmExperimentStudy mmExperimentStudy;
      private String name;
      private String type;
@@ -28,15 +29,14 @@ public class MmDataRecord  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmDataRecord(String name, String type, Double outCrossingValue, Double selfingValue) {
-        this.name = name;
-        this.type = type;
-        this.outCrossingValue = outCrossingValue;
-        this.selfingValue = selfingValue;
+    public MmDataRecord(Integer dataRecordOid) {
+        this.dataRecordOid = dataRecordOid;
     }
     
     /** full constructor */
-    public MmDataRecord(MmExperimentStudy mmExperimentStudy, String name, String type, Double outCrossingValue, Double selfingValue, Double outCrossingStdDev, Double selfingStdDev) {
+    public MmDataRecord(Integer dataRecordOid, MmCvTerm mmCvTerm, MmExperimentStudy mmExperimentStudy, String name, String type, Double outCrossingValue, Double selfingValue, Double outCrossingStdDev, Double selfingStdDev) {
+        this.dataRecordOid = dataRecordOid;
+        this.mmCvTerm = mmCvTerm;
         this.mmExperimentStudy = mmExperimentStudy;
         this.name = name;
         this.type = type;
@@ -55,6 +55,14 @@ public class MmDataRecord  implements java.io.Serializable {
     
     public void setDataRecordOid(Integer dataRecordOid) {
         this.dataRecordOid = dataRecordOid;
+    }
+
+    public MmCvTerm getMmCvTerm() {
+        return this.mmCvTerm;
+    }
+    
+    public void setMmCvTerm(MmCvTerm mmCvTerm) {
+        this.mmCvTerm = mmCvTerm;
     }
 
     public MmExperimentStudy getMmExperimentStudy() {

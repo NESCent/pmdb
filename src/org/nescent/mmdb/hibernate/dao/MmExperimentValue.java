@@ -23,9 +23,14 @@ public class MmExperimentValue  implements java.io.Serializable {
     public MmExperimentValue() {
     }
 
+	/** minimal constructor */
+    public MmExperimentValue(Integer experimentValueOid) {
+        this.experimentValueOid = experimentValueOid;
+    }
     
     /** full constructor */
-    public MmExperimentValue(MmCvTerm mmCvTerm, MmExperimentStudy mmExperimentStudy, String value) {
+    public MmExperimentValue(Integer experimentValueOid, MmCvTerm mmCvTerm, MmExperimentStudy mmExperimentStudy, String value) {
+        this.experimentValueOid = experimentValueOid;
         this.mmCvTerm = mmCvTerm;
         this.mmExperimentStudy = mmExperimentStudy;
         this.value = value;

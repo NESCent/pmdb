@@ -27,12 +27,14 @@ public class MmReferencePart  implements java.io.Serializable {
     }
 
 	/** minimal constructor */
-    public MmReferencePart(String name) {
+    public MmReferencePart(Integer referencePartOid, String name) {
+        this.referencePartOid = referencePartOid;
         this.name = name;
     }
     
     /** full constructor */
-    public MmReferencePart(MmReference mmReference, String name, Set mmExperimentStudies, Set mmMatingSystemStudies) {
+    public MmReferencePart(Integer referencePartOid, MmReference mmReference, String name, Set mmExperimentStudies, Set mmMatingSystemStudies) {
+        this.referencePartOid = referencePartOid;
         this.mmReference = mmReference;
         this.name = name;
         this.mmExperimentStudies = mmExperimentStudies;
