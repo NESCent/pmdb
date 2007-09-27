@@ -10,11 +10,11 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">   
 	 
-<link rel="stylesheet" type="text/css" href="/mmdb/css/mmdb.css" />
+<link rel="stylesheet" type="text/css" href="/pmdb/css/mmdb.css" />
 
-<script type="text/javascript" src="/mmdb/jsp/tabview.js"></script>
-<script type="text/javascript" src="/mmdb/jsp/fields_def.js"></script>
-<script type="text/javascript" src="/mmdb/jsp/editnow.js"></script>
+<script type="text/javascript" src="/pmdb/jsp/tabview.js"></script>
+<script type="text/javascript" src="/pmdb/jsp/fields_def.js"></script>
+<script type="text/javascript" src="/pmdb/jsp/editnow.js"></script>
 
 </head>
 
@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td class="tdMenu"><tiles:insert attribute="menu" /></td>
-					<td class="tdCorner"><img src="/mmdb/images/menucorner.jpg" /></td>
+					<td class="tdCorner"><img src="/pmdb/images/menucorner.jpg" /></td>
 					<td class="tdMain"><tiles:insert attribute="body"/>
 				</tr>	
 			</table>
