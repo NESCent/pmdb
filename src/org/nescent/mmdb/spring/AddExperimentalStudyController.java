@@ -34,9 +34,7 @@ public class AddExperimentalStudyController implements Controller {
 		String genus=arg0.getParameter("genus");
 		String species=arg0.getParameter("species");
 		
-		String populationName=arg0.getParameter("populationName");
 		String geographicLocation=arg0.getParameter("geographicLocation");
-		String environment=arg0.getParameter("environment");
 		String population=arg0.getParameter("population");
 		String comments=arg0.getParameter("comments");
 		String year=arg0.getParameter("year");
@@ -52,8 +50,6 @@ public class AddExperimentalStudyController implements Controller {
 			throw new  Exception("Empty species.");
 		if(citation==null || citation.trim().equals(""))
 			throw new  Exception("Empty citation.");	
-		if(populationName==null || populationName.trim().equals(""))
-			throw new  Exception("Empty population name.");	
 		if(studyName==null || studyName.trim().equals(""))
 			throw new  Exception("Empty study name.");	
 		Session sess=HibernateSessionFactory.getSession();
@@ -75,9 +71,8 @@ public class AddExperimentalStudyController implements Controller {
 			for(Iterator it=samples.iterator();it.hasNext();)
 			{
 				MmPopulationSample smp=(MmPopulationSample)it.next();
-				if(isEqual(smp.getName(),populationName) && 
+				if(
 					isEqual(smp.getGeographicLocation(),geographicLocation) && 
-					isEqual(smp.getEnvironment(),environment) && 
 					isEqual(smp.getPopulation(),population) && 
 					isEqual(smp.getYear(),year))
 					{
@@ -88,9 +83,7 @@ public class AddExperimentalStudyController implements Controller {
 			if(pSample==null)
 			{
 				pSample=new MmPopulationSample();
-				pSample.setName(populationName);
 				pSample.setGeographicLocation(geographicLocation);
-				pSample.setEnvironment(environment);
 				pSample.setYear(year);
 				pSample.setComments(comments);
 				pSample.setMmSpecies(sp);
@@ -105,9 +98,7 @@ public class AddExperimentalStudyController implements Controller {
 			sp.setSpecies(species);
 			
 			pSample=new MmPopulationSample();
-			pSample.setName(populationName);
 			pSample.setGeographicLocation(geographicLocation);
-			pSample.setEnvironment(environment);
 			pSample.setYear(year);
 			pSample.setComments(comments);
 			pSample.setMmSpecies(sp);

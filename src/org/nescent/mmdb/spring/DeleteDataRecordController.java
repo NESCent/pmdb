@@ -82,7 +82,6 @@ public class DeleteDataRecordController implements Controller {
             species.getSpecies();
             
             sample.getComments();
-            sample.getEnvironment();
             sample.getGeographicLocation();
             Set set =sample.getMmPopSampleAttrCvtermAssocs();
             for(Iterator it=set.iterator();it.hasNext();)
@@ -97,7 +96,7 @@ public class DeleteDataRecordController implements Controller {
                 cvAssoc.getValue();
             }
             
-            sample.getName();
+            
             sample.getPopulation();
             sample.getYear();
             sample.getPopulationSampleOid();
@@ -114,10 +113,17 @@ public class DeleteDataRecordController implements Controller {
             record.getSelfingStdDev();
             record.getSelfingValue();
             record.getType();
+            MmCvTerm t=record.getMmCvTerm();
+            if(t!=null)
+            {
+            	t.getCvtermOid();
+                t.getDescription();
+                t.getName();
+                t.getNamespace();
+                t.getValueType();
+            }
         }
         
-        MmDevelopmentalStage stage=envStudy.getMmDevelopmentalStage();
-        stage.getName();
         
         set= envStudy.getMmExperimentValues();
         for(Iterator it=set.iterator();it.hasNext();)

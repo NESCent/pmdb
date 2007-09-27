@@ -128,16 +128,12 @@ public class SavePopulationController implements Controller {
                     		{
                     			if(fname.equals("GeoLocation"))
                     				sample.setGeographicLocation(value);
-                    			else if(fname.equals("PopulationName"))
-                    				sample.setName(value);
                     			else if(fname.equals("Population"))
                     				sample.setPopulation(value);
                     			else if(fname.equals("PopulationYear"))
                     				sample.setYear(value);
                     			else if(fname.equals("PopulationComments"))
                     				sample.setComments(value);
-                    			else if(fname.equals("Environment"))
-                    				sample.setEnvironment(value);
                     			else
                             		throw new Exception("Not supported field in the Envieonmental Study: "+fname);
                     		}

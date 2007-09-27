@@ -94,27 +94,6 @@ public class SaveEnvironmentalStudyController implements Controller {
                                 }
                             }
                     	}
-                    	else if(fname.equals("DevelopStage"))
-                    	{
-                    		String value=arg0.getParameter(cvid);
-                    		if(value!=null)
-                    		{
-                    			MmDevelopmentalStage stage=study.getMmDevelopmentalStage();
-                    			if(stage!=null)
-                    			{
-                    				stage.setName(value);
-                    				sess.update(stage);
-                    			}
-                    			else
-                    			{
-                    				stage=new MmDevelopmentalStage();
-                    				stage.setName(value);
-                    				stage.getMmExperimentStudies().add(study);
-                    				study.setMmDevelopmentalStage(stage);
-                    				sess.save(stage);
-                    			}
-                    		}
-                    	}
                     	else
                     	{
                     		throw new Exception("Not supported field in the Envieonmental Study: "+fname);
