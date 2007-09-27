@@ -210,6 +210,7 @@ else
 			MmCvTerm term=cvAssoc.getMmCvTerm();
 			cvid=term.getCvtermOid();
 			desc=term.getDescription();
+			desc=(desc==null)?"":desc;
 			attr=term.getName();
 			type=term.getValueType();
 			
