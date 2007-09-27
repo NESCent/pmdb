@@ -91,8 +91,7 @@ terms.put("life history", new Array("annual",
 									"perennial and iteroparous",
 									"variable monocarpic",
 									"varies"));
-terms.put("DevelopStatge", new Array("DESIGN",
-							"EARLY: stage 1",
+terms.put("DevelopStage", new Array("EARLY: stage 1",
 							"GERM: stage 2",
 							"JUVENILE: stage 3",
 							"ADULT: stage 4"
