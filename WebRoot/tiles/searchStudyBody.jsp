@@ -18,5 +18,9 @@
 <tr>
 	<td></td>
 	<td><input type="submit" value="Search"/></td>
+</tr>
+
 </table>
 </form>
+
+<p><a href="/pmdb/jsp/searchData.jsp">Advanced Search</a></p>
