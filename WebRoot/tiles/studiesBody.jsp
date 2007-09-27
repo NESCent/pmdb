@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*" %>
+<%@page import="org.nescent.mmdb.util.Population" %>
 <%@page import="org.nescent.mmdb.hibernate.dao.*" %>
 
 <h2>Studies</h2>
 <%
 MmSpecies species=(MmSpecies)request.getAttribute("species");
+List pops=(List)request.getAttribute("populations");
 if(species==null)
 {
 	out.write("No species specified.");
@@ -36,19 +38,25 @@ else
 			}
 		}
 		
-		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", "+lat+" ("+cite+")</a></li>");
+		out.write("<li><a href='descriptor.go?id="+mmStudy.getMatingSystemStudyOid()+"'>"+species.getGenus()+" "+species.getSpecies()+", (lat="+lat+") ("+cite+")</a></li>");
 	}
 	out.write("</ul>");		
 	
 	Set mmSamples=species.getMmPopulationSamples();
 	out.write("<p><b>Population Samples ("+mmSamples.size()+")</b></p>");	
-	out.write("<ul>");
-	for(Iterator it=mmSamples.iterator();it.hasNext();)
+	out.write("<table>");
+	out.write("<tr>");
+	out.write("<th>Population</th>");
+	out.write("<th>Pollination Studies</th>");
+	out.write("<th>Inbreeding Studies</th>");
+	out.write("<th>Outcrossing Studies</th>");
+	out.write("</tr>");	
+	String tdclass="TrOdd";
+	for(int i=0;i<pops.size();i++)
 	{
-		MmPopulationSample mmSample=(MmPopulationSample)it.next();
+		tdclass=(i%2==0)?"TrEven":"TrOdd";
+		Population mmSample=(Population)pops.get(i);
 		String loc=mmSample.getGeographicLocation();
-		String env=mmSample.getEnvironment();
-		String sname=mmSample.getName();
 		String popu=mmSample.getPopulation();
 		String year=mmSample.getYear();
 		String showString="";
@@ -56,25 +64,14 @@ else
 		if(popu!=null)
 			showString+=popu;
 			
-		if(sname!=null && ! sname.trim().equals(""))
-		{
-			if(showString!="")			
-				showString+=", ";
-				
-			showString+=sname;
-		}
+		
 		if(loc!=null && ! loc.trim().equals(""))
 		{
 			if(showString!="")			
 				showString+=", ";
 			showString+=loc;
 		}		
-		if(env!=null && ! env.trim().equals(""))
-		{
-			if(showString!="")			
-				showString+=", ";
-			showString+=env;
-		}		
+		
 		if(year!=null && ! year.trim().equals(""))
 		{
 			if(showString!="")			
@@ -82,49 +79,21 @@ else
 			showString+=year;
 		}	
 				
-		Set mmEnvStudies=mmSample.getMmExperimentStudies();
-		out.write("<li>"+showString+" ("+mmEnvStudies.size()+" experimental studies found)</li>");	
-		out.write("<ul>");
 		
-		for(Iterator it1=mmEnvStudies.iterator();it1.hasNext();)
-		{
-			MmExperimentStudy mmEnvStudy=(MmExperimentStudy)it1.next();
-			String studyName=mmEnvStudy.getName();
-			MmReferencePart refPart=mmEnvStudy.getMmReferencePart();
-			String part="";
-			String cite="";
-			String full="";
-			if(refPart!=null)
-			{
-				part=refPart.getName();
-				MmReference ref=refPart.getMmReference();
-				if(ref!=null)
-				{
-					cite=ref.getCitation();
-					full=ref.getFullReference();
-				}
-			}
-			
-			String str=species.getGenus()+" "+species.getSpecies();
-			if(studyName!=null)
-				str+=", "+studyName;
-			
-			
-			
-			if(cite!=null && ! cite.trim().equals(""))
-			{
-				str+="("+cite+")";
-			}		
-			
-			if(str=="")
-				str="Study "+ mmEnvStudy.getExperimentStudyOid();
-				
-			out.write("<li><a href='envstudy.go?id=" + mmEnvStudy.getExperimentStudyOid()+"'>"+ str+" </a></li>");
-		}
-		out.write("</ul>");
+		int outcrossnum=mmSample.getOutcrossingNum();
+		int inbreednum=mmSample.getInbreedNum();
+		int pollnum=mmSample.getPollinationNum();
+		String soutcrossnum=(outcrossnum!=0)?String.valueOf(outcrossnum):"";
+		String sinbreednum=(inbreednum!=0)?String.valueOf(inbreednum):"";
+		String spollnum=(pollnum!=0)?String.valueOf(pollnum):"";
+		out.write("<tr class='"+tdclass+"'><td><a href=population.go?id="+mmSample.getId()+">"+showString+"</a></td>");	
 		
+		out.write("<td>"+spollnum+"</td>");
+		out.write("<td>"+sinbreednum+"</td>");
+		out.write("<td>"+soutcrossnum+"</td>");
+		out.write("</tr>");
 	}
-	out.write("</ul>");
+	out.write("</table>");
 	
 }	
 
