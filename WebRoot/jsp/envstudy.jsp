@@ -7,4 +7,4 @@
    <tiles:put name="menu" value="../tiles/menu.jsp" />
    <tiles:put name="body" value="../tiles/envStudyBody.jsp" />
    <tiles:put name="bottom" value="../tiles/bottom.jsp" /> 
-</tiles:insert><%@ page language="java" %>
+</tiles:insert>
