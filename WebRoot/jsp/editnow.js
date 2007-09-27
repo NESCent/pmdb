@@ -2,6 +2,7 @@
 
 function onValueClicked(id, field_name)
 {
+	
 	var nm=document.getElementById(id);
 	var value="";
 	if(nm.firstChild!=null)
@@ -20,6 +21,7 @@ function onValueClicked(id, field_name)
 	
 	el.focus();
 	lock_tab("TabView");
+	
 }
 
 function onValueMouseOver(id)
