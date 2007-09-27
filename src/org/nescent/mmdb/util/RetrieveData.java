@@ -20,7 +20,6 @@ public class RetrieveData {
 				species.getSpecies();
 			}
 			sample.getComments();
-			sample.getEnvironment();
 			sample.getGeographicLocation();
 			Set set =sample.getMmPopSampleAttrCvtermAssocs();
 			for(Iterator it=set.iterator();it.hasNext();)
@@ -38,7 +37,7 @@ public class RetrieveData {
 				cvAssoc.getValue();
 			}
 			
-			sample.getName();
+			
 			sample.getPopulation();
 			sample.getYear();
 			sample.getPopulationSampleOid();
@@ -57,12 +56,18 @@ public class RetrieveData {
 				record.getSelfingStdDev();
 				record.getSelfingValue();
 				record.getType();
+				MmCvTerm t=record.getMmCvTerm();
+				if(t!=null)
+				{
+					t.getCvtermOid();
+	                t.getDescription();
+	                t.getName();
+	                t.getNamespace();
+	                t.getValueType();
+				}
 			}
 		}
 		
-		MmDevelopmentalStage stage=envStudy.getMmDevelopmentalStage();
-		if(stage!=null)
-			stage.getName();
 		
 		set= envStudy.getMmExperimentValues();
 		
@@ -130,8 +135,7 @@ public class RetrieveData {
 		{
 			MmPopulationSample mmSample=(MmPopulationSample)it.next();
 			mmSample.getGeographicLocation();
-			mmSample.getEnvironment();
-			mmSample.getName();
+
 			mmSample.getPopulation();
 			mmSample.getYear();
 			Set mmEnvStudies=mmSample.getMmExperimentStudies();
@@ -174,8 +178,7 @@ public class RetrieveData {
 		{
 			MmPopulationSample mmSample=(MmPopulationSample)it.next();
 			mmSample.getGeographicLocation();
-			mmSample.getEnvironment();
-			mmSample.getName();
+
 			mmSample.getPopulation();
 			mmSample.getYear();
 			Set set =mmSample.getMmPopSampleAttrCvtermAssocs();
@@ -211,12 +214,19 @@ public class RetrieveData {
 						record.getSelfingStdDev();
 						record.getSelfingValue();
 						record.getType();
+						MmCvTerm t=record.getMmCvTerm();
+						if(t!=null)
+						{
+							t.getCvtermOid();
+			                t.getDescription();
+			                t.getName();
+			                t.getNamespace();
+			                t.getValueType();
+						}
+
 					}
 				}
 				
-				MmDevelopmentalStage stage=envStudy.getMmDevelopmentalStage();
-				if(stage!=null)
-					stage.getName();
 				
 				set= envStudy.getMmExperimentValues();
 				
@@ -254,6 +264,149 @@ public class RetrieveData {
 		}
 		
 		return species;
+	}
+	
+	public static void retrievePopulation(MmPopulationSample mmSample) throws Exception
+	{
+		
+		
+		MmSpecies species= mmSample.getMmSpecies();
+		species.getFamily();
+		species.getGenus();
+		species.getSpecies();
+		
+		Set mmStudies=species.getMmMatingSystemStudies();
+		for(Iterator it=mmStudies.iterator();it.hasNext();)
+		{
+			MmMatingSystemStudy mmStudy=(MmMatingSystemStudy)it.next();
+			mmStudy.getLatitude();
+			MmReferencePart refPart=mmStudy.getMmReferencePart();
+			if(refPart!=null)
+			{
+				refPart.getName();
+				MmReference ref=refPart.getMmReference();
+				if(ref!=null)
+				{
+					ref.getCitation();
+					ref.getFullReference();
+				}
+			}
+		}
+		
+		mmSample.getGeographicLocation();
+
+		mmSample.getPopulation();
+		mmSample.getYear();
+		Set set =mmSample.getMmPopSampleAttrCvtermAssocs();
+		for(Iterator it1=set.iterator();it1.hasNext();)
+		{
+			MmPopSampleAttrCvtermAssoc cvAssoc=(MmPopSampleAttrCvtermAssoc)it1.next();
+			MmCvTerm term=cvAssoc.getMmCvTerm();
+			if(term!=null)
+			{
+				term.getCvtermOid();
+				term.getDescription();
+				term.getName();
+				term.getNamespace();
+				term.getValueType();
+			}
+			cvAssoc.getValue();
+		}
+		Set mmEnvStudies=mmSample.getMmExperimentStudies();
+		for(Iterator it1=mmEnvStudies.iterator();it1.hasNext();)
+		{
+			MmExperimentStudy envStudy=(MmExperimentStudy)it1.next();
+			envStudy.getName();
+			envStudy.getExperimentStudyOid();
+			
+			MmCvTerm typeterm=envStudy.getMmCvTerm();
+			if(typeterm!=null)
+			{
+				typeterm.getCvtermOid();
+				typeterm.getDescription();
+				typeterm.getName();
+				typeterm.getNamespace();
+				typeterm.getValueType();
+			}
+			set= envStudy.getMmDataRecords();
+			for(Iterator it2=set.iterator();it2.hasNext();)
+			{
+				MmDataRecord record=(MmDataRecord)it2.next();
+				if(record!=null)
+				{
+					record.getName();
+					record.getOutCrossingStdDev();
+					record.getOutCrossingValue();
+					record.getSelfingStdDev();
+					record.getSelfingValue();
+					record.getType();
+					MmCvTerm t=record.getMmCvTerm();
+					if(t!=null)
+					{
+						t.getCvtermOid();
+			            t.getDescription();
+		                t.getName();
+		                t.getNamespace();
+			            t.getValueType();
+					}
+				}
+			}
+				
+				
+			set= envStudy.getMmExperimentValues();
+				
+			for(Iterator it2=set.iterator();it2.hasNext();)
+			{
+				MmExperimentValue value=(MmExperimentValue)it2.next();
+					
+				MmCvTerm term=value.getMmCvTerm();
+				if(term!=null)
+				{
+					term.getCvtermOid();
+					term.getDescription();
+					term.getName();
+					term.getNamespace();
+					term.getValueType();
+				}
+					
+				value.getValue();
+			}
+				
+			set= envStudy.getMmExperimentStudyAttrCvtermAssocs();
+			
+			for(Iterator it2=set.iterator();it2.hasNext();)
+			{
+				MmExperimentStudyAttrCvtermAssoc value=(MmExperimentStudyAttrCvtermAssoc)it2.next();
+					
+				MmCvTerm term=value.getMmCvTerm();
+				if(term!=null)
+				{
+					term.getCvtermOid();
+					term.getDescription();
+					term.getName();
+					term.getNamespace();
+					term.getValueType();
+				}
+					
+				value.getValue();
+			}	
+				
+			MmReferencePart refPart=envStudy.getMmReferencePart();
+			if(refPart!=null)
+			{
+				refPart.getName();
+				MmReference ref=refPart.getMmReference();
+				if(ref!=null)
+				{
+					ref.getCitation();
+					ref.getFullReference();
+				}
+			}
+		}
+		
+		//get attributes
+		
+
 	}
 	public static void retrieveDiscriptor(MmMatingSystemStudy mmStudy) throws Exception
 	{
