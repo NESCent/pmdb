@@ -20,9 +20,9 @@ function checkData()
 		alert("Species can not be empty.")
 		return false;
 	}
-	if(form.populationName.value==null ||form.populationName.value.replace(/^\s+|\s+$/g, '')=="")
+	if(form.population.value==null ||form.population.value.replace(/^\s+|\s+$/g, '')=="")
 	{
-		alert("Population name can not be empty.")
+		alert("Population can not be empty.")
 		return false;
 	}
 	if(form.citation.value==null ||form.citation.value.replace(/^\s+|\s+$/g, '')=="")
@@ -61,20 +61,14 @@ NoCache.nocache(response);
 <tr>	
 <th colspan=2>Population</th>
 </tr>	
-<tr>
-	<td class="TdField required">Name</td>
-	<td class="TdValue"><input name="populationName" type="text" size="50"/></td>
-</tr>	
+
 <tr>
 	<td class="TdField">Geographic Location</td>
 	<td class="TdValue"><input name="geographicLocation" type="text" size="50"/></td>
 </tr>	
+
 <tr>
-	<td class="TdField">Environment</td>
-	<td class="TdValue"><input name="environment" type="text" size="50"/></td>
-</tr>	
-<tr>
-	<td class="TdField">Population</td>
+	<td class="TdField required">Population</td>
 	<td class="TdValue"><input name="population" type="text" size="50"/></td>
 </tr>	
 <tr>

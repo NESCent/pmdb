@@ -14,8 +14,10 @@ NoCache.nocache(response);
 String tab = (String)request.getAttribute("tab");
 String message=(String)request.getSession().getAttribute("Message");
 	
+
 //created term array for population sample attributes
-String sql="FROM MmCvTerm term where term.namespace = 'inbreed_pop_attribute'";
+
+String sql="FROM MmCvTerm term where term.namespace = 'exp_pop_attribute'";
 Session sess=HibernateSessionFactory.getSession();
 Query q=sess.createQuery(sql);
 List cvterms=q.list();
@@ -34,20 +36,39 @@ if(cvterms!=null)
 	}
 }
 
-//created term array for environmental study  attributes
+//created term array for inbreeding study attributes
+sql="FROM MmCvTerm term where term.namespace = 'inbreed_exp_attribute'";
+q=sess.createQuery(sql);
+cvterms=q.list();
+out.write("<script language='javascript'>");
+if(cvterms!=null)
+{
+	out.write("var inbreeding_attributes=new Array();\n");
+	out.write("var inbreeding_attributes_desc=new Array();\n");
+	for(int i=0;i<cvterms.size();i++)
+	{
+		MmCvTerm term=(MmCvTerm)cvterms.get(i);
+		String s="inbreeding_attributes["+i+"]=\""+term.getName()+"\";\n";
+		out.write(s);
+		s="inbreeding_attributes_desc["+i+"]=\""+term.getDescription()+"\";\n";
+		out.write(s);
+	}
+}
+
+//created term array for pollination study  attributes
 sql="FROM MmCvTerm term where term.namespace = 'pollination_attribute'";
 q=sess.createQuery(sql);
 cvterms=q.list();
 if(cvterms!=null)
 {
-	out.write("var envstudy_attributes=new Array();\n");
-	out.write("var envstudy_attributes_desc=new Array();\n");
+	out.write("var pollination_attributes=new Array();\n");
+	out.write("var pollination_attributes_desc=new Array();\n");
 	for(int i=0;i<cvterms.size();i++)
 	{
 		MmCvTerm term=(MmCvTerm)cvterms.get(i);
-		String s="envstudy_attributes["+i+"]=\""+term.getName()+"\";\n";
+		String s="pollination_attributes["+i+"]=\""+term.getName()+"\";\n";
 		out.write(s);
-		s="envstudy_attributes_desc["+i+"]=\""+term.getDescription()+"\";\n";
+		s="pollination_attributes_desc["+i+"]=\""+term.getDescription()+"\";\n";
 		out.write(s);
 	}
 	
@@ -80,7 +101,7 @@ int count =0;
 Set set=null;
 MmExperimentStudy study=(MmExperimentStudy)request.getAttribute("envstudy");
 if(study==null)
-	out.write("No environmental study specified.");
+	out.write("No study specified.");
 else
 {
 	//add cancel function
@@ -98,12 +119,12 @@ else
 	MmReferencePart refPart=study.getMmReferencePart();
 	if(refPart!=null)
 	{
-		spart=refPart.getName();
+		spart=(refPart.getName()!=null)?refPart.getName():"";
 		MmReference ref=refPart.getMmReference();
 		if(ref!=null)
 		{
-			scite=ref.getCitation();
-			sfull=ref.getFullReference();
+			scite=(ref.getCitation()!=null)?ref.getCitation():"";
+			sfull=(ref.getFullReference()!=null)?ref.getFullReference():"";
 		}
 	}
 	String fa="";
@@ -132,137 +153,96 @@ else
 	String fullreferenceid=Fields.getFieldId("FullReference");
 	String partid=Fields.getFieldId("Part");
 	%>
-		<form action='saveexperimental.go' method='post' name='Edit_ExperimentalStudy_Form'>
-		<input type='hidden' name='id' value='<%= study.getExperimentStudyOid() %>' />	
-		<table>
-			<tr>
-			<td valign="top" width="50%"><table>
-			<tr>
-				<td class='TdField'>Family</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= familyid %> 
-						onmouseout='onValueMouseOut(<%= familyid %>)' 
-						onmouseover='onValueMouseOver(<%= familyid %>)' 
-						onclick='onValueClicked(<%= familyid %>,"Family")'><%= fa %></span>
-				</td>
-			</tr>	
-			<tr>
-				<td class='TdField'>Genus</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= genusid %> 
-						onmouseout='onValueMouseOut(<%= genusid %>)' 
-						onmouseover='onValueMouseOver(<%= genusid %>)' 
-						onclick='onValueClicked(<%= genusid %>,"Genus")'><%= ge %></span>
-				</td>
-			</tr>	
-			<tr>
-				<td class='TdField'>Species</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= speciesid %> 
-						onmouseout='onValueMouseOut(<%= speciesid %>)' 
-						onmouseover='onValueMouseOver(<%= speciesid %>)' 
-						onclick='onValueClicked(<%= speciesid %>,"Species")'><%= sp %></span>
-				</td>
-			</tr>
-			</table></td>
-			<td valign="top" width="50%"><table>	
-			<tr>
-				<td class='TdField'>Citation</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= citationid %> 
-						onmouseout='onValueMouseOut(<%= citationid %>)' 
-						onmouseover='onValueMouseOver(<%= citationid %>)' 
-						onclick='onValueClicked(<%= citationid %>,"Citation")'><%= 	scite %></span>
-				</td>
-			</tr>	
-			<tr>
-				<td class='TdField'>Full Reference</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= fullreferenceid %> 
-						onmouseout='onValueMouseOut(<%= fullreferenceid %>)' 
-						onmouseover='onValueMouseOver(<%= fullreferenceid %>)' 
-						onclick='onValueClicked(<%= fullreferenceid %>,"FullReference")'><%= sfull %></span>
-				</td>
-			</tr>	
-			<tr>
-				<td class='TdField'>Part</td>
-				<td class='TdValue'>
-					<span  class='editableValue' id=<%= partid %> 
-						onmouseout='onValueMouseOut(<%= partid %>)' 
-						onmouseover='onValueMouseOver(<%= partid %>)' 
-						onclick='onValueClicked(<%= partid %>,"Part")'><%= spart %></span>
-				</td>
-			</tr>	
-			</table></td>
-			<tr>
-			
-				<td>
-					<table>
-						<td><input type="submit" value="save"/></td>
-						<td class="TdAction"><a href="javascript:cancelEditing()">Cancel</a></td>
-					</table>
-				</td>
-				
-			</tr>
-		</table>
-	</form>
-	
-
-	<br/><br/>
+		
 	<!-- add tabs -->	
 	
 	<div class="TabView" id="TabView">
 		<div class="Tabs">
-  			<a>Study</a>
+  			<a>Species</a>
   			<a>Population</a>
   			<a>Measurement</a>
   			<a>Statistics</a>
   		</div>
-  		<div class="Pages">
-  			<!-- study page -->
-  			<div class="Page">
-		  		<div class="Pad">			
-		  			<Form name="View_EnvStudy_Form" method="post" action="saveenvstudy.go">	
-		  				<input type='hidden' name='id' value='<%= study.getExperimentStudyOid() %>' />
-							<table width="500">
-	
-<%	
-	//write study
-
-	MmDevelopmentalStage stage=study.getMmDevelopmentalStage();
-	String stageName="&nbsp;";
-	if(stage!=null)
-		stageName=stage.getName();
-	
-	String fid=Fields.getFieldId("DevelopStage");
-	String str="<tr><td class='TdField'>Development Stage<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"DevelopStatge\")'>"+
-			stageName+"</span></td></tr>";
-
-	str+="</table>";
-	out.write(str);	
-	
-
-%>	
-	<br/><br/>
-	<table>
-		<tr>
-			<td><input type="submit" value="save"/></td>
-			<td class="TdAction"><a href="javascript:cancelEditing('study')">Cancel</a></td>
-		</tr>
-	</table>
-	</form>
-	
-	</div>
-	</div>
-	
+  		<div class="Pages">	
+ 			<!-- species tab -->
+ 				<div class='Page'>
+					<div class='Pad'>	
+						<form action='saveexperimental.go' method='post' name='Edit_ExperimentalStudy_Form'>
+							<input type='hidden' name='id' value='<%= study.getExperimentStudyOid() %>' />	
+							<table>
+								<tr>
+									<td class='TdField'>Family</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= familyid %> 
+											onmouseout='onValueMouseOut(<%= familyid %>)' 
+											onmouseover='onValueMouseOver(<%= familyid %>)' 
+											onclick='onValueClicked(<%= familyid %>,"Family")'><%= fa %></span>
+									</td>
+								</tr>	
+								<tr>
+									<td class='TdField'>Genus</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= genusid %> 
+											onmouseout='onValueMouseOut(<%= genusid %>)' 
+											onmouseover='onValueMouseOver(<%= genusid %>)' 
+											onclick='onValueClicked(<%= genusid %>,"Genus")'><%= ge %></span>
+									</td>
+								</tr>	
+								<tr>
+									<td class='TdField'>Species</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= speciesid %> 
+											onmouseout='onValueMouseOut(<%= speciesid %>)' 
+											onmouseover='onValueMouseOver(<%= speciesid %>)' 
+											onclick='onValueClicked(<%= speciesid %>,"Species")'><%= sp %></span>
+									</td>
+								</tr>
+								<tr>
+									<td class='TdField'>Citation</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= citationid %> 
+											onmouseout='onValueMouseOut(<%= citationid %>)' 
+											onmouseover='onValueMouseOver(<%= citationid %>)' 
+											onclick='onValueClicked(<%= citationid %>,"Citation")'><%= 	scite %></span>
+									</td>
+								</tr>	
+								<tr>
+									<td class='TdField'>Full Reference</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= fullreferenceid %> 
+											onmouseout='onValueMouseOut(<%= fullreferenceid %>)' 
+											onmouseover='onValueMouseOver(<%= fullreferenceid %>)' 
+											onclick='onValueClicked(<%= fullreferenceid %>,"FullReference")'><%= sfull %></span>
+									</td>
+								</tr>	
+								<tr>
+									<td class='TdField'>Part</td>
+									<td class='TdValue'>
+										<span  class='editableValue' id=<%= partid %> 
+											onmouseout='onValueMouseOut(<%= partid %>)' 
+											onmouseover='onValueMouseOver(<%= partid %>)' 
+											onclick='onValueClicked(<%= partid %>,"Part")'><%= spart %></span>
+									</td>
+								</tr>	
+							</table>
+						</form>
+						<br/><br/>
+						
+						<table>
+							<tr>
+								<td><input type="submit" value="save"/></td>
+								<td class="TdAction"><a href="javascript:cancelEditing()">Cancel</a></td>
+							</tr>
+						</table>
+						</div></div>
 <%
 							
 
 	//write population sample
 	
 			
-			
+	String str="";	
+	String fid="";	
 	if(sample!=null)
 	{
 		
@@ -271,50 +251,19 @@ else
 		str+="<Form name='View_Population_Form' method='post' action='savepopulation.go'>";
 		str+="<input type='hidden' name='id' value='" + study.getExperimentStudyOid()+"' />";
 		str+="<table>";
-		
 		MmSpecies species=sample.getMmSpecies();
-					
 		String comments=sample.getComments()!=null?sample.getComments():"";
-	
-		String env=sample.getEnvironment()!=null?sample.getEnvironment():"";
-		
 		String loc=sample.getGeographicLocation()!=null?sample.getGeographicLocation():"";
-		
-		String name=sample.getName()!=null?sample.getName():"";
-		
 		String popu=sample.getPopulation()!=null?sample.getPopulation():"";
-		
 		String year=sample.getYear()!=null?sample.getYear():"";
-		
 		Integer sampleId=sample.getPopulationSampleOid()!=null?sample.getPopulationSampleOid():Integer.valueOf(-1);
-	/*	
-		fid=Fields.getFieldId("Genus");
-		str+="<tr><td class='TdField'>Species<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Genus\")'>"+
-			ge+"</span></td></tr>";
-		fid=Fields.getFieldId("Species");	
-		str+="<tr><td class='TdField'>Genus<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Species\")'>"+
-			sp+"</span></td></tr>";
-		fid=Fields.getFieldId("Family");	
-		str+="<tr><td class='TdField'>Family<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Family\")'>"+
-			fa+"</span></td></tr>";
-		*/
-		fid=Fields.getFieldId("Environment");	
-		str+="<tr><td class='TdField'>Environment<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"Environment\")'>"+
-			env+"</span></td></tr>";	
-		
+
 		fid=Fields.getFieldId("GeoLocation");	
 		str+="<tr><td class='TdField'>GeoLocation<td class='TdValue'>"+
 			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"GeoLocation\")'>"+
 			loc+"</span></td></tr>";	
 			
-		fid=Fields.getFieldId("PopulationName");	
-		str+="<tr><td class='TdField'>Name<td class='TdValue'>"+
-			"<span  class='editableValue' id="+fid+" onmouseout='onValueMouseOut("+fid+")' onmouseover='onValueMouseOver("+fid+")' onclick='onValueClicked("+fid+",\"PopulationName\")'>"+
-			name+"</span></td></tr>";	
+		
 			
 		fid=Fields.getFieldId("Population");	
 		str+="<tr><td class='TdField'>Population<td class='TdValue'>"+
@@ -474,6 +423,7 @@ else
 	str+="<th>OutCrossing Value</th>";
 	str+="<th>Selfing Std. Dev.</th>";
 	str+="<th>Selfing Value</th>";
+	str+="<th>Developmental Stage</th>";
 	str+="<th>Action</th><tr>";
 	
 	out.write(str);
@@ -501,7 +451,12 @@ else
 		String selfsd=record.getSelfingStdDev()!=null?record.getSelfingStdDev().toString():"";
 		String selfv=record.getSelfingValue()!=null?record.getSelfingValue().toString():"";
 		String type=record.getType()!=null?record.getType():"";
-		
+		String stage="";
+		MmCvTerm t=record.getMmCvTerm();
+		if(t!=null)
+		{
+			stage = t.getName();
+		}
 		int ridbase=-10000*count;
 		int rid=0;
 		str="<tr class='"+tdclass+"'>";
@@ -523,10 +478,13 @@ else
 		rid=--ridbase;	
 		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingValue\")'>"+
 			selfv+"</span></td>";
-		
+		rid=--ridbase;	
+		str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"DevelopStage\")'>"+
+			stage+"</span></td>";
 		str+="<td class='TdAction'><a href='javascript:deletedatarecord("+record.getDataRecordOid()+")'>Delete</a></td></tr>";
 		out.write(str);
 	}
+	
 	count++;
 	int ridbase=-10000*count-1;
 	int rid=0;
@@ -546,7 +504,10 @@ else
 		""+"</span></td>";
 	rid=ridbase--;	
 	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"SelfingValue\")'>"+
-		""+"</span></td></tr>";
+		""+"</span></td>";
+	rid=ridbase--;	
+	str+="<td><span class='editableValue' id="+rid+" onmouseout='onValueMouseOut("+rid+")' onmouseover='onValueMouseOver("+rid+")' onclick='onValueClicked("+rid+",\"DevelopStage\")'>"+
+		""+"</span></td></tr>";	
 	out.write(str);
 	
 	out.write("</table>");
@@ -577,7 +538,6 @@ else
 			out.write("tabview_switch('TabView',3)");
 		else if(tab.equals("staticstics"))
 			out.write("tabview_switch('TabView',4)");	
-		
 		else
 			out.write("tabview_initialize('TabView')");
 	}
