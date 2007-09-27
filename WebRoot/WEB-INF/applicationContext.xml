@@ -18,11 +18,13 @@
             <props>
             	<prop key="**/login.go">LoginController</prop>
             	<prop key="**/searchStudy.go">SearchStudyController</prop>
+            	<prop key="**/searchData.go">SearchDataController</prop>
             	<prop key="**/species.go">SpeciesController</prop>
             	<prop key="**/descriptor.go">ViewDescriptorController</prop>
             	<prop key="**/savedescriptor.go">SaveDescriptorController</prop>
             	<prop key="**/savedescriptorattr.go">SaveDescriptorAttrController</prop>
             	<prop key="**/envstudy.go">ViewEnvironmentalStudyController</prop>
+            	<prop key="**/population.go">ViewPopulationController</prop>
             	<prop key="**/saveenvstudy.go">SaveEnvironmentalStudyController</prop>
             	<prop key="**/saveexperimental.go">SaveExperimentalController</prop>
             	<prop key="**/savepopulation.go">SavePopulationController</prop>
@@ -40,6 +42,11 @@
           class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
 	<bean id="SearchStudyController"
           class="org.nescent.mmdb.spring.SearchStudyController"/>
+    <bean id="ViewPopulationController"
+          class="org.nescent.mmdb.spring.ViewPopulationController"/>
+          
+    <bean id="SearchDataController"
+          class="org.nescent.mmdb.spring.SearchDataController"/>
     <bean id="SpeciesController"
           class="org.nescent.mmdb.spring.SpeciesController"/>     
     <bean id="ViewDescriptorController"
