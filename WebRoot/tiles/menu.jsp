@@ -32,29 +32,31 @@ else
  
  %>
         
-<img src="/mmdb/images/menutop.jpg" />
+<img src="/pmdb/images/menutop.jpg" />
 <ul>
-<li><a href="/mmdb/jsp/home.jsp">Home</a></li>
+<li><a href="/pmdb/jsp/home.jsp">Home</a></li>
 <c:choose>
 <c:when test='${loggedin == "yes"}'>	
    
     <li>  
- 	  	<a href="/mmdb/jsp/searchStudy.jsp">Search Studies</a>
- 	</li>
-
- 	<li>  
- 	  	<a href="/mmdb/jsp/addDescriptor.jsp">Add Species Descriptor</a>
+ 	  	<a href="/pmdb/jsp/searchStudy.jsp">Search by Species</a>
  	</li>
  	<li>  
- 	  	<a href="/mmdb/jsp/addExperimentalStudy.jsp">Add Experimental Study</a>
+ 	  	<a href="/pmdb/jsp/searchData.jsp">Advanced Search</a>
  	</li>
- 
- 	<li><a href="/mmdb/jsp/logout.jsp">Logout</a></li>
+ 	<li>  
+ 	  	<a href="/pmdb/jsp/addDescriptor.jsp">Add Species Descriptor</a>
+ 	</li>
+ 	<li>  
+ 	  	<a href="/pmdb/jsp/addExperimentalStudy.jsp">Add Experimental Study</a>
+ 	</li>
+	
+ 	<li><a href="/pmdb/jsp/logout.jsp">Logout</a></li>
 	
 	</c:when>
-<c:otherwise>
+	<c:otherwise>
 
-	<li><a href="/mmdb/jsp/login.jsp">Login</a></li>	
+	<li><a href="/pmdb/jsp/login.jsp">Login</a></li>	
 	
 </c:otherwise>
 </c:choose>

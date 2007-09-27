@@ -34,7 +34,7 @@ if(mmdbConfig!=null)
 %>
 <table border="0" cellpadding="0" cellspacing="0" width=100%>
 	<tr>
-		<td><img src="/mmdb/images/logo.jpg" /></td>
+		<td><img src="/pmdb/images/logo.jpg" /></td>
 		<td>Version: <%=version %><br/>Built: <%=built %></td>
 	</tr>
 </table>
