@@ -309,13 +309,19 @@ th {
 
 .TdAction a
 {
-  background-color: #cccccc;
-  color: #0000ff; 
-  text-align: center;
-  text-decoration: none;
-  font-family:		Arial, Helvetica, sans-serif;
-  border: 1px solid #205B99;
-  padding:2px 5px 2px 5px;
+  	color: #000000;
+	background-color: #F3F3E9;
+	border-top:	1px solid #FFFFFF;
+	border-right: 1px solid	#706D41;
+	border-bottom: 1px solid #706D41;
+	border-left: 1px solid #FFFFFF;
+	cursor:	pointer;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: smaller; /*0.8em;*/
+	padding-left: 6px;
+	padding-right: 6px;
+	text-align: center;
+	text-decoration: none;
 }
 
 .TdAction a:hover
