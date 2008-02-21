@@ -16,6 +16,7 @@
 <script type="text/javascript" src="/pmdb/jsp/fields_def.js"></script>
 <script type="text/javascript" src="/pmdb/jsp/editnow.js"></script>
 
+
 </head>
 
 <body>
@@ -30,7 +31,7 @@
 				<tr>
 					<td class="tdMenu"><tiles:insert attribute="menu" /></td>
 					<td class="tdCorner"><img src="/pmdb/images/menucorner.jpg" /></td>
-					<td class="tdMain"><tiles:insert attribute="body"/>
+					<td class="tdMain"><tiles:insert attribute="body"/></td>
 				</tr>	
 			</table>
 		</td>
