@@ -40,7 +40,7 @@ Map.prototype.length = function()
 
 
 var terms=new Map();
-terms.put("pollinator", new Array("Bee","Beetle","Bird","Butterfly","Fly","Insect","Mammal","Moth","Wasp","Water","Wind"));
+terms.put("pollinator", new Array("bee","beetle","bird","butterfly","fly","insect","mammal","moth","wasp","water","wind"));
 terms.put("growth_form", new Array("herb",
 									"shrub",
 									"tree",
@@ -53,8 +53,8 @@ terms.put("growth form", new Array("herb",
 terms.put("reproduction", new Array("no",
 									"yes",
 									"UNDEFINED"));
-terms.put("si_mechanism", new Array("no",
-									"yes"));									
+terms.put("si_mechanism", new Array("No",
+									"Yes"));									
 terms.put("floral_symmetry", new Array("bilateral",
 										"radial"));
 terms.put("sexual_system", new Array("androdioecious",
