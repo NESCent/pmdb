@@ -87,6 +87,33 @@ function createElement(id,field_name,value)
 	return el;
 }
 
+function createSelectElement(id,field_name)
+{
+	var values=terms.get(field_name);
+	var el=null;
+	if(values!=null)
+	{
+		el=document.createElement("select");
+		el.setAttribute("name",id);
+		el.setAttribute("id",id);
+		for(var i=0;i<values.length;i++)
+		{
+			var defaultSelected=false;
+			var selected=false;
+			if(i==0)
+				defaultSelected=true;
+			if(value==values[i])
+				selected=true;
+				
+			el.options[i]=new Option(values[i],values[i],defaultSelected, selected);
+			if(selected)el.options[i].setAttribute("selected","yes");
+		}
+		el.options[i]=new Option("","",false,false);
+	}
+	
+	return el;
+}
+
 function onFieldChange(e)
 {
 	var id;
