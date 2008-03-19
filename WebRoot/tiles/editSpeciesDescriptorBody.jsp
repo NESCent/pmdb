@@ -6,12 +6,11 @@
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn"%>
 <%@ page import="org.nescent.mmdb.util.NoCache" %>
 <%@ page import="org.nescent.mmdb.hibernate.HibernateSessionFactory" %>
-<h3>Edit Species Descriptor</h3>
-
-<jsp:include page="messageBody.jsp" />
 <%
 NoCache.nocache(response);
 %>
+<h3>Edit Species Descriptor</h3>
+<jsp:include page="messageBody.jsp" />
 <script language='javascript'>
 
 var attrs=new Array();
@@ -70,10 +69,7 @@ function attributeNameChanged(id){
       	<table width="800">
       	<tr><th colspan=2>Attribute (<c:out value="${fn:length(study.mmSpeciesAttrCvtermAssocs)}" />)</th></tr>
       	
-      	<jsp:useBean id="sorter" scope="page" class="org.nescent.mmdb.util.UtilSort" />
-      	<jsp:setProperty name="sorter" property="collection" value="${study.mmSpeciesAttrCvtermAssocs}" />
-
-      	<c:forEach var="cvAssoc" items="${sorter.sortedCollection}" varStatus="attrStatus">
+      	<c:forEach var="cvAssoc" items="${study.mmSpeciesAttrCvtermAssocs}" varStatus="attrStatus">
       	<tr>
       		<td  class="TdField">
       			<select id="attr_<c:out value="${cvAssoc.msacaOid}" />" name="attr_<c:out value="${cvAssoc.msacaOid}" />" onchange="attributeNameChanged(<c:out value="${cvAssoc.msacaOid}" />)">
