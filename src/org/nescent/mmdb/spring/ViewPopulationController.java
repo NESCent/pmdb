@@ -6,42 +6,61 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.nescent.mmdb.hibernate.HibernateSessionFactory;
-import org.nescent.mmdb.hibernate.dao.MmExperimentStudy;
-import org.nescent.mmdb.hibernate.dao.MmExperimentStudyDAO;
 import org.nescent.mmdb.hibernate.dao.MmPopulationSample;
 import org.nescent.mmdb.hibernate.dao.MmPopulationSampleDAO;
-import org.nescent.mmdb.util.RetrieveData;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 public class ViewPopulationController implements Controller {
+    private static Logger log;
 
-	public ModelAndView handleRequest(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
-		String id=arg0.getParameter("id");
-		String tab=arg0.getParameter("tab");
-		if(id==null || id.trim().equals(""))
-			throw new Exception("No id specified.");
-		
-		MmPopulationSampleDAO popDao=new MmPopulationSampleDAO();
-		MmPopulationSample pop = popDao.findById(Integer.valueOf(id));
-		if(pop==null)
-		{
-			throw new Exception("No population found: "+id);
-		}
-		
-		RetrieveData.retrievePopulation(pop);
-		HibernateSessionFactory.closeSession();
-		
-		Map model=new HashMap();
-        model.put("population",pop);
-        if(tab!=null)
-        	model.put("tab",tab);
-        else
-        	model.put("tab","study");
-            
-        return new ModelAndView("population",model);		
+    private static Logger log() {
+	if (log == null) {
+	    log = Logger.getLogger(ViewPopulationController.class);
 	}
+	return log;
+    }
+
+    @SuppressWarnings("unchecked")
+    public ModelAndView handleRequest(HttpServletRequest request,
+	    HttpServletResponse response) {
+	String id = request.getParameter("id");
+	String tab = request.getParameter("tab");
+	if (id == null || id.trim().equals("")) {
+	    log().error("no id specified.");
+	    throw new IllegalArgumentException("no id specified.");
+	}
+	Session session = HibernateSessionFactory.getSession();
+	Transaction tx = session.beginTransaction();
+
+	try {
+	    MmPopulationSampleDAO popDao = new MmPopulationSampleDAO();
+	    MmPopulationSample pop = popDao.findById(Integer.valueOf(id));
+	    if (pop == null) {
+		log().error("failed to retrieve the population with id: " + id);
+		throw new IllegalArgumentException(
+			"failed to retrieve the population with id: " + id);
+	    }
+
+	    Map model = new HashMap();
+	    model.put("population", pop);
+	    if (tab != null)
+		model.put("tab", tab);
+	    else
+		model.put("tab", "study");
+
+	    tx.commit();
+	    return new ModelAndView("population", model);
+	} catch (HibernateException he) {
+	    log().error("failed to view the population.", he);
+	    throw he;
+	}
+
+    }
 
 }
