@@ -21,13 +21,13 @@
         <property name="species" type="java.lang.String">
             <column name="species" length="64" not-null="true" />
         </property>
-        <set name="mmPopulationSamples" inverse="true">
+        <set name="mmPopulationSamples" inverse="true" order-by="population_sample_oid">
             <key>
                 <column name="species_oid" />
             </key>
             <one-to-many class="org.nescent.mmdb.hibernate.dao.MmPopulationSample" />
         </set>
-        <set name="mmMatingSystemStudies" inverse="true">
+        <set name="mmMatingSystemStudies" inverse="true" order-by="mating_system_study_oid">
             <key>
                 <column name="species_oid" />
             </key>
