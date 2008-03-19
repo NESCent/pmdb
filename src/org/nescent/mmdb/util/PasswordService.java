@@ -1,50 +1,54 @@
 package org.nescent.mmdb.util;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.apache.log4j.Logger;
+
 import sun.misc.BASE64Encoder;
 
+public final class PasswordService {
+    private static Logger logger = null;
 
-public final class PasswordService
-{
-  private static PasswordService instance;
-  private PasswordService()
-  {
-  }
-  public synchronized String encrypt(String plaintext) throws Exception
-  {
-    MessageDigest md = null;
-    try
-    {
-      md = MessageDigest.getInstance("SHA"); //step 2
+    private Logger log() {
+	if (logger == null)
+	    logger = Logger.getLogger(PasswordService.class);
+
+	return logger;
     }
-    catch(NoSuchAlgorithmException e)
-    {
-      throw new Exception(e.getMessage());
+
+    private static PasswordService instance;
+
+    private PasswordService() {
     }
-    try
-    {
-      md.update(plaintext.getBytes("UTF-8")); //step 3
+
+    public synchronized String encrypt(String plaintext) {
+	MessageDigest md = null;
+	try {
+	    md = MessageDigest.getInstance("SHA"); // step 2
+	} catch (NoSuchAlgorithmException e) {
+	    log().error("failed to get algorithm to encrypt the password.", e);
+	    throw new RuntimeException(
+		    "failed to get algorithm to encrypt the password.", e);
+	}
+	try {
+	    md.update(plaintext.getBytes("UTF-8")); // step 3
+	} catch (UnsupportedEncodingException e) {
+	    log().error("failed to encrypt the password.", e);
+	    throw new RuntimeException("failed to encrypt the password.", e);
+	}
+	byte raw[] = md.digest(); // step 4
+	String hash = (new BASE64Encoder()).encode(raw); // step 5
+	return hash; // step 6
     }
-    catch(UnsupportedEncodingException e)
+
+    public static synchronized PasswordService getInstance() // step 1
     {
-      throw new Exception(e.getMessage());
+	if (instance == null) {
+	    return new PasswordService();
+	} else {
+	    return instance;
+	}
     }
-    byte raw[] = md.digest(); //step 4
-    String hash = (new BASE64Encoder()).encode(raw); //step 5
-    return hash; //step 6
-  }
-  public static synchronized PasswordService getInstance() //step 1
-  {
-    if(instance == null)
-    {
-      return new PasswordService();
-    } 
-    else    
-    {
-      return instance;
-    }
-  }
 }
-
-
