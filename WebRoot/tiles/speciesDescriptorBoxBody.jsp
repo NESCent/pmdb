@@ -7,11 +7,21 @@
 <%
 NoCache.nocache(response);
 %>
-<jsp:useBean id="speciessorter" scope="page" class="org.nescent.mmdb.util.UtilSort" />
-<jsp:setProperty name="speciessorter" property="collection" value="${population.mmSpecies.mmMatingSystemStudies}" />
+<script languge="javascript">
+function deletespeciesdescriptor(id){
+    var message="Do you really want to delete the species descriptor?";
+    var message1="Please confirm again. Do you really want to delete the species descriptor?";
+    if(confirm(message)){
+	if(confirm(message1)){
+	    var url="deletespeciesdescriptor.go?id"+id;
+	    window.location.href=url;
+	}
+    }
+}
+</script>
 <h1><c:out value='${population.mmSpecies.genus}' /> <c:out value='${population.mmSpecies.species}' /> (<c:out value='${population.mmSpecies.family}' />)</h1>           
 <h2>Species Descriptors</h2>
-<c:forEach var="study" items="${speciessorter.sortedCollection}" varStatus="status">
+<c:forEach var="study" items="${population.mmSpecies.mmMatingSystemStudies}" varStatus="status">
 	<table width=800>
         <tr><th colspan=2>
       		<table width="100%"><tr><td class="TbCaption" width="650"><c:out value="${study.mmReferencePart.mmReference.citation}" /></td>
@@ -28,10 +38,8 @@ NoCache.nocache(response);
       	<tr><td class="TdField">Full Reference</td><td class="TdValue"><c:out value="${study.mmReferencePart.mmReference.fullReference}" /></td></tr>
       	<tr><td class="TdField">Reference Part</td><td class="TdValue"><c:out value="${study.mmReferencePart.name}" /></td></tr>
       	<tr><td class="TdField" /><th>Attribute (<c:out value="${fn:length(study.mmSpeciesAttrCvtermAssocs)}" />)</th></tr>
-      	<jsp:useBean id="sorter" scope="page" class="org.nescent.mmdb.util.UtilSort" />
-      	<jsp:setProperty name="sorter" property="collection" value="${study.mmSpeciesAttrCvtermAssocs}" />
-
-      	<c:forEach var="cvAssoc" items="${sorter.sortedCollection}" varStatus="attrStatus">
+      	
+      	<c:forEach var="cvAssoc" items="${study.mmSpeciesAttrCvtermAssocs}" varStatus="attrStatus">
       	<tr>
       		<td  class="TdField"><c:out value="${cvAssoc.mmCvTerm.name}" /></td>
       		<td  class="TdValue"><c:out value="${cvAssoc.value}" /></td>

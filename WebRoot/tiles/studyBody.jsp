@@ -7,15 +7,25 @@
 <%
 NoCache.nocache(response);
 %>
-<jsp:useBean id="studysorter" class="org.nescent.mmdb.util.UtilSort" />
-<jsp:setProperty name="studysorter" property="collection" value="${population.mmExperimentStudies}" />
-<c:forEach var="exp" items="${studysorter.sortedCollection}">
+<script languge="javascript">
+function deleteexperimentstudy(id){
+    var message="Do you really want to delete the experiment study?";
+    var message1="Please confirm again. Do you really want to delete the experiment study?";
+    if(confirm(message)){
+	if(confirm(message1)){
+	    var url="deleteexperimentstudy.go?id"+id;
+	    window.location.href=url;
+	}
+    }
+}
+</script>
+<c:forEach var="exp" items="${population.mmExperimentStudies}">
    <table width="800">
         <tr><th colspan=2>
       		<table width="800">
       		<tr><td class="TbCaption" width="650"><c:out value="${exp.name}" /></td>
-      		<td  class="TbCaption"><div style="width:250px;text-align:right;"><span class="TdAction"><a href="editstudy.go?id=<c:out value="${exp.experimentStudyOid}" />">Edit</a>&nbsp;&nbsp;&nbsp;
-      		<a href="javascript: deletestudy(<c:out value="${exp.experimentStudyOid}" />)">Delete</a>
+      		<td  class="TbCaption"><div style="width:250px;text-align:right;"><span class="TdAction"><a href="editexperimentstudy.go?id=<c:out value="${exp.experimentStudyOid}" />">Edit</a>&nbsp;&nbsp;&nbsp;
+      		<a href="javascript: deleteexperimentstudy(<c:out value="${exp.experimentStudyOid}" />)">Delete</a>
       		</span></div>
       		</td>
       		</tr>
@@ -26,25 +36,21 @@ NoCache.nocache(response);
       <tr><td class="TdField">Full Reference</td><td class="TdValue"><c:out value="${exp.mmReferencePart.mmReference.fullReference}" /></td></tr>
       <tr><td class="TdField">Part</td><td class="TdValue"><c:out value="${exp.mmReferencePart.name}" /></td></tr>
       
-      <jsp:useBean id="sorter1" class="org.nescent.mmdb.util.UtilSort" />
       <tr><td class="TdField" />
 	<th>Attributes (<c:out value="${fn:length(exp.mmExperimentStudyAttrCvtermAssocs)}" />)</th>
 	
 	</tr>
-		<jsp:setProperty name="sorter1" property="collection" value="${exp.mmExperimentStudyAttrCvtermAssocs}" />
-      		<c:forEach var="cvAssoc" items="${sorter1.sortedCollection}" varStatus="expAttrStatus">
+		<c:forEach var="cvAssoc" items="${exp.mmExperimentStudyAttrCvtermAssocs}" varStatus="expAttrStatus">
       			<tr>
       				<td class="TdField"><c:out value="${cvAssoc.mmCvTerm.name}" /></td>
       				<td class="TdValue"><c:out value="${cvAssoc.value}" /></td>
       			</tr>
       		</c:forEach>
      
-      		<jsp:useBean id="sorter2" class="org.nescent.mmdb.util.UtilSort" />
       <tr><td class="TdField" />
 	<th>Measurements (<c:out value="${fn:length(exp.mmExperimentValues)}" />)</th>
 	</tr>
-	<jsp:setProperty name="sorter2" property="collection" value="${exp.mmExperimentValues}" />
-    		<c:forEach var="valueAssoc" items="${sorter2.sortedCollection}" varStatus="expMeasStatus">
+    		<c:forEach var="valueAssoc" items="${exp.mmExperimentValues}" varStatus="expMeasStatus">
     			<tr>
     				<td class="TdField"><c:out value="${valueAssoc.mmCvTerm.name}" /></td>
     				<td class="TdValue"><c:out value="${valueAssoc.value}" /></td>
