@@ -76,7 +76,7 @@ public class SaveDescriptorController implements Controller {
 	    log().error("invalid number: " + id, nfe);
 	    throw new IllegalArgumentException("invalid number: " + id, nfe);
 	} catch (HibernateException he) {
-	    log().error("filed to edit the species descriptor with id: " + id,
+	    log().error("failed to edit the species descriptor with id: " + id,
 		    he);
 	    throw he;
 
