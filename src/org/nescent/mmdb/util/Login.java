@@ -1,180 +1,110 @@
 package org.nescent.mmdb.util;
-import java.util.*;
 
-import org.hibernate.*;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+import org.nescent.mmdb.aa.Permission;
+import org.nescent.mmdb.aa.PermissionManager;
 import org.nescent.mmdb.hibernate.HibernateSessionFactory;
-import org.nescent.mmdb.hibernate.dao.*;
-import org.hibernate.Query;
-import org.nescent.mmdb.aa.*;
+import org.nescent.mmdb.hibernate.dao.MmPermission;
+import org.nescent.mmdb.hibernate.dao.MmUserAccount;
+import org.nescent.mmdb.hibernate.dao.MmUserAcctRoleAssoc;
+import org.nescent.mmdb.spring.SaveDescriptorsController;
 
-  
+public class Login {
+    private static Logger logger = null;
 
-public class Login{
-	String userName;
-	String password;
-	int personOID;
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		
+    private Logger log() {
+	if (logger == null)
+	    logger = Logger.getLogger(SaveDescriptorsController.class);
 
-		this.password = password;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public int getPersonOID() {
-		return personOID;
-	}
-	public void setPersonOID(int personOID) {
-		this.personOID = personOID;
-	}
-	
-	public boolean validateLogin() throws Exception  {
-	
-		Session session = HibernateSessionFactory.getSession();
-		
-    	session.beginTransaction();
-   
-		try
-		{
-			
-		String pword = PasswordService.getInstance().encrypt(this.password);
-    	Query q = session.createQuery("FROM org.nescent.mmdb.hibernate.dao.MmUserAccount where userName = :name and password = :password");
-       	q.setParameter("name", this.userName);
-      	q.setParameter("password", pword);
-         	    	
-    	List result = q.list(); 
-    	
-    	Iterator iter = result.iterator();
-		   if (!iter.hasNext())
-	       {
-			   session.close();
-	           return false;
-	       }
-		   else
-		   {
-			   MmUserAccount nua = (MmUserAccount) iter.next();
+	return logger;
+    }
 
-			   this.personOID = nua.getUserAccountOid().intValue();
-			   session.close();
-				   return true;
-		   }
+    String userName;
+    String password;
+    int personOID;
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+
+	this.password = password;
+    }
+
+    public String getUserName() {
+	return userName;
+    }
+
+    public void setUserName(String userName) {
+	this.userName = userName;
+    }
+
+    public int getPersonOID() {
+	return personOID;
+    }
+
+    public void setPersonOID(int personOID) {
+	this.personOID = personOID;
+    }
+
+    @SuppressWarnings("unchecked")
+    public PermissionManager login() {
+
+	PermissionManager pm = new PermissionManager();
+	Session session = HibernateSessionFactory.getSession();
+	Transaction tx = session.beginTransaction();
+	try {
+	    String pword = PasswordService.getInstance().encrypt(this.password);
+	    MmUserAccount nua = (MmUserAccount) session.createCriteria(
+		    MmUserAccount.class).add(
+		    Restrictions.eq("userName", this.userName)).add(
+		    Restrictions.eq("password", pword)).uniqueResult();
+
+	    if (nua == null) {
+		log().error(
+			"failed to log in: " + this.userName + "("
+				+ this.password + ").");
+		throw new IllegalArgumentException("failed to log in.");
+	    }
+
+	    if (nua.getUserAccountOid() == null) {
+		personOID = nua.getUserAccountOid().intValue();
+	    }
+	    Set assocs = nua.getMmUserAcctRoleAssocs();
+
+	    for (Iterator it = assocs.iterator(); it.hasNext();) {
+		MmUserAcctRoleAssoc assoc = (MmUserAcctRoleAssoc) it.next();
+
+		Set perms = assoc.getMmRole().getMmPermissions();
+
+		for (Iterator iter = perms.iterator(); iter.hasNext();) {
+		    Permission p = new Permission();
+		    MmPermission np = (MmPermission) iter.next();
+		    p.setRoleName(np.getMmRole().getRoleName());
+		    p.setAccess(np.getAccess());
+		    p.setScope(np.getScope());
+		    p.setResource(np.getMmCvTerm().getName());
+		    p.setPersonOID(this.personOID);
+		    pm.setPermission(p);
 		}
-		catch (Exception e)
-		{
-			throw e;
-		}
-
-    	
-    			
+	    }
+	    tx.commit();
+	    return pm;
+	} catch (HibernateException he) {
+	    log().error("failed to log in.", he);
+	    throw he;
+	} finally {
+	    if (!tx.wasCommitted()) {
+		tx.rollback();
+	    }
 	}
-	
-	public Set getPermissions () throws Exception
-	{
-		//List list= new ArrayList();
-		Session session = HibernateSessionFactory.getSession();
-		
-    	session.beginTransaction();
-
-    	
-    	String pword = PasswordService.getInstance().encrypt(this.password);
-       	String sql = "FROM org.nescent.mmdb.hibernate.dao.MmUserAccount  where userName = :name and password =:password";
-        
-    	//return session.createSQLQuery(sql)
-    	Query q = session.createQuery(sql);
-    	 q.setParameter("name", this.userName);
-    	 q.setParameter("password", pword);
-    	 
-    	 List li = q.list();
-    		Iterator iter = li.iterator();
-    		
-    		   if (!iter.hasNext())
-    	       {
-    			   System.out.println("does not have" + this.userName);
-    	           return null;
-    	       }
-
-    	
-    	 MmUserAccount n = (MmUserAccount)q.list().get(0);
-      	 
-    	 Set assocs=n.getMmUserAcctRoleAssocs();
-    	 MmRole role = null;
-    	 String rolename = null;
-    	 Set permissions=null;
-    	 
-    	 for(Iterator it=assocs.iterator();it.hasNext();)
-    	 { 
-    		 MmUserAcctRoleAssoc assoc=(MmUserAcctRoleAssoc)it.next();
-   		 
-    	     Set perms = assoc.getMmRole().getMmPermissions();
-    	     if(permissions==null)
-    	    	 permissions=perms;
-    	     else
-    	    	 permissions.addAll(perms);
-    	     
-    	     role = assoc.getMmRole();
-    	     rolename = role.getRoleName();
-    	     
-    		 
-    	 }
-    	 if(permissions==null)
-			 throw new Exception("No permission found");
-    		 
-		 return permissions; 
- 
-	}
-	
-	
-	public PermissionManager setPermissions() throws Exception{
-
-
-	Set li = getPermissions();
-	
-	if (li == null) throw new Exception("Permissions not found");
-
-	Iterator iter = li.iterator();
-	
-	   if (!iter.hasNext())
-       {
-            
-           return null;
-       }
-	   
-	   PermissionManager pm = new PermissionManager();
-	   
-	   
-	      while (iter.hasNext())
-	        {
-	    	 
-	    	  Permission p = new Permission();
-	    	  MmPermission np = (MmPermission) iter.next();    	   
-	    	  p.setRoleName(np.getMmRole().getRoleName());
-	    	  p.setAccess(np.getAccess());
-	    	  p.setScope(np.getScope());
-	    	  p.setResource(np.getMmCvTerm().getName());
-	    	  p.setPersonOID(this.personOID);
-	    	  
-	    	  
-
-	    	  pm.setPermission(p);
-	        }
-	      
-	      
-	      return pm;
-	
-	} 
-
-
+    }
 }
-
-	
-
-	
-	
-
-
