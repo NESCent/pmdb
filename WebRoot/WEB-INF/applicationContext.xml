@@ -33,7 +33,11 @@
             	<prop key="**/addspeciesdescriptor.go">AddSpeciesDescriptorController</prop>
             	<prop key="**/addexperimentalstudy.go">AddExperimentalStudyController</prop>
             	<prop key="**/editspeciesdescriptor.go">EditSpeciesDescriptorController</prop>
-		       	<prop key="/help/">helpController</prop>
+            	<prop key="**/editpopulationsample.go">EditPopulationSampleController</prop>
+            	<prop key="**/savepopulationsample.go">SavePopulationSampleController</prop>
+            	<prop key="**/editexperimentstudy.go">EditExperimentStudyController</prop>
+            	<prop key="**/saveexperimentstudy.go">SaveExperimentStudyController</prop>
+            	<prop key="/help/">helpController</prop>
             </props>
         </property>
     </bean>
@@ -73,7 +77,15 @@
      	class="org.nescent.mmdb.spring.AddExperimentalStudyController"/> 
     <bean id="EditSpeciesDescriptorController"
      	class="org.nescent.mmdb.spring.EditSpeciesDescriptorController"/>
-    
+     <bean id="EditPopulationSampleController"
+     	class="org.nescent.mmdb.spring.EditPopulationSampleController"/> 	
+    <bean id="SavePopulationSampleController"
+     	class="org.nescent.mmdb.spring.SavePopulationSampleController"/> 	
+    <bean id="EditExperimentStudyController"
+     	class="org.nescent.mmdb.spring.EditExperimentStudyController"/> 	
+    <bean id="SaveExperimentStudyController"
+     	class="org.nescent.mmdb.spring.SaveExperimentStudyController"/> 	 	
+     	 	        	
     <bean id="LoginController"
           class="org.nescent.mmdb.spring.LoginController">
         <property name="formView" value="login"/>
