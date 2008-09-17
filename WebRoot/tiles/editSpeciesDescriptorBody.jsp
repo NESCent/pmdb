@@ -148,8 +148,5 @@ function attributeNameChanged(id){
 </form>
 Note: empty attributes will be deleted if you save the data.
 
-<%
-	HibernateSessionFactory.getSession().close();
-%>
 
 
