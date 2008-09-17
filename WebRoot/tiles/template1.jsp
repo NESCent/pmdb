@@ -10,7 +10,7 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">   
 	 
-<link rel="stylesheet" type="text/css" href="css/mmdb.css" />
+<link rel="stylesheet" type="text/css" href="css/pmdb.css" />
 
 <script type="text/javascript" src="jsp/tabview.js"></script>
 <script type="text/javascript" src="jsp/fields_def.js"></script>
