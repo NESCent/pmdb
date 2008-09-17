@@ -10,16 +10,14 @@
     <!-- Generic project properties -->
     <property name="project.fullname" value="Mixed Mating Database"/>
     <property name="project.version" value="1.0.0"/>
-    <property name="project.name" value="mmdb"/>
+    <property name="project.name" value="pmdb"/>
 	
 	<!-- Miscellaneous settings -->
     <property name="year" value="2007-2010"/>
     <property name="debug" value="off"/>
     <property name="optimize" value="off"/>
     <property name="deprecation" value="off"/>
-	
-	
-
+	<property name="javac.location" value="C:/Program Files/Java/jdk1.5.0_12/bin/" />
     <!--
        ========================================================================
          Set the properties related to the source tree
@@ -40,7 +38,7 @@
     -->
     <!-- Destination locations for the build (relative to the basedir as -->
     <!-- specified in the basedir attribute of the project tag)          -->
-    <property name="out.dir" value="out"/>
+    <property name="out.dir" value="build"/>
     <property name="out.config.dir" value="${out.dir}/config"/>
     <property name="out.dist.dir" value="${out.dir}/dist"/>
     <property name="out.lib.dir" value="${out.dir}/lib"/>
@@ -147,18 +145,16 @@
        ========================================================================
     -->
     <target name="prepare" depends="clean">
-
+<!--
         <mkdir dir="${out.src.dir}"/>
 
-        <!-- Copy all source files to destination dir. Apply the filters in
-             order to replace the tokens for the copyright year and the
-             version -->
+     
         <copy todir="${out.src.dir}" filtering="on">
             <fileset dir="${src.dir}">
                 <patternset refid="all.src.files"/>
             </fileset>
         </copy>
-
+-->
     </target>
 	<!--
        ========================================================================
@@ -167,16 +163,20 @@
     -->
     <!-- Preparation target for the compile target -->
     <target name="prepare-compile" depends="prepare">
+    	<mkdir dir="${out.dir}"/>
         <mkdir dir="${out.classes.dir}"/>
     </target>
 
     <!-- Run the java compilation -->
     <target name="compile" depends="prepare-compile">
-        <javac srcdir="${out.src.dir}"
+        <javac srcdir="${src.dir}"
             destdir="${out.classes.dir}"
             debug="${debug}"
             deprecation="${deprecation}"
-            optimize="${optimize}">
+            optimize="${optimize}"
+            executable="${javac.location}/javac.exe" 
+
+            >
 
             <!-- Exclude all files that are not .java source files -->
         	
@@ -240,7 +240,7 @@
     <target name="javadoc" depends="prepare-javadoc">
 
         <javadoc
-            sourcepath="${out.src.dir}"
+            sourcepath="${src.dir}"
             packagenames="org.nescent.mmdb.*"
             destdir="${out.javadoc.dir}"
             author="true"
@@ -323,6 +323,16 @@
     	    </filterset>
     	</copy>
     	
+    	<!-- copy hibernate configuration file -->
+    	<copy file="src/hibernate.cfg.xml.example" 
+    		      tofile="${out.classes.dir}/hibernate.cfg.xml" 
+    	   	      overwrite="yes">
+    	   	      <filterset>
+    	   	           <filter token="password" value="${hibernate.password}"/>
+    	   	            <filter token="username" value="${hibernate.username}"/>
+    	   	          	<filter token="database" value="${hibernate.database}"/>
+    	          </filterset>
+    	 </copy>
 
     	<war destfile="${final.war.name}" webxml="WebRoot/WEB-INF/web.xml">
 	    	<lib dir="${web.dir}/WEB-INF/lib" />
@@ -333,6 +343,7 @@
                 <exclude name="WEB-INF/classes/**/*.*"/>
             	<exclude name="config/*.example"/>
             	<exclude name="config/*.new"/>
+            	
             </fileset>
         </war>
 		
