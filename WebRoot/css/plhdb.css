@@ -234,29 +234,11 @@ div.TabView div.Pages div.Page div.Pad
 }
 
 th { 
-	background-color: #84c2ff; 
-	color: #FFFFFF;
+	background-color: #84c2ff; color: #FFFFFF;
     font-weight: bold; text-align: center;
     font-size: 9pt;
 }
-.TbCaption { 
-	background-color: #84c2ff; 
-	color: #FFFFFF;
-    font-weight: bold;
-    font-size: 9pt;
-}
 
-.left{
-	text-align: left;
-}
-
-.right{
-	text-align: right;
-}
-
-.center{
-	text-align: center;
-}
 .TrRows { background-color: #FFFFFF; color: #000000;
        font-size: 9pt;
 }
