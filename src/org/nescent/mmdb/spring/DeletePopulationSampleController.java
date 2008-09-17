@@ -14,65 +14,65 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class DeletePopulationSampleController implements Controller {
 
-    private static Logger log;
+	private static Logger log;
 
-    private static Logger log() {
-	if (log == null) {
-	    log = Logger.getLogger(SavePopulationSampleController.class);
-	}
-	return log;
-    }
-
-    public ModelAndView handleRequest(HttpServletRequest request,
-	    HttpServletResponse response) {
-
-	String id = request.getParameter("id");
-	if (id == null) {
-	    log().error("no id specified");
-	    throw new IllegalArgumentException("no id specified");
+	private static Logger log() {
+		if (log == null) {
+			log = Logger.getLogger(SavePopulationSampleController.class);
+		}
+		return log;
 	}
 
-	Session session = HibernateSessionFactory.getSession();
-	Transaction tx = session.beginTransaction();
-	try {
-	    MmPopulationSample sample = (MmPopulationSample) session.get(
-		    MmPopulationSample.class, Integer.valueOf(id));
-	    if (sample == null) {
-		log().error(
-			"failed to retrieve the population sample with id: "
-				+ id);
-		throw new IllegalArgumentException(
-			"failed to retrieve the population sample with id: "
-				+ id);
-	    }
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) {
 
-	    session.delete(sample);
-	    session.flush();
-	    tx.commit();
+		String id = request.getParameter("id");
+		if (id == null) {
+			log().error("no id specified");
+			throw new IllegalArgumentException("no id specified");
+		}
 
-	    String message = "The population sample: " + sample.getPopulation()
-		    + " has been seccessfully deleted.";
+		Session session = HibernateSessionFactory.getSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			MmPopulationSample sample = (MmPopulationSample) session.get(
+					MmPopulationSample.class, Integer.valueOf(id));
+			if (sample == null) {
+				log().error(
+						"failed to retrieve the population sample with id: "
+								+ id);
+				throw new IllegalArgumentException(
+						"failed to retrieve the population sample with id: "
+								+ id);
+			}
 
-	    return new ModelAndView("message", "message", message);
+			session.delete(sample);
+			session.flush();
+			tx.commit();
 
-	} catch (NumberFormatException nfe) {
-	    log().error("invalid number: " + id, nfe);
-	    throw new IllegalArgumentException("invalid number: " + id, nfe);
-	} catch (HibernateException he) {
-	    log()
-		    .error(
-			    "failed to delete the population sample with id: "
-				    + id, he);
-	    throw he;
+			String message = "The population sample: " + sample.getPopulation()
+					+ " has been seccessfully deleted.";
 
-	} finally {
-	    if (!tx.wasCommitted())
-		tx.rollback();
+			return new ModelAndView("message", "message", message);
+
+		} catch (NumberFormatException nfe) {
+			log().error("invalid number: " + id, nfe);
+			throw new IllegalArgumentException("invalid number: " + id, nfe);
+		} catch (HibernateException he) {
+			log()
+					.error(
+							"failed to delete the population sample with id: "
+									+ id, he);
+			throw he;
+
+		} finally {
+			if (!tx.wasCommitted())
+				tx.rollback();
+		}
 	}
-    }
 
-    private String nullIfEmpty(String s) {
-	return (s == null || s.trim().equals("")) ? null : s;
-    }
+	private String nullIfEmpty(String s) {
+		return (s == null || s.trim().equals("")) ? null : s;
+	}
 
 }

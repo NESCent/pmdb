@@ -35,51 +35,9 @@ public class ViewDescriptorController implements Controller {
 			throw new Exception("No species discriptor found.");
 		}
 		
-		retrieveDiscriptor(study);
-		HibernateSessionFactory.closeSession();
 		return new ModelAndView("descriptor","descriptor",study);
 	
 	}
 	
-	public void retrieveDiscriptor(MmMatingSystemStudy mmStudy) throws Exception
-	{
-		MmSpecies species=mmStudy.getMmSpecies();
-		if(species!=null)
-		{
-			species.getFamily();
-			species.getGenus();
-			species.getSpecies();
-		}
-		mmStudy.getLatitude();
-		MmReferencePart refPart=mmStudy.getMmReferencePart();
-		if(refPart!=null)
-		{
-			refPart.getName();
-			MmReference ref=refPart.getMmReference();
-			if(ref!=null)
-			{
-				ref.getCitation();
-				ref.getFullReference();
-			}
-		}
-		Set mmCvTermsAssocs=mmStudy.getMmSpeciesAttrCvtermAssocs();
-		
-		for(Iterator it=mmCvTermsAssocs.iterator();it.hasNext();)
-		{
-			MmSpeciesAttrCvtermAssoc cvAssoc=(MmSpeciesAttrCvtermAssoc)it.next();
-			if(cvAssoc!=null)
-			{
-				cvAssoc.getValue();
-				MmCvTerm term=cvAssoc.getMmCvTerm();
-				if(term!=null)
-				{
-					term.getCvtermOid();
-					term.getDescription();
-					term.getName();
-					term.getNamespace();
-					term.getValueType();
-				}
-			}
-		}
-	}
+
 }

@@ -18,60 +18,60 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class EditPopulationSampleController implements Controller {
 
-    private static Logger log;
+	private static Logger log;
 
-    private static Logger log() {
-	if (log == null) {
-	    log = Logger.getLogger(EditPopulationSampleController.class);
-	}
-	return log;
-    }
-
-    public ModelAndView handleRequest(HttpServletRequest request,
-	    HttpServletResponse response) {
-	String id = nullIfEmpty(request.getParameter("id"));
-	if (id == null) {
-	    log().error("no id specified");
-	    throw new IllegalArgumentException("no id specified");
+	private static Logger log() {
+		if (log == null) {
+			log = Logger.getLogger(EditPopulationSampleController.class);
+		}
+		return log;
 	}
 
-	Session session = HibernateSessionFactory.getSession();
-	Transaction tx = session.beginTransaction();
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = nullIfEmpty(request.getParameter("id"));
+		if (id == null) {
+			log().error("no id specified");
+			throw new IllegalArgumentException("no id specified");
+		}
 
-	try {
-	    MmPopulationSample sample = (MmPopulationSample) session.get(
-		    MmPopulationSample.class, Integer.valueOf(id));
-	    if (sample == null) {
-		log().error(
-			"failed to retrieve the population sample with id: "
-				+ id);
-		throw new IllegalArgumentException(
-			"failed to retrieve the population sample with id: "
-				+ id);
-	    }
-	    String sql = "FROM MmCvTerm term where term.namespace='exp_pop_attribute' order by term.name";
-	    Query q = session.createQuery(sql);
-	    Map<String, Object> model = new HashMap<String, Object>();
-	    model.put("population", sample);
-	    model.put("population_attributes", q.list());
-	    tx.commit();
-	    return new ModelAndView("editPopulationSample", model);
-	} catch (NumberFormatException nfe) {
-	    log().error("invalid number: " + id, nfe);
-	    throw new IllegalArgumentException("invalid number: " + id, nfe);
-	} catch (HibernateException he) {
-	    log().error("failed to edit the population sample with id: " + id,
-		    he);
-	    throw he;
+		Session session = HibernateSessionFactory.getSession();
+		Transaction tx = session.beginTransaction();
 
-	} finally {
-	    if (!tx.wasCommitted())
-		tx.rollback();
+		try {
+			MmPopulationSample sample = (MmPopulationSample) session.get(
+					MmPopulationSample.class, Integer.valueOf(id));
+			if (sample == null) {
+				log().error(
+						"failed to retrieve the population sample with id: "
+								+ id);
+				throw new IllegalArgumentException(
+						"failed to retrieve the population sample with id: "
+								+ id);
+			}
+			String sql = "FROM MmCvTerm term where term.namespace='exp_pop_attribute' order by term.name";
+			Query q = session.createQuery(sql);
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("population", sample);
+			model.put("population_attributes", q.list());
+			tx.commit();
+			return new ModelAndView("editPopulationSample", model);
+		} catch (NumberFormatException nfe) {
+			log().error("invalid number: " + id, nfe);
+			throw new IllegalArgumentException("invalid number: " + id, nfe);
+		} catch (HibernateException he) {
+			log().error("failed to edit the population sample with id: " + id,
+					he);
+			throw he;
+
+		} finally {
+			if (!tx.wasCommitted())
+				tx.rollback();
+		}
 	}
-    }
 
-    private String nullIfEmpty(String s) {
-	return (s == null || s.trim().equals("")) ? null : s;
-    }
+	private String nullIfEmpty(String s) {
+		return (s == null || s.trim().equals("")) ? null : s;
+	}
 
 }

@@ -49,7 +49,6 @@ public class SearchStudyController implements Controller {
 			sps.add(getSpecies(species));
 		}
 		
-		HibernateSessionFactory.closeSession();
 		return new ModelAndView("speciesList","list",sps);
 
 	}

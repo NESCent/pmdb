@@ -35,7 +35,6 @@ public class SpeciesController implements Controller {
 		if(species==null)
 			throw new Exception("No species found.");
 		
-		RetrieveData.retrieveSpecies(species);
 		
 		Map models=new HashMap();
 		List pops=new ArrayList();
@@ -47,7 +46,6 @@ public class SpeciesController implements Controller {
 		}
 		models.put("species", species);
 		models.put("populations", pops);
-		HibernateSessionFactory.closeSession();
 		return new ModelAndView("studies",models);
 	}
 	

@@ -29,40 +29,36 @@ public class SaveDescriptorAttrController implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest arg0,
 			HttpServletResponse arg1) throws Exception {
-		
-		String id=arg0.getParameter("id");
-		if(id==null)
+
+		String id = arg0.getParameter("id");
+		if (id == null)
 			throw new Exception("No id specified.");
-		MmMatingSystemStudyDAO mmStDao=new MmMatingSystemStudyDAO();
+		MmMatingSystemStudyDAO mmStDao = new MmMatingSystemStudyDAO();
 		MmMatingSystemStudy study = mmStDao.findById(Integer.valueOf(id));
-		if(study==null)
-		{
+		if (study == null) {
 			throw new Exception("No species discriptor found.");
 		}
-		
-		MmSpeciesAttrCvtermAssocDAO assocDao=new MmSpeciesAttrCvtermAssocDAO();
-		
-		Session sess=HibernateSessionFactory.getSession();
-		Transaction tr=sess.beginTransaction();
-		
-		try
-		{
-			for(Enumeration en=arg0.getParameterNames();en.hasMoreElements();)
-			{
-				String cvid=(String)en.nextElement();
-				if(cvid.equals("id") ||cvid.equals("-2") ) continue;
-				else if(cvid.equals("-1"))
-				{
-					String field=arg0.getParameter("-1");
-					String value=arg0.getParameter("-2");
-					if(field!=null && value!=null)
-					{
-						MmCvTermDAO termDao=new MmCvTermDAO();
-						List terms=termDao.findByName(field);
-						if(terms.size()>0)
-						{
-							MmCvTerm term=(MmCvTerm)terms.toArray()[0];
-							MmSpeciesAttrCvtermAssoc assoc=new MmSpeciesAttrCvtermAssoc();
+
+		MmSpeciesAttrCvtermAssocDAO assocDao = new MmSpeciesAttrCvtermAssocDAO();
+
+		Session sess = HibernateSessionFactory.getSession();
+		Transaction tr = sess.beginTransaction();
+
+		try {
+			for (Enumeration en = arg0.getParameterNames(); en
+					.hasMoreElements();) {
+				String cvid = (String) en.nextElement();
+				if (cvid.equals("id") || cvid.equals("-2"))
+					continue;
+				else if (cvid.equals("-1")) {
+					String field = arg0.getParameter("-1");
+					String value = arg0.getParameter("-2");
+					if (field != null && value != null) {
+						MmCvTermDAO termDao = new MmCvTermDAO();
+						List terms = termDao.findByName(field);
+						if (terms.size() > 0) {
+							MmCvTerm term = (MmCvTerm) terms.toArray()[0];
+							MmSpeciesAttrCvtermAssoc assoc = new MmSpeciesAttrCvtermAssoc();
 							assoc.setMmCvTerm(term);
 							assoc.setMmMatingSystemStudy(study);
 							assoc.setValue(value);
@@ -71,20 +67,18 @@ public class SaveDescriptorAttrController implements Controller {
 							sess.save(assoc);
 						}
 					}
-				}
-				else
-				{
-					MmSpeciesAttrCvtermAssoc assoc=assocDao.findById(Integer.valueOf(cvid));
-					if(assoc==null)
-						throw new Exception("No MmSpeciesAttrCvtermAssoc found with the id: "+id);
-					
-					String value=arg0.getParameter(cvid);
-					if(value==null || value.equals(""))
-					{
+				} else {
+					MmSpeciesAttrCvtermAssoc assoc = assocDao.findById(Integer
+							.valueOf(cvid));
+					if (assoc == null)
+						throw new Exception(
+								"No MmSpeciesAttrCvtermAssoc found with the id: "
+										+ id);
+
+					String value = arg0.getParameter(cvid);
+					if (value == null || value.equals("")) {
 						sess.delete(assoc);
-					}
-					else
-					{
+					} else {
 						assoc.setValue(value);
 						sess.update(assoc);
 					}
@@ -93,39 +87,35 @@ public class SaveDescriptorAttrController implements Controller {
 			sess.flush();
 			tr.commit();
 			retrieveDiscriptor(study);
-			return new ModelAndView("descriptor","descriptor",study);
-		}
-		catch(Exception e)
-		{
+			return new ModelAndView("descriptor", "descriptor", study);
+		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (!tr.wasCommitted())
+				tr.rollback();
 		}
-		finally
-		{
-			tr.rollback();
-			sess.close();
-		}
-		
+
 	}
-	
-	public void retrieveDiscriptor(MmMatingSystemStudy mmStudy) throws Exception
-	{
-		MmSpecies species=mmStudy.getMmSpecies();
+
+	public void retrieveDiscriptor(MmMatingSystemStudy mmStudy)
+			throws Exception {
+		MmSpecies species = mmStudy.getMmSpecies();
 		species.getFamily();
 		species.getGenus();
 		species.getSpecies();
 		mmStudy.getLatitude();
-		MmReferencePart refPart=mmStudy.getMmReferencePart();
+		MmReferencePart refPart = mmStudy.getMmReferencePart();
 		refPart.getName();
-		MmReference ref=refPart.getMmReference();
+		MmReference ref = refPart.getMmReference();
 		ref.getCitation();
 		ref.getFullReference();
-		
-		Set mmCvTermsAssocs=mmStudy.getMmSpeciesAttrCvtermAssocs();
-		
-		for(Iterator it=mmCvTermsAssocs.iterator();it.hasNext();)
-		{
-			MmSpeciesAttrCvtermAssoc cvAssoc=(MmSpeciesAttrCvtermAssoc)it.next();
-			MmCvTerm term=cvAssoc.getMmCvTerm();
+
+		Set mmCvTermsAssocs = mmStudy.getMmSpeciesAttrCvtermAssocs();
+
+		for (Iterator it = mmCvTermsAssocs.iterator(); it.hasNext();) {
+			MmSpeciesAttrCvtermAssoc cvAssoc = (MmSpeciesAttrCvtermAssoc) it
+					.next();
+			MmCvTerm term = cvAssoc.getMmCvTerm();
 			term.getCvtermOid();
 			term.getDescription();
 			term.getName();

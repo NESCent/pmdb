@@ -40,9 +40,7 @@ public class ViewEnvironmentalStudyController implements Controller {
 			throw new Exception("No environmental study ound.");
 		}
 		
-		RetrieveData.retrieveEnvironmentalStudy(study);
-		HibernateSessionFactory.closeSession();
-		
+
 		Map model=new HashMap();
         model.put("envstudy",study);
         if(tab!=null)

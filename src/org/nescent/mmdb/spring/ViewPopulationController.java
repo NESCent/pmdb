@@ -59,6 +59,8 @@ public class ViewPopulationController implements Controller {
 		} catch (HibernateException he) {
 			log().error("failed to view the population.", he);
 			throw he;
+		}finally{
+			if(!tx.wasCommitted())tx.rollback();
 		}
 
 	}
