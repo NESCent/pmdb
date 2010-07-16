@@ -40,10 +40,8 @@
 		request.getSession().setAttribute(attrName,null);
 	}
 	
-	HibernateSessionFactory.getSession().close();
 	System.gc();
 	response.sendRedirect("login.jsp");
-	
 	%>
 </body>
 </html>
