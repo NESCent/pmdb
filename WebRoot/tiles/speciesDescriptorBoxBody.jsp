@@ -40,11 +40,12 @@ function deletespeciesdescriptor(id){
       	<tr><td class="TdField" /><th>Attribute (<c:out value="${fn:length(study.mmSpeciesAttrCvtermAssocs)}" />)</th></tr>
       	
       	<c:forEach var="cvAssoc" items="${study.mmSpeciesAttrCvtermAssocs}" varStatus="attrStatus">
+    	<c:if test="${cvAssoc.mmCvTerm!=null}">  	
       	<tr>
       		<td  class="TdField"><c:out value="${cvAssoc.mmCvTerm.name}" /></td>
       		<td  class="TdValue"><c:out value="${cvAssoc.value}" /></td>
-	
-      		</tr>
+		</tr>
+		</c:if>
 	</c:forEach>
 	
 	    <!-- end of attributes -->

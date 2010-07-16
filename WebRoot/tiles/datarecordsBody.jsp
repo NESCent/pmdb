@@ -12,7 +12,7 @@ NoCache.nocache(response);
 
 <table width="800">
       	<tr><th colspan=7>Data Record (<c:out value="${fn:length(study.mmDataRecords)}" />)</th></tr>
-      	<tr><th>Stage</th><th>Name</th><th>Outcrossing</th><th>Outcrossing SD</th><th>Selfing</th><th>Selfing SD</th><th>Selfing SD</th></tr>
+      	<tr><th>Stage</th><th>Name</th><th>Outcrossing</th><th>Outcrossing SD</th><th>Selfing</th><th>Selfing SD</th><th></th></tr>
       	<jsp:useBean id="sorter" scope="page" class="org.nescent.mmdb.util.UtilSort" />
       	<jsp:setProperty name="sorter" property="collection" value="${study.mmDataRecords}" />
       	

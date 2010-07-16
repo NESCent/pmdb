@@ -15,6 +15,7 @@ if(species==null)
 else
 {
 	Set mmStudies=species.getMmMatingSystemStudies();
+	/*
 	out.write("<p><b>Species Descriptors ("+mmStudies.size()+")</b></p>");	
 	out.write("<ul>");
 	
@@ -42,6 +43,7 @@ else
 	}
 	out.write("</ul>");		
 	
+	*/
 	Set mmSamples=species.getMmPopulationSamples();
 	out.write("<p><b>Population Samples ("+mmSamples.size()+")</b></p>");	
 	out.write("<table>");

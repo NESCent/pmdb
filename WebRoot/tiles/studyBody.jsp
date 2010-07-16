@@ -19,6 +19,8 @@ function deleteexperimentstudy(id){
     }
 }
 </script>
+
+
 <c:forEach var="exp" items="${population.mmExperimentStudies}">
    <table width="800">
         <tr><th colspan=2>
