@@ -67,7 +67,7 @@ public class SearchStudyController implements Controller {
 		Session sess=HibernateSessionFactory.getSession();
 		String hql="SELECT  ";
 		hql+= "count(study),study.mmCvTerm.name FROM MmExperimentStudy study ";
-		hql+=" INNER JOIN study.mmPopulationSample.mmSpecies species";
+		hql+=" INNER JOIN study.mmPopulationSample sample INNER JOIN sample.mmSpecies species";
 		hql+=" WHERE species.species='"+sp.getSpecies()+"'";
 		hql+=" AND species.genus='"+ sp.getGenus()+"'";
 		hql+=" AND species.family='"+sp.getFamily()+"'";

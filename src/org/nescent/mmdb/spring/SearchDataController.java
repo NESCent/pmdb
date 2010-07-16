@@ -121,7 +121,7 @@ public class SearchDataController implements Controller {
 	    species_attribute_value = "";
 
 	String sql = "SELECT DISTINCT species FROM MmSpecies species "
-		+ "INNER JOIN species.mmMatingSystemStudies.mmSpeciesAttrCvtermAssocs assoc INNER JOIN assoc.mmCvTerm term";
+		+ "INNER JOIN species.mmMatingSystemStudies study INNER JOIN study.mmSpeciesAttrCvtermAssocs assoc INNER JOIN assoc.mmCvTerm term";
 	String with = "";
 	boolean first = true;
 	if (family != null && !family.trim().equals("")) {
@@ -206,7 +206,7 @@ public class SearchDataController implements Controller {
 	    return null;
 
 	String sql = "SELECT DISTINCT species FROM MmSpecies species "
-		+ "INNER JOIN species.mmMatingSystemStudies.mmReferencePart part INNER JOIN part.mmReference ref";
+		+ "INNER JOIN species.mmMatingSystemStudies study INNER JOIN study.mmReferencePart part INNER JOIN part.mmReference ref";
 	String with = "";
 	boolean first = true;
 	if (family != null && !family.trim().equals("")) {
@@ -373,7 +373,7 @@ public class SearchDataController implements Controller {
 	    String attribute_value) throws Exception {
 
 	String sql = "SELECT DISTINCT species FROM MmSpecies species "
-		+ "INNER JOIN species.mmPopulationSamples.mmExperimentStudies study INNER JOIN study.mmExperimentValues value INNER JOIN value.mmCvTerm term";
+		+ "INNER JOIN species.mmPopulationSamples sample INNER JOIN sample.mmExperimentStudies study INNER JOIN study.mmExperimentValues value INNER JOIN value.mmCvTerm term";
 	String with = "";
 	boolean first = true;
 	if (family != null && !family.trim().equals("")) {
@@ -463,7 +463,7 @@ public class SearchDataController implements Controller {
 	Session sess = HibernateSessionFactory.getSession();
 	String hql = "SELECT  ";
 	hql += "count(study),study.mmCvTerm.name FROM MmExperimentStudy study ";
-	hql += " INNER JOIN study.mmPopulationSample.mmSpecies species";
+	hql += " INNER JOIN study.mmPopulationSample sample INNER JOIN sample.mmSpecies species";
 	hql += " WHERE species.species='" + sp.getSpecies() + "'";
 	hql += " AND species.genus='" + sp.getGenus() + "'";
 	hql += " AND species.family='" + sp.getFamily() + "'";
