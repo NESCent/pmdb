@@ -20,7 +20,15 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
     
+<filter>
+        <filter-name>HibernateFilter</filter-name>
+        <filter-class>org.nescent.mmdb.hibernate.HibernateSessionRequestFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>HibernateFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
   <session-config>
      <!-- 1 hour timeout -->
      <session-timeout>60</session-timeout>
