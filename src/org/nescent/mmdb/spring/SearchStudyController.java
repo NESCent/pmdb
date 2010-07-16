@@ -83,11 +83,11 @@ public class SearchStudyController implements Controller {
 			
 			String studyName=(String)objs[1];
 			if(studyName.indexOf("inbreed")!=-1)
-				inbreedNum=((Integer)objs[0]).intValue();
+				inbreedNum=((Long)objs[0]).intValue();
 			else if(studyName.indexOf("outcross")!=-1)
-				outNum=((Integer)objs[0]).intValue();
+				outNum=((Long)objs[0]).intValue();
 			else if(studyName.indexOf("pollination")!=-1)
-				pollNum=((Integer)objs[0]).intValue();
+				pollNum=((Long)objs[0]).intValue();
 			
 		}
 		
