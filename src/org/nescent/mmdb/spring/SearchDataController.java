@@ -291,7 +291,7 @@ public class SearchDataController implements Controller {
 	    String attribute_opt, String attribute_value) throws Exception {
 
 	String sql = "SELECT DISTINCT species FROM MmSpecies species "
-		+ "INNER JOIN species.mmPopulationSamples.mmExperimentStudies study INNER JOIN study.mmExperimentStudyAttrCvtermAssocs value INNER JOIN value.mmCvTerm term";
+		+ "INNER JOIN species.mmPopulationSamples sample INNER JOIN sample.mmExperimentStudies study INNER JOIN study.mmExperimentStudyAttrCvtermAssocs value INNER JOIN value.mmCvTerm term";
 
 	String with = "";
 	boolean first = true;
