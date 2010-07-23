@@ -7,25 +7,14 @@
 <hibernate-configuration>
 
 	<session-factory>
-		<property name="connection.password">@password@</property>
+	<property name="connection.password">@password@</property>
     <property name="connection.username">@username@</property>
     <property name="connection.url">@database@</property>
-    
-		<property name="connection.password">***REMOVED***</property>
-		<property name="connection.username">***REMOVED***</property>
-		<!-- <property name="connection.url">***REMOVED***5</property> -->
-		<property name="connection.url">***REMOVED***</property>
+   
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="myeclipse.connection.profile">MM_PROFILE</property>
 		
-		<property name="dialect">
-			org.hibernate.dialect.PostgreSQLDialect
-		</property>
-		<property name="myeclipse.connection.profile">
-			MM_PROFILE
-		</property>
-		
-		<property name="connection.driver_class">
-			org.postgresql.Driver
-		</property>
+		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<mapping
 			resource="org/nescent/mmdb/hibernate/dao/MmExperimentValue.hbm.xml" />
 		<mapping
